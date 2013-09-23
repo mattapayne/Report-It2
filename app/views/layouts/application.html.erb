@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title><%= @page_title %></title>
+      <%= stylesheet_link_tag    "application", media: "all" %>
+      <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+      <%= csrf_meta_tags %>
+      <%= yield :head_css %>
+      <%= javascript_include_tag "application" %>
+      <%= yield :head_js %>
+   </head>
+   <body>
+     <div role='navigation' class='navbar navbar-inverse navbar-fixed-top'>
+         <div class='navbar-header'>
+            <button type="button" data-toggle='collapse' data-target='.navbar-collapse' class='navbar-toggle'>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+            </button>
+            <a href='<%= root_url %>') class='navbar-brand'>
+            <%= image_tag('logo.png', alt: 'Report It!') %>
+            </a>
+         </div>
+         <div class='collapse navbar-collapse'>
+            <ul class='nav navbar-nav'>
+               <li <%= navbar_item_active_class(@active_page, 'home/index') %>>
+                  <%= link_to 'Home', root_url %>
+               </li>
+               <li <%= navbar_item_active_class(@active_page, 'home/about') %>>
+                  <%= link_to 'About', about_url %>
+               </li>
+               <li <%= navbar_item_active_class(@active_page, 'home/contact') %>>
+                  <%= link_to 'Contact', contact_url %>
+               </li>
+               <% if !logged_in? %>
+               <li <%= navbar_item_active_class(@active_page, 'registration/new') %>>
+                  <%= link_to 'Sign up!', register_url, title: 'Join us and say goodbye to those terrible manually generated reports!' %>
+               </li>
+               <li <%= navbar_item_active_class(@active_page, 'forgot_password/new') %>>
+                  <%= link_to 'Forgot Password?', forgot_password_url, title: 'Go here to reset it' %>
+               </li>
+               <% else %>
+               <li <%= navbar_item_active_class(@active_page, 'dashboard/index') %>>
+                  <%= link_to 'Dashboard', dashboard_url %>
+               </li>
+               <% end %>
+            </ul>
+            <% if logged_in? %>
+              <ul class='nav navbar-nav navbar-right pad-right'>
+               <li>
+                  <%= link_to("Hi, #{current_user.first_name}", my_account_path, title: 'Click here to make changes to your account') %>
+               </li>
+               <li>
+                  <a href='#' id='logout'>Logout</a>
+                  <%= form_tag(logout_url, method: 'delete', id: 'logout-form') do end %>
+               </li>
+            </ul>
+            <% else %>
+              <%= form_tag(login_url, {class: 'navbar-form navbar-right', id: 'login-form'}) do %>
+              <div class='form-group right-pad'>
+                 <input type='text' placeholder='Email' name='email' class='form-control' autocomplete='off' />
+              </div>
+              <div class='form-group'>
+                 <input type='password' placeholder='Password' name='password' class='form-control' autocomplete='off' />
+              </div>
+              <button type='submit' class='btn btn-success' id='login-button' rel='popover' data-title='Could Not Login!'>Sign in</button>
+              <% end %>
+            <% end %>
+         </div>
+      </div>
+      <div id='wrap'>
+         <%= render partial: "shared/flash_messages", flash: flash %>
+         <%= yield %>    
+      </div>
+      <div id='push'></div>
+      <%= render partial: "shared/footer" %>
+   </body>
+</html>

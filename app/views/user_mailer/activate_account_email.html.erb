@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3>Welcome to Report It!</h3>
+    <p>Hi, <%= @user.first_name %></p>
+    <p>
+      You have successfully signed up to Report It!
+    </p>
+    <p>
+      Your username is the email address where you received this email.
+    </p>
+    <p>
+      To get started, we need you to activate your account. To do so simply click <%= link_to 'here', @url %>
+      <br />
+      <small>(We make you jump through a couple of hoops, but it's worth it for the additional security of your account.)</small>
+    </p>
+    <p>
+      After activating, you will be automatically logged in.
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+    <p>Sincerely,</p>
+    <p>The Report It! team</p>
+  </body>
+</html>

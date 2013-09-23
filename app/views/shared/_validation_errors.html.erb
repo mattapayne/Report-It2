@@ -1,0 +1,12 @@
+<% if model.errors.any? %>
+<div class="alert <%= bootstrap_class_for_flash(:error) %> fade in">
+    <button class="close" data-dismiss="alert">×</button>
+    <strong class='pull-left'>There were some errors ...</strong>
+    <div class='clearfix'></div>
+    <ul>
+      <% model.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>  
+      <% end %>
+    </ul>
+  </div>
+<% end %>

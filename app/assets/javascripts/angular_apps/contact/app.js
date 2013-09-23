@@ -1,0 +1,1 @@
+angular.module('ReportIt.contact', [ 'ReportIt.angular_loadmask', 'ReportIt.validation', 'ReportIt.contact.controllers' ]);

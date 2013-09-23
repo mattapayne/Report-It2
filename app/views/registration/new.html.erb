@@ -1,0 +1,108 @@
+<%= content_for :head_js do %>
+  <%= javascript_include_tag 'register' %>
+<% end %>
+<div class='container' ng-app='ReportIt.register'>
+  <div class='row' ng-controller='RegisterController'>
+    <div ng-class='resultClasses()' ng-show='hasResult()'>
+      <strong ng-show='resultIsError()'>Some errors occurred ...</strong>
+      <strong ng-show='resultIsSuccess()'>Success!</strong>
+      <div>{{ result.value }}</div>
+    </div>
+    <div class='col-md-3'></div>
+    <div class='col-md-6 form-container'>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Sign up!</h3>
+        </div>
+        <div class="panel-body">
+          <%= form_for @user, url: register_path, html: {class: 'form-horizontal', role: 'form', name: 'register_form'} do |f| %>
+              <p class='well well-sm'>Signing up is a simple process. We just need a small amount of information from you. After you have signed up, you will receive an email with instructions on how to activate your account. It's easy!</p>
+            <div class='form-group'>
+              <div class='controls col-lg-12'>
+                <div class='input-group'>
+                  <%= f.text_field :first_name, {
+                        class: 'form-control',
+                        name: 'first_name',
+                        placeholder: 'Your first name',
+                        autocomplete: 'off',
+                        'ng-model' => 'registration.first_name',
+                        required: '' } %>
+                  <%= bootstrap_input_groups_for_validation(form: 'register_form', field: 'first_name') %>
+                </div>
+              </div>
+            </div>
+            <div class='form-group'>
+              <div class='controls col-lg-12'>
+                <div class='input-group'>
+                  <%= f.text_field :last_name, {
+                      class: 'form-control',
+                      placeholder: 'Your last name',
+                      autocomplete: 'off',
+                      name: 'last_name',
+                      'ng-model' => 'registration.last_name',
+                      required: '' } %>
+                  <%= bootstrap_input_groups_for_validation(form: 'register_form', field: 'last_name') %>
+                </div>
+              </div>
+            </div>
+            <div class='form-group'>
+              <div class='controls col-lg-12'>
+                <div class='input-group'>
+                  <%= f.text_field :email, {
+                        class: 'form-control',
+                        placeholder: 'Email (this will be your username)',
+                        'ng-model' => 'registration.email',
+                        autocomplete: 'off',
+                        'must-be-email' => '',
+                        name: 'email',
+                        required: '' } %>
+                  <%= bootstrap_input_groups_for_validation(form: 'register_form', field: 'email') %>
+                </div>
+              </div>
+            </div>
+            <div class='form-group'>
+              <div class='controls col-lg-12'>
+                <div class='input-group'>
+                  <%= f.password_field :password, {
+                        class: 'form-control',
+                        placeholder: 'Password (at least 6 characters)',
+                        autocomplete: 'off',
+                        'ng-model' => 'registration.password',
+                        'ng-minlength' => '6',
+                        name: 'password',
+                        required: '' } %>
+                  <%= bootstrap_input_groups_for_validation(form: 'register_form', field: 'password') %>
+                </div>
+              </div>
+            </div>
+            <div class='form-group'>
+              <div class='controls col-lg-12'>
+                <div class='input-group'>
+                  <%= f.password_field :password_confirmation, {
+                      class: 'form-control',
+                      placeholder: 'Type your password again',
+                      autocomplete: 'off',
+                      'ng-model' => 'registration.password_confirmation',
+                      'ng-minlength' => '6',
+                      'match' => 'registration.password',
+                      name: 'password_confirmation',
+                      required: '' } %>
+                  <%= bootstrap_input_groups_for_validation(form: 'register_form', field: 'password_confirmation') %>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="controls col-lg-12">
+                <%= link_to 'Sign up!', '#', { 'ng-click' => 'register()', 'ng-disabled' => 'register_form.$invalid', class: 'btn btn-success pull-right' } %>
+              </div>
+            </div>
+      <% end %>
+        </div>
+        <div class='panel-footer'>
+          <%= render partial: "shared/validation_legend" %>
+        </div>
+      </div>
+    </div>
+    <div class='col-md-3'></div>
+  </div>
+</div>

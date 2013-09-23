@@ -1,0 +1,69 @@
+<% content_for :head_js do %>
+  <%= javascript_include_tag "contact" %>
+<% end %>
+<div class='container' ng-app='ReportIt.contact'>
+  <div ng-controller='ContactController'>
+    <div ng-class='resultClasses()' ng-show='hasResult()'>
+      <strong ng-show='resultIsError()'>Some errors occurred ...</strong>
+      <strong ng-show='resultIsSuccess()'>Success!</strong>
+      <div>{{ result.value }}</div>
+    </div>
+    <div class='panel panel-default'>
+      <div class="panel-heading">
+        <h3 class="panel-title">Contact Us!</h3>
+      </div>
+      <div class="panel-body">
+        <p class='well well-sm'>
+          Got a question or a comment or a suggestion? Use this form to get in touch with us.
+        </p>
+        <%= form_for(@message, url: message_path, html: { class: 'form-horizontal', name: 'contact_form'} ) do |f| %>
+            <div class='form-group'>
+              <div class='col-lg-5'>
+                  <div class='input-group'>
+                    <%= f.text_field :from, {class: 'form-control', name: 'from', placeholder: 'Your name', autocomplete: 'off', 'ng-model' => 'message.from', required: ''} %>
+                    <%= bootstrap_input_groups_for_validation(form: 'contact_form', field: 'from') %>
+                  </div>
+              </div>
+              <div class='form-group'>
+                <div class='col-lg-5'>
+                  <div class='input-group'>
+                    <%= f.text_field :from, {class: 'form-control', name: 'email', placeholder: 'Your email', autocomplete: 'off', 'ng-model' => 'message.email', required: '', 'must-be-email' => ''} %>
+                    <%= bootstrap_input_groups_for_validation(form: 'contact_form', field: 'email') %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class='form-group'>
+                <div class='col-lg-12'>
+                  <div class='input-group'>
+                    <%= f.text_field :from, {class: 'form-control', name: 'subject', placeholder: 'Subject', autocomplete: 'off', 'ng-model' => 'message.subject', required: ''} %>
+                    <%= bootstrap_input_groups_for_validation(form: 'contact_form', field: 'subject') %>
+                  </div>
+              </div>
+            </div>
+            <div class='form-group'>
+              <div class='col-lg-12'>
+                <%= f.text_area :message_text, {
+                    class: 'form-control',
+                    name: 'message_text',
+                    rows: '10',
+                    cols: '60', 'ng-model' => 'message.message_text',
+                    autocomplete: 'off',
+                    placeholder: 'Type your message here ...',
+                    required: ''} %>
+              </div>
+              <div class='col-lg-12 required' ng-show='contact_form.message_text.$dirty && contact_form.message_text.$invalid'>
+                A message is required.
+              </div>
+            </div>
+            <div class='form-group'>
+              <div class='col-lg-12'>
+                <%= link_to "Send", '#', {class: 'btn btn-primary pull-right', 'ng-click' => 'sendMessage()', 'ng-disabled' => 'contact_form.$invalid', required: '', placeholder: 'Type your message here'} %>
+              </div>
+            </div>
+          <% end %>
+    </div>
+    <div class='panel-footer'>
+       <%= render partial: "shared/validation_legend" %>
+    </div>
+</div>

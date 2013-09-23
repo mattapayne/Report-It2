@@ -1,0 +1,16 @@
+defaults: &defaults
+  from_email: dev@example.com
+  mailer_host: localhost:3000
+  mailer_username: <dev email here>
+  mailer_domain: <dev domain here>
+  mailer_password: <dev password here>
+  secret_key_base: <key here>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
