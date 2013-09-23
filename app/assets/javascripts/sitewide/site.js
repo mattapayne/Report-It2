@@ -23,9 +23,9 @@ $(function() {
        e.preventDefault();
        var form = $(this);
        $.ajax({
-            method: 'POST',
+            method: form.attr('method'),
             data : form.serialize(),
-            url: $(this).attr('action'),
+            url: form.attr('action'),
             success: function(response) {
                 window.location = response.redirect
             },
