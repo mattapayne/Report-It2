@@ -33,6 +33,5 @@ module ApplicationHelper
       </span>
       END
     html.html_safe
-  end
-    
+  end  
 end

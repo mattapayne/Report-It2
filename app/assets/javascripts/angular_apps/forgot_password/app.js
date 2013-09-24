@@ -1,0 +1,1 @@
+angular.module('ReportIt.forgot_password', [ 'ReportIt.angular_loadmask', 'ReportIt.validation', 'ReportIt.forgot_password.controllers' ]);

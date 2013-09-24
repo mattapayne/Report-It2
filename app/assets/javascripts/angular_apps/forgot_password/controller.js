@@ -1,16 +1,16 @@
-angular.module('ReportIt.register.controllers', [
-                'ReportIt.register.services']).
-        controller('RegisterController',
-               ['$scope', 'RegisterService',
-                function($scope, RegisterService) {
+angular.module('ReportIt.forgot_password.controllers', [
+                'ReportIt.forgot_password.services']).
+        controller('ForgotPasswordController',
+               ['$scope', 'ForgotPasswordService',
+                function($scope, ForgotPasswordService) {
       
       var self = this;
       var SUCCESS = 1;
       var ERROR = 2;
       var NONE = 3;
-      var emptyRegistration = {first_name: '', last_name: '', email: '', password: '', password_confirmation: ''};
+      var reset_request = {email: '', password: '', password_confirmation: ''};
       
-      $scope.registration = angular.copy(emptyRegistration);
+      $scope.reset_request = angular.copy(reset_request);
       $scope.result = {type: NONE, value: ''};
       
       $scope.hasResult = function() {
@@ -35,12 +35,12 @@ angular.module('ReportIt.register.controllers', [
         return classes;
       };
       
-      $scope.register = function() {
-        RegisterService.register($scope.registration).success(function(response) {
+      $scope.changePassword = function() {
+        ForgotPasswordService.changePassword($scope.reset_request).success(function(response) {
           $scope.result.type = SUCCESS;
           $scope.result.value = response.messages;
-          $scope.registration = angular.copy(emptyRegistration);
-          $scope.register_form.$setPristine();
+          $scope.reset_request = angular.copy(reset_request);
+          $scope.change_password_form.$setPristine();
           
         }).error(function(response) {
           $scope.result.type = ERROR;

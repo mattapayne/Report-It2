@@ -1,48 +1,89 @@
-<div class='container'>
-  <div class='row'>
-      <%= render partial: "shared/validation_errors", locals: { model: @request } %>
-  </div>
-  <div class='row'>
-    <div class='col-md-3'></div>
-    <div class='col-md-6'>
+<%= content_for :head_js do %>
+  <%= javascript_include_tag 'forgot_password' %>
+<% end %>
+<div class='container'  ng-app='ReportIt.forgot_password'>
+  <div class='row' ng-controller='ForgotPasswordController'>
+    <div ng-class='resultClasses()' ng-show='hasResult()'>
+      <button class="close" data-dismiss="alert">×</button>
+      <strong ng-show='resultIsError()'>Some errors occurred ...</strong>
+      <strong ng-show='resultIsSuccess()'>Success!</strong>
+      <ul ng-repeat='message in result.value'>
+        <li>{{ message }}</li>
+      </ul>
+    </div>
+    <div class='col-md-7'>
       <div class='panel panel-default'>
         <div class="panel-heading">
           <h3 class="panel-title">Reset Your Password</h3>
         </div>
         <div class="panel-body">
-          <%= form_for @request, url: forgot_password_path, html: {class: 'form-horizontal', role: 'form'} do |f| %>
-        <fieldset>
-          <div id='legend'>
-            <p class='well well-sm'>
-              If you have forgotten your password or simply want to change it, please provide your email address as well as the new password.
-              After you have done this, you will receive an email asking you to confirm the change. That's all it takes.
-            </p>
-          </div>
+          <%= form_for @request, url: forgot_password_path, html: {class: 'form-horizontal', role: 'form', name: 'forgot_password_form'} do |f| %>
           <div class='form-group'>
             <div class='controls col-lg-12'>
-                <%= f.text_field :email, class: 'form-control', placeholder: 'Your email (AKA username)', autocomplete: 'off' %>
+                <div class='input-group'>
+                  <%= f.text_field :email, {
+                      class: 'form-control',
+                      placeholder: 'Your email (AKA username)',
+                      autocomplete: 'off',
+                      'ng-model' => 'reset_request.email',
+                      'must-be-email' => '',
+                      required: '',
+                      name: 'email' } %>
+                  <%= bootstrap_input_groups_for_validation(form: 'forgot_password_form', field: 'email') %>
+                </div>
             </div>
           </div>
           <div class='form-group'>
             <div class='controls col-lg-12'>
-                <%= f.password_field :password, class: 'form-control', placeholder: 'New password (at least 6 characters)', autocomplete: 'off' %>
+              <div class='input-group'>
+                <%= f.password_field :password, {
+                      class: 'form-control',
+                      placeholder: 'New password (at least 6 characters)',
+                      'ng-model' => 'reset_request.password',
+                      'ng-minlength' => '6',
+                      required: '',
+                      autocomplete: 'off',
+                      name: 'password' } %>
+                <%= bootstrap_input_groups_for_validation(form: 'forgot_password_form', field: 'password') %>
+              </div>
             </div>
           </div>
           <div class='form-group'>
             <div class='controls col-lg-12'>
-                <%= f.password_field :password_confirmation, class: 'form-control', placeholder: 'Type your new password again', autocomplete: 'off' %>
+              <div class='input-group'>
+                <%= f.password_field :password_confirmation, {
+                      class: 'form-control',
+                      placeholder: 'Type your new password again',
+                      autocomplete: 'off',
+                      'ng-model' => 'reset_request.password_confirmation',
+                      'ng-minlength' => '6',
+                      'match' => 'reset_request.password',
+                      required: '',
+                      name: 'password_confirmation' } %>
+                <%= bootstrap_input_groups_for_validation(form: 'forgot_password_form', field: 'password_confirmation') %>
+              </div>
             </div>
           </div>
           <div class="form-group">
             <div class="controls col-lg-12">
-              <button class="btn btn-success pull-right">Reset!</button>
+               <%= link_to 'Reset!', '#', {
+                 'ng-click' => 'changePassword()',
+                 'ng-disabled' => 'forgot_password_form.$invalid || forgot_password_form.$pristine',
+                class: 'btn btn-success pull-right' } %>
             </div>
           </div>
-        </fieldset>
       <% end %>
     </div>
-        </div>
+      <div class='panel-footer'>
+          <%= render partial: "shared/validation_legend" %>
       </div>
-    <div class='col-md-3'></div>
+    </div>
+  </div>
+  <div class='col-md-5'>
+    <div class='alert alert-info'>
+      If you have forgotten your password or simply want to change it, please provide your email address as well as the new password.
+      After you have done this, you will receive an email asking you to confirm the change. That's all it takes.
+    </div>
+  </div>
   </div>
 </div>

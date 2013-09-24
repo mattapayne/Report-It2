@@ -19,17 +19,6 @@ html, body {
   padding-top:40px
 }
 
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -130px;
-}
-
-#push {
-  height: 30px;
-}
-
 @media (max-width: 767px) {
   #footer {
     margin-left: -20px;
@@ -67,6 +56,12 @@ html, body {
 .pad-right
 {
   padding-right:50px;
+}
+
+.navbar
+{
+  padding-left:20px;
+  padding-right:20px;
 }
 
 @import "twitter/bootstrap";

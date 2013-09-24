@@ -37,8 +37,10 @@ angular.module('ReportIt.validation', ['ReportIt.constants']).
     require: 'ngModel',
     link: function(scope, elem, attrs, ctrl) {
       //ctrl is the form object
-      scope.$watch(function() {        
-        return $parse(attrs.match)(scope) === ctrl.$modelValue;
+      scope.$watch(function() {
+        var matchTo = $parse(attrs.match)(scope);
+        var value = ctrl.$modelValue;
+        return matchTo === value;
       }, function(currentValue) {
         ctrl.$setValidity('mismatch', currentValue);
       });

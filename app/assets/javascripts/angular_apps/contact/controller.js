@@ -38,13 +38,13 @@ angular.module('ReportIt.contact.controllers', [
       $scope.sendMessage = function() {
         MessageService.sendMessage($scope.message).success(function(response) {
           $scope.result.type = SUCCESS;
-          $scope.result.value = response.message;
+          $scope.result.value = response.messages;
           $scope.message = angular.copy(emptyMessage);
           $scope.contact_form.$setPristine();
           
         }).error(function(response) {
           $scope.result.type = ERROR;
-          $scope.result.value = response.message;
+          $scope.result.value = response.messages;
         });
       };
     }

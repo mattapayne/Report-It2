@@ -15,9 +15,9 @@ class HomeController < ApplicationController
   def create
     @message = Message.new(params_for_message)
     if @message.save
-      render json: { message: "Successfully sent your message." }, status: 200
+      render json: { messages: ["Successfully sent your message."] }, status: 200
     else
-      render json: { message: @message.errors.full_messages.join("<br />") }, status: 406
+      render json: { messages: @message.errors.full_messages.to_a }, status: 406
     end
   end
   

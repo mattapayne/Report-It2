@@ -68,11 +68,10 @@
             <% end %>
          </div>
       </div>
-      <div id='wrap'>
+      <div>
          <%= render partial: "shared/flash_messages", flash: flash %>
-         <%= yield %>    
+         <%= yield %>
+         <%= render partial: "shared/footer" %>
       </div>
-      <div id='push'></div>
-      <%= render partial: "shared/footer" %>
    </body>
 </html>

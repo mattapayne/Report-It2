@@ -2,20 +2,21 @@
   <%= javascript_include_tag "contact" %>
 <% end %>
 <div class='container' ng-app='ReportIt.contact'>
-  <div ng-controller='ContactController'>
+  <div ng-controller='ContactController' class='col-lg-9'>
     <div ng-class='resultClasses()' ng-show='hasResult()'>
+      <button class="close" data-dismiss="alert">×</button>
       <strong ng-show='resultIsError()'>Some errors occurred ...</strong>
       <strong ng-show='resultIsSuccess()'>Success!</strong>
-      <div>{{ result.value }}</div>
+      <ul ng-repeat='message in result.value'>
+        <li>{{ message }}</li>
+      </ul>
     </div>
     <div class='panel panel-default'>
       <div class="panel-heading">
         <h3 class="panel-title">Contact Us!</h3>
       </div>
       <div class="panel-body">
-        <p class='well well-sm'>
-          Got a question or a comment or a suggestion? Use this form to get in touch with us.
-        </p>
+
         <%= form_for(@message, url: message_path, html: { class: 'form-horizontal', name: 'contact_form'} ) do |f| %>
             <div class='form-group'>
               <div class='col-lg-5'>
@@ -66,4 +67,16 @@
     <div class='panel-footer'>
        <%= render partial: "shared/validation_legend" %>
     </div>
-</div>
+    </div> <!-- end of panel div -->
+  </div> <!-- end of controller div -->
+  <div class='col-lg-3'>
+    <div class='alert alert-info'>
+      Got a question or a comment or a suggestion? Use this form to get in touch with us.
+    </div>
+    <ul class='list-group'>
+      <li class='list-group-item'>We are located in beatiful North Vancouver, BC</li>
+      <li class='list-group-item'>Phone: (778) 987-9458</li>
+      <li class='list-group-item'>Email: <%= mail_to('info@report-it.ca') %></li>
+    </ul>
+  </div>
+</div> <!-- end of container div -->

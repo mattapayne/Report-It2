@@ -4,19 +4,20 @@
 <div class='container' ng-app='ReportIt.register'>
   <div class='row' ng-controller='RegisterController'>
     <div ng-class='resultClasses()' ng-show='hasResult()'>
+      <button class="close" data-dismiss="alert">×</button>
       <strong ng-show='resultIsError()'>Some errors occurred ...</strong>
       <strong ng-show='resultIsSuccess()'>Success!</strong>
-      <div>{{ result.value }}</div>
+      <ul ng-repeat='message in result.value'>
+        <li>{{ message }}</li>
+      </ul>
     </div>
-    <div class='col-md-3'></div>
-    <div class='col-md-6 form-container'>
+    <div class='col-md-7 form-container'>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Sign up!</h3>
         </div>
         <div class="panel-body">
           <%= form_for @user, url: register_path, html: {class: 'form-horizontal', role: 'form', name: 'register_form'} do |f| %>
-              <p class='well well-sm'>Signing up is a simple process. We just need a small amount of information from you. After you have signed up, you will receive an email with instructions on how to activate your account. It's easy!</p>
             <div class='form-group'>
               <div class='controls col-lg-12'>
                 <div class='input-group'>
@@ -103,6 +104,16 @@
         </div>
       </div>
     </div>
-    <div class='col-md-3'></div>
+    <div class='col-md-5'>
+      <div class='alert alert-info'>
+        Signing up is a simple process. We just need a small amount of information from you. After you have signed up, you will receive an email with instructions on how to activate your account. It's easy!
+      </div>
+       <ul class='list-group'>
+          <li class='list-group-item'><span class='label label-valid'>&#x2713;</span>&nbsp;Get full access to the site and all its features</li>
+          <li class='list-group-item'><span class='label label-valid'>&#x2713;</span>&nbsp;Create, edit and share reports with your collegues</li>
+          <li class='list-group-item'><span class='label label-valid'>&#x2713;</span>&nbsp;Export your reports to Word, PDF and more</li>
+          <li class='list-group-item'><span class='label label-valid'>&#x2713;</span>&nbsp;You own your data. Export it all - any time</li>
+        </ul>
+    </div>
   </div>
 </div>
