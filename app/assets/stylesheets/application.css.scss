@@ -1,0 +1,67 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ *= require_tree ../../../vendor/assets/javascripts/jquery_loadmask/.
+ */
+
+html, body {
+  height: 100%;
+  padding:20px;
+  padding-top:40px
+}
+
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+#footer {
+  border-radius: 4px;
+  padding-top: 5px;
+  margin-top: 10px;
+  height: 30px;
+  background-color: #f5f5f5;
+}
+
+#footer .credit {
+  text-align: center;
+}
+
+.input-group-addon span.required, .input-group-addon span.invalid, .required, span.label-invalid, span.label-required {
+  color: #d9534f;
+}
+
+.input-group-addon span.valid, span.label-valid {
+  color: #5cb85c;
+}
+
+.popover-content, .msg-error
+{
+  color:#d9534f;
+}
+
+.pad-right
+{
+  padding-right:50px;
+}
+
+.navbar
+{
+  padding-left:20px;
+  padding-right:20px;
+}
+
+@import "twitter/bootstrap";
