@@ -17,4 +17,4 @@
 
 config/application.yml
 config/mongoid.yml
-app/assets/stylesheets/.sass-cache/*.scssc
+*.sass-cache*
