@@ -1,9 +1,5 @@
-angular.module('ReportIt.contact.controllers', [
-                'ReportIt.contact.services']).
-        controller('ContactController',
-               ['$scope', 'MessageService',
-                function($scope, MessageService) {
-      
+angular.module('ReportIt.contact.controllers').controller('ContactController', ['$scope', 'MessageService',
+  function($scope, MessageService) {    
       var self = this;
       var SUCCESS = 1;
       var ERROR = 2;

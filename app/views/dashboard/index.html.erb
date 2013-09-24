@@ -1,6 +1,20 @@
+<%= content_for :head_css do %>
+  <%= stylesheet_link_tag 'dashboard' %>
+<% end %>
 <% content_for :head_js do %>
   <%= javascript_include_tag "dashboard" %>
 <% end %>
-<div class='container'>
-  This is the dashboard page ...
+
+<div ng-app='ReportIt.dashboard'>
+  <div class='row'>
+    <div class='col-md-6'>
+      <%# render partial: "reports/index" %>
+      <%# render partial: "report_templates/index" %>
+    </div>
+    <div class='col-md-6'>
+      <%= render partial: "snippets/index" %>
+      <%# render partial: "organizations/index" %>
+      <%= render partial: "settings/index" %>
+    </div>
+  </div>
 </div>

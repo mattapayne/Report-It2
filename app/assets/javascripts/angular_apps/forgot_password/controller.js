@@ -1,9 +1,5 @@
-angular.module('ReportIt.forgot_password.controllers', [
-                'ReportIt.forgot_password.services']).
-        controller('ForgotPasswordController',
-               ['$scope', 'ForgotPasswordService',
-                function($scope, ForgotPasswordService) {
-      
+angular.module('ReportIt.forgot_password.controllers').controller('ForgotPasswordController', ['$scope', 'ForgotPasswordService',
+  function($scope, ForgotPasswordService) {    
       var self = this;
       var SUCCESS = 1;
       var ERROR = 2;

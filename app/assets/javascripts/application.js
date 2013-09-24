@@ -6,4 +6,4 @@
 //= require ./angular_apps/common/angular_loadmask
 //= require ./angular_apps/common/angular_constants
 //= require ./angular_apps/common/angular_validation
-//= require_tree ./sitewide
+//= require site

@@ -8,11 +8,14 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
   
   before_action :set_common_variables
-  after_action  :set_csrf_cookie_for_ng
   
   helper_method :current_user, :logged_in?
   
   protected
+  
+  def default_serializer_options
+    { root: false }
+  end
   
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -60,10 +63,6 @@ class ApplicationController < ActionController::Base
   end
   
   private
-  
-  def set_csrf_cookie_for_ng
-    cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
-  end
   
   def set_common_variables
     @active_page = "#{params[:controller]}/#{params[:action]}"

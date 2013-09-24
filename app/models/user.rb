@@ -12,11 +12,11 @@ class User
   has_secure_password
   
   embeds_many :settings, class_name: 'UserSetting'
-  has_many :organizations
-  has_many :reports
-  has_many :report_templates
-  has_many :snippets
-  has_many :password_reset_requests
+  has_many :organizations, dependent: :nullify #Not sure on this one yet
+  has_many :reports, dependent: :delete
+  has_many :report_templates, dependent: :delete
+  has_many :snippets, dependent: :delete
+  has_many :password_reset_requests, dependent: :delete
   
   validates_presence_of :first_name, :last_name, :email
   validates_format_of :email, with: Mongoid::Document::email_regex, on: :create

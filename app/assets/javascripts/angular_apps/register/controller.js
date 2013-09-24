@@ -1,9 +1,5 @@
-angular.module('ReportIt.register.controllers', [
-                'ReportIt.register.services']).
-        controller('RegisterController',
-               ['$scope', 'RegisterService',
-                function($scope, RegisterService) {
-      
+angular.module('ReportIt.register.controllers').controller('RegisterController', ['$scope', 'RegisterService',
+  function($scope, RegisterService) {    
       var self = this;
       var SUCCESS = 1;
       var ERROR = 2;

@@ -1,4 +1,4 @@
-angular.module('ReportIt.register.services', []).
+angular.module('ReportIt.register.services').
     factory('RegisterService', ['$http', '$q', function($http, $q) {
         return {
                 register: function(registration) {

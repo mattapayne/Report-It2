@@ -1,4 +1,4 @@
-angular.module('ReportIt.forgot_password.services', []).
+angular.module('ReportIt.forgot_password.services').
     factory('ForgotPasswordService', ['$http', '$q', function($http, $q) {
         return {
                 changePassword: function(model) {
