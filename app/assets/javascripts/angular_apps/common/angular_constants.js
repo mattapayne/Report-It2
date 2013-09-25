@@ -5,6 +5,21 @@ angular.module('ReportIt.constants', []).
   constant('CONTACT_URLS', {create_message_url: '/message'}).
   constant('REGISTER_URLS', {create_registration_url: '/register'}).
   constant('FORGOT_PASSWORD_URLS', {create_forgot_password_request_url: 'forgot_password'}).
+  constant('REPORT_TEMPLATE_URLS', {
+    get_report_template_url: '/report_template/',
+    create_report_template_url: '/report_templates',
+    update_report_template_url: '/report_template/',
+    get_organizations_url: '/organizations',
+    get_snippets_url: '/snippets'
+  }).
+  constant('REPORT_URLS', {
+    get_report_url: '/report/',
+    create_report_url: '/report',
+    update_report_url: '/report/',
+    get_organizations_url: '/organizations',
+    get_snippets_url: '/snippets'
+  }).
+  constant('IMAGE_UPLOAD_URLS', {image_upload_url: '/upload/'}).
   constant('DASHBOARD_URLS', {
     get_organizations_url: '/organizations',
     create_organization_url: '/organizations',

@@ -1,21 +1,29 @@
 class ReportTemplatesController < ApplicationController
   before_action :require_login
-  before_action :load_report_template, only: [:update, :destroy, :edit]
+  before_action :load_report_template, only: [:update, :destroy, :edit, :view]
   
   def index
-    #ajax only
+    render json: current_user.report_templates.to_a, status: 200
   end
   
   def new
-    @report_template = current_user.reports_templates.new
-    render template: :single
+    @report_template = nil
+    @report_template_id = nil
+    render :single
   end
   
   def create
-    #ajax only
+    @report_template = current_user.report_templates.build(params_for_report_template)
+    if @report_template.save
+      render json: { redirect_url: dashboard_path }, status: 200
+    else
+      render json: { messages: @report_template.errors.full_messages }, status: 406
+    end
+    
   end
   
   def edit
+    @report_template_id = @report_template.id.to_s
     render template: :single
   end
   
@@ -27,6 +35,10 @@ class ReportTemplatesController < ApplicationController
     #ajax only
   end
   
+  def view
+    render json: @report_template, status: 200
+  end
+  
   protected
   
   def get_title(action)
@@ -35,7 +47,11 @@ class ReportTemplatesController < ApplicationController
   
   private
   
+  def params_for_report_template
+    params.require(:report_template).permit(:name, :description, :content, :client, :organizations)
+  end
+  
   def load_report_template
-    @report_template = ReportTemplate.find(params[:id])
+    @report_template = current_user.report_templates.find(params[:id])
   end
 end

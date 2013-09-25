@@ -1,0 +1,56 @@
+<div class='panel panel-default'>
+  <div class='panel-heading'>Template Information</div>
+  <div class='panel-body'>
+    <div class='form-horizontal'>
+      <div class='row'>
+        <div class='col-lg-12'>
+          <label for='template_name' class='control-label'>Template Name</label>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-lg-12'>
+          <input type='text' name='template_name' id='template_name' ng-model='reportTemplate.name' placeholder='Name this template' class='form-control' />
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-lg-12'>
+          <label for='client' class='control-label'>Client</label>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-lg-12'>
+          <input type='text' name='client' id='client' ng-model='reportTemplate.client' placeholder='Client name' class='form-control' />
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-lg-12'>
+          <label for='description' class='control-label'>Description</label>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-lg-12'>
+          <textarea id='description' name='description' ng-model='reportTemplate.description' placeholder='Description' class='form-control' rows='6'></textarea>
+        </div>
+      </div>
+      <div class='row spacer5' id='organizations-select'>
+        <div class='col-lg-12'>
+          <div class='panel panel-default'>
+            <div class='panel-heading'>Organization(s)</div>
+          <div class='panel-body'>
+            <div ng-repeat='organization in organizations' class='checkbox'>
+                <label>{{ organization.name }}
+                  <input type='checkbox' checked='organization.associated' ng-model='organization.associated' />
+                </label>
+            </div>
+        </div>
+          </div>
+      </div>
+      </div>
+      <div class='row'>
+        <div class='col-lg-12'>
+          <button ng-disabled='isFormInvalid()' ng-click='save()' class='btn btn-success form-control' title='Save this report template'>Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<%= content_for :head_css do %>
+  <%= stylesheet_link_tag 'report_template' %>
+<% end %>
+<%= content_for :head_js do %>
+  <%= javascript_include_tag 'report_template' %>
+<% end %>
+<div ng-app='ReportIt.report_template' ng-controller='ReportTemplateController', ng-init="init('<%= @report_template_id %>')">
+  <ol class='breadcrumb'>
+    <li>
+      <%= link_to('Dashboard', root_path) %>
+    </li>
+    <li class='active'>
+      <% if @report_template.nil? %>
+        New Report Template
+      <% else %>
+        Report Template: '<%= @report_template.name %>'  
+      <% end %>
+    </li>
+  </ol>
+  <div class='alert alert-danger' ng-hide='requirementsMessagesEmpty()'>
+    <div>
+      You cannot save this template yet ...
+    </div>
+    <div ng-repeat='message in requirementMessages'>
+      {{ message }}
+    </div>
+  </div>
+  <div class='alert alert-success' ng-show='requirementsMessagesEmpty()'>
+    <div>
+      You can save this template!
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-md-2'>
+      <div class='row'>
+        <%= render partial: 'report_template_settings' %>
+      </div>
+    </div>
+    <div class='col-md-10'>
+      <textarea ng-model='reportTemplate.content' redactor options='redactorOptions' name='content' required></textarea>
+    </div>
+  </div>
+  <div id='clipsmodal' class='hidden'>
+    <div class='snippets'>
+      <ul>
+        <li ng-repeat='snippet in snippets' class='snippet'>
+          <a href='' class='redactor_clip_link'>{{ snippet.name }}</a>
+          <div class='hidden' ng-bind-html-unsafe='snippet.content'></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div ng-controller='ReportTemplatesController'>
+<div class='panel panel-default'>
+  <div class='panel-heading'>
+    Report Templates
+  </div>
+  <div class='panel-body'>
+      <ul class='list-group'>
+        <li ng-hide='reportTemplates.length > 0' class='list-group-item'>You have not created any report templates.</li>
+        <li ng-repeat='report_template in reportTemplates | orderBy:name:false' class='list-group-item'>
+          <span>{{ report_template.name }} {{ report_template.client || 'No client' }}</span>
+          <div class='pull-right'>
+            <div class='btn-group'>
+              <button type="button" data-toggle='dropdown' class='btn btn-default dropdown-toggle'>Export
+                <span class='caret'></span>
+              </button>
+              <ul class='dropdown-menu'>
+                <li>
+                  <%= link_to('Export to Word', export_path(:report_template, :doc) + '/{{ report_template.id }}')%>
+                </li>
+                <li>
+                  <%= link_to('Export to PDF', export_path(:report_template, :pdf) + '/{{ report_template.id }}') %>
+                </li>
+              </ul>
+            </div>
+            <%= link_to('Edit', edit_report_template_path + '/{{ report_template.id }}', title: 'Edit this report template', class: 'btn btn-default') %>
+            <a href='' ng-click='destroy($index)' ng-disabled='deleting($index)' title='Delete this report templatet' class='btn btn-danger'>Delete</a>
+          </div>
+          <div class='clearfix'></div>
+        </li>
+      </ul>
+      <%= link_to('Add', new_report_template_path, title: 'Create a new report template', class: 'btn btn-success pull-right') %>
+  </div>
+</div>
+</div>

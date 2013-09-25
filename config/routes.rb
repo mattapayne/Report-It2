@@ -29,19 +29,21 @@ ReportIt::Application.routes.draw do
   end
   controller :reports do
     get 'reports' => :index
-    get 'edit_report' => :edit
-    get 'new_report' => :new
+    get 'reports/edit' => :edit, as: :edit_report
+    get 'reports/new' => :new, as: :new_report
     delete 'reports/:id' => :destroy
     put 'reports/:id' => :update
     post 'reports' => :create
+    get 'report/:id' => :view
   end
   controller :report_templates do
     get 'report_templates' => :index
-    get 'edit_report_template' => :edit
-    get 'new_report_template' => :new
+    get 'report_templates/edit/' => :edit, as: :edit_report_template
+    get 'report_templates/new' => :new, as: :new_report_template
     delete 'report_templates/:id' => :destroy
-    put 'report_templates/:id' => :update
+    put 'report_template/:id' => :update
     post 'report_templates' => :create
+    get 'report_template/:id' => :view
   end
   controller :organizations do
     get 'organizations' => :index
@@ -60,6 +62,6 @@ ReportIt::Application.routes.draw do
     put 'settings/:id' => :update
   end
   controller :export do
-    get 'export/:type/:format/:id' => :export, as: :export
+    get 'export/:type/:format/' => :export, as: :export
   end
 end

@@ -4,10 +4,9 @@
     Reports
   </div>
   <div class='panel-body'>
-    <div class='container'>
-      <ul>
-        <li ng-hide='reports.length > 0'>You have not created any reports.</li>
-        <li ng-repeat='report in reports | orderBy:name:false'>
+      <ul class='list-group'>
+        <li ng-hide='reports.length > 0' class='list-group-item'>You have not created any reports.</li>
+        <li ng-repeat='report in reports | orderBy:name:false' class='list-group-item'>
           <span>{{ report.name }}</span>&nbsp;&nbsp;<span>{{ report.client || 'No client' }}</span>
           <div class='pull-right'>
             <div class='button-group'>
@@ -27,10 +26,9 @@
             <a href='' ng-click='destroy($index)' ng-disabled='deleting($index)' title='Delete this report' class='btn btn-danger'>Delete</a>
           </div>
           <div class='clearfix'></div>
-          <%= link_to('Add', new_report_path, title: 'Create a new report', class: 'btn btn-success pull-right') %>
         </li>
       </ul>
-    </div>
+      <%= link_to('Add', new_report_path, title: 'Create a new report', class: 'btn btn-success pull-right') %>
   </div>
 </div>
 </div>

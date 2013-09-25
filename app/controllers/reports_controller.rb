@@ -3,16 +3,17 @@ class ReportsController < ApplicationController
   before_action :load_report, only: [:update, :destroy, :edit]
   
   def index
-    #ajax only
+    render json: current_user.reports.to_a, status: 200
   end
   
   def new
-    @report = current_user.reports.new
+    @report = current_user.reports.build
     render template: :single
   end
   
   def create
-    #ajax only
+    @report = current_user.reports.build
+    render template: :single
   end
   
   def update
@@ -36,7 +37,7 @@ class ReportsController < ApplicationController
   private
   
   def load_report
-    @report = Report.find(params[:id])
+    @report = current_user.reports.find(params[:id])
   end
   
 end
