@@ -24,6 +24,7 @@ class HomeController < ApplicationController
   protected
   
   def get_title(action)
+    action = 'home' if action == 'index'
     "#{super} :: #{action.humanize}"
   end
   

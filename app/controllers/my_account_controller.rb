@@ -6,4 +6,10 @@ class MyAccountController < ApplicationController
     
   end
   
+  protected
+  
+  def get_title(action)
+    "#{super} :: My Account"
+  end
+  
 end

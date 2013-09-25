@@ -4,10 +4,10 @@
       Settings
     </div>
     <div class='panel-body'>
-      <div ng-class='getAlertClasses()' ng-show='hasResult()'>
+      <div ng-class='resultClasses()' ng-show='hasResult()'>
         <button class="close" ng-click='resetResult()'>×</button>
         <ul>
-          <li ng-repeat='message in result.value'>{{ message }}</li>
+          <li ng-repeat='message in getMessages()'>{{ message }}</li>
         </ul>
       </div>
       <ul class='list-group'>

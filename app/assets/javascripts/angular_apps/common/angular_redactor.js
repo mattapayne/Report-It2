@@ -1,4 +1,4 @@
-angular.module('angular-redactor', [])
+angular.module('ReportIt-redactor', [])
   .directive("redactor", [function () {
     return {
       restrict: 'A',

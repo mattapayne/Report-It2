@@ -1,13 +1,10 @@
-angular.module('ReportIt.dashboard.controllers').controller('SettingsController', ['$scope', 'DashboardService', 'INTEGER_REGEX',
-  function($scope, DashboardService, integerRegex) {
-    var self = this;
-    var SUCCESS = 1;
-    var ERROR = 2;
-    var NONE = 3;
+angular.module('ReportIt.dashboard.controllers').controller('SettingsController', ['$scope', 'DashboardService', 'INTEGER_REGEX', 'SharedScopeResponseHandling',
+  function($scope, DashboardService, integerRegex, SharedScopeResponseHandling) {
     
+    var self = this;
+    SharedScopeResponseHandling.addTo($scope);
     $scope.settingsBeingEdited = {};
     $scope.settings = [];
-    $scope.result = {type: NONE, value: null};
     
     DashboardService.getSettings().success(function(settings) {
        $scope.settings = settings; 
@@ -24,24 +21,6 @@ angular.module('ReportIt.dashboard.controllers').controller('SettingsController'
             }
         }
         return true;
-    };
-    
-    $scope.resetResult = function() {
-      $scope.result = {type: NONE, value: null};
-    };
-    
-    $scope.getAlertClasses = function() {
-      var classes = '';
-      if($scope.result.type === NONE) {
-        return classes;
-      }
-      classes = 'alert fade in';
-      classes += $scope.result.type === ERROR ? ' alert-danger' : ' alert-success';
-      return classes;
-    };
-    
-    $scope.hasResult = function() {
-      return $scope.result.type !== NONE;
     };
     
     $scope.edit = function(index) {
@@ -68,15 +47,14 @@ angular.module('ReportIt.dashboard.controllers').controller('SettingsController'
     
     $scope.update = function(index) {
         var setting = $scope.settings[index];
-        DashboardService.updateSetting(setting).success(function(responseJson) {
+        DashboardService.updateSetting(setting).
+          success(function(response) {
             $scope.stopEditing(index);
-            $scope.result.type = SUCCESS;
-            $scope.result.value = responseJson.messages;
-        }).error(function(responseJson) {
+            $scope.setSuccess(response.messages);
+        }).error(function(response) {
             var original = $scope.settingsBeingEdited[index];
             $scope.settings[index] = angular.copy(original);
-            $scope.result.type = ERROR;
-            $scope.result.value = responseJson.messages;
+            $scope.setError(response.messages);
         });
     };
 

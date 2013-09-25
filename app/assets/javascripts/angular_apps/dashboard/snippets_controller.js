@@ -1,17 +1,14 @@
-angular.module('ReportIt.dashboard.controllers').controller('SnippetsController', ['$scope', 'DashboardService',
-  function($scope, DashboardService) {
-    var self = this;
-    var SUCCESS = 1;
-    var ERROR = 2;
-    var NONE = 3;
+angular.module('ReportIt.dashboard.controllers').controller('SnippetsController', ['$scope', 'DashboardService', 'SharedScopeResponseHandling',
+  function($scope, DashboardService, SharedScopeResponseHandling) {
     
+    var self = this;
+    SharedScopeResponseHandling.addTo($scope);
     $scope.adding = false;
     $scope.snippetsBeingEdited = {};
     $scope.snippetsBeingDeleted = [];
     $scope.snippetName = "";
     $scope.snippetContent = "";
     $scope.snippets = [];
-    $scope.result = {type: NONE, value: null};
     
     $scope.redactorOptions = {
         linebreaks: true,
@@ -23,24 +20,6 @@ angular.module('ReportIt.dashboard.controllers').controller('SnippetsController'
     DashboardService.getSnippets().success(function(snippets) {
        $scope.snippets = snippets; 
     });
-    
-    $scope.resetResult = function() {
-      $scope.result = {type: NONE, value: null};
-    };
-    
-    $scope.getAlertClasses = function() {
-      var classes = '';
-      if($scope.result.type === NONE) {
-        return classes;
-      }
-      classes = 'alert fade in';
-      classes += $scope.result.type === ERROR ? ' alert-danger' : ' alert-success';
-      return classes;
-    };
-    
-    $scope.hasResult = function() {
-      return $scope.result.type !== NONE;
-    };
     
     $scope.newSnippetIsValid = function() {
       return $scope.snippetName && $scope.snippetContent && $scope.snippetName != '' && $scope.snippetContent != '';  
@@ -79,15 +58,14 @@ angular.module('ReportIt.dashboard.controllers').controller('SnippetsController'
     
     $scope.update = function(index) {
         var snippet = $scope.snippets[index];
-        DashboardService.updateSnippet(snippet).success(function(jsonResponse) {
+        DashboardService.updateSnippet(snippet).
+          success(function(response) {
             $scope.stopEditing(index);
-            $scope.result.type = SUCCESS;
-            $scope.result.value = jsonResponse.messages;
-        }).error(function(jsonResponse) {
+            $scope.setSuccess(response.messages);
+        }).error(function(response) {
             var original = $scope.snippetsBeingEdited[index];
             $scope.snippets[index] = angular.copy(original);
-            $scope.result.type = ERROR;
-            $scope.result.value = jsonResponse.messages;
+            $scope.setError(response.messages);
         });
     };
    
@@ -111,14 +89,13 @@ angular.module('ReportIt.dashboard.controllers').controller('SnippetsController'
     
     $scope.create = function() {
         var snippet = { name: $scope.snippetName, content: $scope.snippetContent };
-        DashboardService.createSnippet(snippet).success(function(jsonResponse) {
-            $scope.snippets.push(jsonResponse.snippet);
+        DashboardService.createSnippet(snippet).
+          success(function(response) {
+            $scope.snippets.push(response.snippet);
             $scope.stopAdd();
-            $scope.result.type = SUCCESS;
-            $scope.result.value = jsonResponse.messages;
-        }).error(function(jsonResponse) {
-            $scope.result.type = ERROR;
-            $scope.result.value = jsonResponse.messages;
+            $scope.setSuccess(response.messages);
+        }).error(function(response) {
+            $scope.setError(response.messages);
         });
     };
     
@@ -136,15 +113,14 @@ angular.module('ReportIt.dashboard.controllers').controller('SnippetsController'
     
     //since there is no 'finally' construct in Angular's promise returned by $http, we have to duplicate some code.
     self.deleteSnippet = function(index, snippet) {
-        DashboardService.destroySnippet(snippet).success(function(jsonResponse) {
+        DashboardService.destroySnippet(snippet).
+            success(function(response) {
                 $scope.snippets.splice(index, 1);
                 self.stopManagingSnippet(index);
-                $scope.result.type = SUCCESS;
-                $scope.result.value = jsonResponse.messages;
-            }).error(function(jsonResponse) {
+                $scope.setSuccess(response.messages);
+            }).error(function(response) {
                 self.stopManagingSnippet(index);
-                $scope.result.type = ERROR;
-                $scope.result.value = jsonResponse.messages;
+                $scope.setError(response.messages);
             });
     };
   }

@@ -7,7 +7,7 @@
       <button class="close" data-dismiss="alert">×</button>
       <strong ng-show='resultIsError()'>Some errors occurred ...</strong>
       <strong ng-show='resultIsSuccess()'>Success!</strong>
-      <ul ng-repeat='message in result.value'>
+      <ul ng-repeat='message in getMessages()'>
         <li>{{ message }}</li>
       </ul>
     </div>
@@ -74,7 +74,7 @@
       Got a question or a comment or a suggestion? Use this form to get in touch with us.
     </div>
     <ul class='list-group'>
-      <li class='list-group-item'>We are located in beatiful North Vancouver, BC</li>
+      <li class='list-group-item'>We are located in beautiful North Vancouver, BC</li>
       <li class='list-group-item'>Phone: (778) 987-9458</li>
       <li class='list-group-item'>Email: <%= mail_to('info@report-it.ca') %></li>
     </ul>

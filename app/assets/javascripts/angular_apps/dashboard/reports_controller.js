@@ -1,6 +1,8 @@
-angular.module('ReportIt.dashboard.controllers').controller('ReportsController', ['$scope', 'DashboardService',
-  function($scope, DashboardService) {
+angular.module('ReportIt.dashboard.controllers').controller('ReportsController', ['$scope', 'DashboardService', 'SharedScopeResponseHandling',
+  function($scope, DashboardService, SharedScopeResponseHandling) {
+    
     var self = this;
+    SharedScopeResponseHandling.addTo($scope);
     $scope.reportsBeingDeleted = [];
     $scope.reports = [];
     

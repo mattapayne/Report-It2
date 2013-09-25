@@ -4,13 +4,13 @@ angular.module('ReportIt.dashboard.services').factory('DashboardService', ['$htt
                 return $http.get('/organizations'); 
             },
             destroyOrganization: function(organization) {
-                return $http.delete('/organizations/destroy/' + organization.id);
+                return $http.delete('/organizations/' + organization.id);
             },
             createOrganization: function(organization) {
-                return $http.post('/organizations/create', angular.toJson({ organization: organization }));  
+                return $http.post('/organizations', angular.toJson({ organization: organization }));  
             },
             updateOrganization: function(organization) {
-                return $http.put('/organizations/update/' + organization.id, angular.toJson({ organization: organization }));
+                return $http.put('/organizations/' + organization.id, angular.toJson({ organization: organization }));
             },
             getReports: function() {
                 return $http.get('/reports'); 

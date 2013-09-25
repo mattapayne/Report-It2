@@ -7,7 +7,7 @@
       <button class="close" data-dismiss="alert">×</button>
       <strong ng-show='resultIsError()'>Some errors occurred ...</strong>
       <strong ng-show='resultIsSuccess()'>Success!</strong>
-      <ul ng-repeat='message in result.value'>
+      <ul ng-repeat='message in getMessages()'>
         <li>{{ message }}</li>
       </ul>
     </div>

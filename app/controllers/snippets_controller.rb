@@ -3,7 +3,7 @@ class SnippetsController < ApplicationController
   before_action :load_snippet, only: [:update, :destroy]
   
   def index
-    render json: current_user.snippets.to_a
+    render json: current_user.snippets.to_a, status: 200
   end
   
   def create
@@ -11,7 +11,7 @@ class SnippetsController < ApplicationController
     if @snippet.save
       render json: { messages: ["Successfully create the snippet: #{@snippet.name}"], snippet: @snippet }, status: 200
     else
-      render json: { messages: @snipper.errors.full_messages.to_a }, status: 406
+      render json: { messages: @snippet.errors.full_messages.to_a }, status: 406
     end
   end
   

@@ -2,7 +2,7 @@ class SettingsController < ApplicationController
   before_action :require_login
 
   def index
-    render json: current_user.settings.to_a
+    render json: current_user.settings.to_a, status: 200
   end
   
   def update

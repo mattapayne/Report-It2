@@ -1,10 +1,11 @@
-angular.module('ReportIt.dashboard.controllers').controller('OrganizationsController', ['$scope', 'DashboardService',
-  function($scope, DashboardService) {
+angular.module('ReportIt.dashboard.controllers').controller('OrganizationsController', ['$scope', 'DashboardService', 'SharedScopeResponseHandling',
+  function($scope, DashboardService, SharedScopeResponseHandling) {
+    
     var self = this;
+    SharedScopeResponseHandling.addTo($scope);
     $scope.organizationsBeingEdited = {};
     $scope.organizationsBeingDeleted = [];
     $scope.adding = false;
-    $scope.currentInvitations = {};
     $scope.organizationName = "";
     $scope.organizations = [];
     
@@ -25,17 +26,8 @@ angular.module('ReportIt.dashboard.controllers').controller('OrganizationsContro
         self.backupOrganization(index);
     };
     
-    $scope.invite = function(index) {
-        var organization = $scope.organizations[index];
-        $scope.currentInvitations[index] = angular.copy(organization);
-    };
-    
     $scope.editing = function(index) {
         return index in $scope.organizationsBeingEdited;
-    };
-    
-    $scope.inviting = function(index) {
-        return index in $scope.currentInvitations;
     };
     
     $scope.deleting = function(index) {
@@ -56,17 +48,16 @@ angular.module('ReportIt.dashboard.controllers').controller('OrganizationsContro
         delete $scope.organizationsBeingEdited[index];
     };
     
-    $scope.stopInviting = function(index) {
-        delete $scope.currentInvitations[index];
-    };
-    
     $scope.update = function(index) {
         var organization = $scope.organizations[index];
-        DashboardService.updateOrganization(organization).success(function() {
+        DashboardService.updateOrganization(organization).
+          success(function(response) {
             $scope.stopEditing(index);
-        }).error(function() {
+            $scope.setSuccess(response.messages);
+        }).error(function(response) {
             var original = $scope.organizationsBeingEdited[index];
             $scope.organizations[index] = angular.copy(original);
+            $scope.setError(response.messages);
         });
     };
    
@@ -89,12 +80,16 @@ angular.module('ReportIt.dashboard.controllers').controller('OrganizationsContro
     
     $scope.create = function() {
         var organization = { name: $scope.organizationName };
-        DashboardService.createOrganization(organization).success(function(org) {
-            $scope.organizations.push(org);
+        DashboardService.createOrganization(organization).
+          success(function(response) {
+            $scope.organizations.push(response.organization);
             $scope.stopAdd();
+            $scope.setSuccess(response.messages);
+        }).error(function(response) {
+            $scope.setError(response.messages);
         });
     };
-
+  
     self.backupOrganization = function(index) {
         var organization = $scope.organizations[index];
         $scope.organizationsBeingEdited[index] = angular.copy(organization);
@@ -109,12 +104,15 @@ angular.module('ReportIt.dashboard.controllers').controller('OrganizationsContro
     
     //since there is no 'finally' construct in Angular's promise returned by $http, we have to duplicate some code.
     self.deleteOrganization = function(index, organization) {
-        DashboardService.destroyOrganization(organization).success(function() {
-            $scope.organizations.splice(index, 1);
-            self.stopManagingOrganization(index);
-            }).error(function() {
+        DashboardService.destroyOrganization(organization).
+          success(function(response) {
+              $scope.organizations.splice(index, 1);
+              self.stopManagingOrganization(index);
+              $scope.setSuccess(response.messages);
+          }).error(function(response) {
                 self.stopManagingOrganization(index);
+                $scope.setError(response.messages);
             });
-    };          
-  }
+      };          
+    }
 ]);
