@@ -2,7 +2,7 @@ angular.module('ReportIt.dashboard.controllers').controller('SettingsController'
   function($scope, DashboardService, integerRegex, SharedScopeResponseHandling) {
     
     var self = this;
-    SharedScopeResponseHandling.addTo($scope);
+    SharedScopeResponseHandling.mixin($scope);
     $scope.settingsBeingEdited = {};
     $scope.settings = [];
     

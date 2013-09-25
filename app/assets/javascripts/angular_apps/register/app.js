@@ -1,5 +1,5 @@
 //the services module
-angular.module('ReportIt.register.services', []);
+angular.module('ReportIt.register.services', ['ReportIt.constants']);
 //the controllers module
 angular.module('ReportIt.register.controllers', ['ReportIt.register.services']);
 //the app module

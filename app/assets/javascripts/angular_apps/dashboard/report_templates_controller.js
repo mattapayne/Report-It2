@@ -2,7 +2,7 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportTemplatesCont
   function($scope, DashboardService, SharedScopeResponseHandling) {
     
     var self = this;
-    SharedScopeResponseHandling.addTo($scope);
+    SharedScopeResponseHandling.mixin($scope);
     $scope.reportTemplatesBeingDeleted = [];
     $scope.reportTemplates = [];
     

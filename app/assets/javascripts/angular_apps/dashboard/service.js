@@ -1,46 +1,57 @@
-angular.module('ReportIt.dashboard.services').factory('DashboardService', ['$http', '$q', function($http, $q) {
-    return {
-            getOrganizations: function() {
-                return $http.get('/organizations'); 
-            },
-            destroyOrganization: function(organization) {
-                return $http.delete('/organizations/' + organization.id);
-            },
-            createOrganization: function(organization) {
-                return $http.post('/organizations', angular.toJson({ organization: organization }));  
-            },
-            updateOrganization: function(organization) {
-                return $http.put('/organizations/' + organization.id, angular.toJson({ organization: organization }));
-            },
-            getReports: function() {
-                return $http.get('/reports'); 
-            },
-            destroyReport: function(report) {
-                return $http.delete('/reports/destroy/' + report.id);
-            },
-            getReportTemplates: function() {
-                return $http.get('/report_templates'); 
-            },
-            destroyReportTemplate: function(reportTemplate) {
-                return $http.delete('/report_templates/destroy/' + report_template.id);
-            },
-            getSnippets: function() {
-                return $http.get('/snippets'); 
-            },
-            updateSnippet: function(snippet) {
-                return $http.put('/snippets/' + snippet.id, angular.toJson({ snippet: snippet }));
-            },
-            createSnippet: function(snippet) {
-                return $http.post('/snippets', angular.toJson({ snippet: snippet })); 
-            },
-            destroySnippet: function(snippet) {
-                return $http.delete('/snippets/' + snippet.id);
-            },
-            getSettings: function() {
-                return $http.get('/settings'); 
-            },
-            updateSetting: function(setting) {
-                return $http.put('/settings/' + setting.id, angular.toJson({ setting: setting }));
-            }
-        };  
+angular.module('ReportIt.dashboard.services').service('DashboardService', ['$http', '$q', 'DASHBOARD_URLS', function($http, $q, DASHBOARD_URLS) {
+    this.getOrganizations = function() {
+        return $http.get(DASHBOARD_URLS.get_organizations_url); 
+    };
+    
+    this.destroyOrganization = function(organization) {
+        return $http.delete(DASHBOARD_URLS.delete_organization_url + organization.id);
+    };
+    
+    this.createOrganization = function(organization) {
+        return $http.post(DASHBOARD_URLS.create_organization_url, angular.toJson({ organization: organization }));  
+    };
+    
+    this.updateOrganization = function(organization) {
+        return $http.put(DASHBOARD_URLS.update_organization_url + organization.id, angular.toJson({ organization: organization }));
+    };
+    
+    this.getReports = function() {
+        return $http.get(DASHBOARD_URLS.get_reports_url); 
+    };
+    
+    this.destroyReport = function(report) {
+        return $http.delete(DASHBOARD_URLS.delete_report_url + report.id);
+    };
+    
+    this.getReportTemplates = function() {
+        return $http.get(DASHBOARD_URLS.get_report_templates_url); 
+    };
+    
+    this.destroyReportTemplate = function(reportTemplate) {
+        return $http.delete(DASHBOARD_URLS.delete_report_template_url + report_template.id);
+    };
+    
+    this.getSnippets = function() {
+        return $http.get(DASHBOARD_URLS.get_snippets_url); 
+    };
+    
+    this.updateSnippet = function(snippet) {
+        return $http.put(DASHBOARD_URLS.update_snippet_url + snippet.id, angular.toJson({ snippet: snippet }));
+    };
+    
+    this.createSnippet = function(snippet) {
+        return $http.post(DASHBOARD_URLS.create_snippet_url, angular.toJson({ snippet: snippet })); 
+    };
+    
+    this.destroySnippet = function(snippet) {
+        return $http.delete(DASHBOARD_URLS.delete_snippet_url + snippet.id);
+    };
+    
+    this.getSettings = function() {
+        return $http.get(DASHBOARD_URLS.get_settings_url); 
+    };
+    
+    this.updateSetting = function(setting) {
+        return $http.put(DASHBOARD_URLS.update_setting_url + setting.id, angular.toJson({ setting: setting }));
+    };
 }]);

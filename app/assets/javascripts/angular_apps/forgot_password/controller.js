@@ -2,7 +2,7 @@ angular.module('ReportIt.forgot_password.controllers').controller('ForgotPasswor
   function($scope, ForgotPasswordService, SharedScopeResponseHandling) {    
 
     var self = this;
-    SharedScopeResponseHandling.addTo($scope);
+    SharedScopeResponseHandling.mixin($scope);
     var reset_request = {email: '', password: '', password_confirmation: ''};
     $scope.reset_request = angular.copy(reset_request);
     

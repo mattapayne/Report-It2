@@ -2,7 +2,7 @@ angular.module('ReportIt.register.controllers').controller('RegisterController',
   function($scope, RegisterService, SharedScopeResponseHandling) {    
     
     var self = this;
-    SharedScopeResponseHandling.addTo($scope);
+    SharedScopeResponseHandling.mixin($scope);
     var emptyRegistration = {first_name: '', last_name: '', email: '', password: '', password_confirmation: ''};
     $scope.registration = angular.copy(emptyRegistration);
     

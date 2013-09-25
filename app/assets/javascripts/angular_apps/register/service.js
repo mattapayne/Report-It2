@@ -1,8 +1,6 @@
 angular.module('ReportIt.register.services').
-    factory('RegisterService', ['$http', '$q', function($http, $q) {
-        return {
-                register: function(registration) {
-                    return $http.post('/register', angular.toJson({ registration: registration }));
-                }
-            };  
+    service('RegisterService', ['$http', '$q', 'REGISTER_URLS', function($http, $q, REGISTER_URLS) {
+        this.register = function(registration) {
+            return $http.post(REGISTER_URLS.create_registration_url, angular.toJson({ registration: registration }));
+        };
 }]);

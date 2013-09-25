@@ -1,7 +1,7 @@
 //services module
-angular.module('ReportIt.dashboard.services', []);
+angular.module('ReportIt.dashboard.services', ['ReportIt.constants']);
 //controllers module
-angular.module('ReportIt.dashboard.controllers', ['ReportIt.dashboard.services', 'ReportIt.constants']);
+angular.module('ReportIt.dashboard.controllers', ['ReportIt.dashboard.services']);
 //the main app module
 angular.module('ReportIt.dashboard', [
                                       'ReportIt.angular_loadmask',

@@ -1,5 +1,5 @@
 //services module
-angular.module('ReportIt.forgot_password.services', []);
+angular.module('ReportIt.forgot_password.services', ['ReportIt.constants']);
 //controllers module
 angular.module('ReportIt.forgot_password.controllers', ['ReportIt.forgot_password.services']);
 //the app module
