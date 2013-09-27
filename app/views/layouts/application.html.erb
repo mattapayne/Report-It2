@@ -48,7 +48,7 @@
             <% if logged_in? %>
               <ul class='nav navbar-nav navbar-right pad-right'>
                <li>
-                  <%= link_to("Hi, #{current_user.first_name}", my_account_path, title: 'Click here to make changes to your account') %>
+                  <%= link_to(image_tag(gravatar_url(current_user, 32)), my_account_path, title: 'Click here to make changes to your account') %>
                </li>
                <li>
                   <a href='#' id='logout'>Logout</a>
