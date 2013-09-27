@@ -1,5 +1,5 @@
 class FullReportSerializer < ActiveModel::Serializer
-  attributes :id, :name, :client, :content, :description, :report_template_id, :created_at, :updated_at
+  attributes :id, :name, :content, :description, :report_template_id, :created_at, :updated_at
   
   def id
     object.id.to_s

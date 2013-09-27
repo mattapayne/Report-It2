@@ -4,7 +4,6 @@ angular.module('ReportIt.report_template.controllers').controller('ReportTemplat
     
       var self = this;
       SharedScopeResponseHandling.mixin($scope);
-      $scope.requirementMessages = {};
       $scope.snippets = [];
       $scope.reportTemplate = null;
       
@@ -18,55 +17,47 @@ angular.module('ReportIt.report_template.controllers').controller('ReportTemplat
         plugins: ['clips', 'fontsize', 'fontfamily', 'fontcolor', 'fullscreen', 'tableborder']
       };
       
-      $scope.$watch('reportTemplate.name', function(newValue, oldValue) {
-        if(!newValue || newValue.length === 0) {
-          $scope.requirementMessages['reportTemplate.name'] = "Template name is required.";
-        }
-        else {
-          delete $scope.requirementMessages['reportTemplate.name'];
-        }
-      });
-      
-      $scope.$watch('reportTemplate.content', function(newValue, oldValue) {
-        if(!newValue || newValue.length === 0) {
-          $scope.requirementMessages['reportTemplate.content'] = "Template content is required.";
-        }
-        else {
-          delete $scope.requirementMessages['reportTemplate.content'];
-        }
-      });
-      
-      $scope.requirementsMessagesEmpty = function() {
-        return _.isEmpty($scope.requirementMessages);
-      };
-      
       $scope.init = function(report_template_id) {
         ReportTemplateService.get(report_template_id).
           success(function(reportTemplate) {
-              $scope.reportTemplate = reportTemplate;
+            $scope.reportTemplate = reportTemplate;
           }).
           error(function(response) {
             $scope.setError(response.messages);  
           });
+          
         ReportTemplateService.getSnippets().
           success(function(snippets) {
             $scope.snippets = snippets
           });
       };
       
-      $scope.isFormInvalid = function() {
-        return $scope.reportTemplate == null || !$scope.reportTemplate.name || !$scope.reportTemplate.content;
-      };
-      
       $scope.save = function() {
-        self.setSelectedOrganizations();
         ReportTemplateService.save($scope.reportTemplate).
-          success(function(result) {
-            window.location.href = result.redirect_url;
+          success(function(response) {
+            $scope.reportTemplate = response.report_template;
+            $scope.setSuccess(response.messages);
           }).
           error(function(response) {
             $scope.setError(response.messages);  
           });
       };
+      
+      $scope.getBreadcrumb = function() {
+        var bc = '';
+        if ($scope.reportTemplate !== null) {
+          if ($scope.reportTemplate.new_record == true) {
+            bc = 'New Report Template';
+          }
+          else {
+            bc = 'Editing Report Template';
+          }
+          if ($scope.reportTemplate.name && $scope.reportTemplate.name.length > 0) {
+            bc += ": '" + $scope.reportTemplate.name + "'";
+          }
+        }
+        
+        return bc;
+      }
   }
 ]);

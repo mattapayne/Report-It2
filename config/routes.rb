@@ -34,7 +34,7 @@ ReportIt::Application.routes.draw do
     delete 'reports/:id' => :destroy
     put 'reports/:id' => :update
     post 'reports' => :create
-    get 'report/:id' => :view
+    get 'report/(:id)' => :view
   end
   controller :report_templates do
     get 'report_templates' => :index
@@ -43,13 +43,7 @@ ReportIt::Application.routes.draw do
     delete 'report_templates/:id' => :destroy
     put 'report_template/:id' => :update
     post 'report_templates' => :create
-    get 'report_template/:id' => :view
-  end
-  controller :organizations do
-    get 'organizations' => :index
-    delete 'organizations/:id' => :destroy
-    put 'organizations/:id' => :update
-    post 'organizations' => :create
+    get 'report_template/(:id)' => :view
   end
   controller :snippets do
     get 'snippets' => :index

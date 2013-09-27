@@ -3,16 +3,16 @@ class ReportsController < ApplicationController
   before_action :load_report, only: [:update, :destroy, :edit]
   
   def index
-    render json: current_user.reports.to_a, status: 200
+    render json: current_user.my_reports.to_a, status: 200
   end
   
   def new
-    @report = current_user.reports.build
+    @report = current_user.my_reports.build
     render template: :single
   end
   
   def create
-    @report = current_user.reports.build
+    @report = current_user.my_reports.build
     render template: :single
   end
   
@@ -37,7 +37,7 @@ class ReportsController < ApplicationController
   private
   
   def load_report
-    @report = current_user.reports.find(params[:id])
+    @report = current_user.my_reports.find(params[:id])
   end
   
 end

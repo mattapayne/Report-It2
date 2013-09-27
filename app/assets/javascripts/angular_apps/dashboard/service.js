@@ -1,20 +1,5 @@
 angular.module('ReportIt.dashboard.services').service('DashboardService', ['$http', '$q', 'DASHBOARD_URLS', '$window',
 function($http, $q, DASHBOARD_URLS, $window) {
-    this.getOrganizations = function() {
-        return $http.get(DASHBOARD_URLS.get_organizations_url); 
-    };
-    
-    this.destroyOrganization = function(organization) {
-        return $http.delete(DASHBOARD_URLS.delete_organization_url + organization.id);
-    };
-    
-    this.createOrganization = function(organization) {
-        return $http.post(DASHBOARD_URLS.create_organization_url, angular.toJson({ organization: organization }));  
-    };
-    
-    this.updateOrganization = function(organization) {
-        return $http.put(DASHBOARD_URLS.update_organization_url + organization.id, angular.toJson({ organization: organization }));
-    };
     
     this.getReports = function() {
         return $http.get(DASHBOARD_URLS.get_reports_url); 

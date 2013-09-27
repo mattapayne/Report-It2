@@ -10,42 +10,27 @@
       <%= link_to('Dashboard', dashboard_path) %>
     </li>
     <li class='active'>
-      <% if @report_template.nil? %>
-        New Report Template
-      <% else %>
-        Report Template: '<%= @report_template.name %>'  
-      <% end %>
+      {{ getBreadcrumb() }}
     </li>
   </ol>
-  <div class='alert alert-danger' ng-hide='requirementsMessagesEmpty()'>
-    <div>
-      You cannot save this template yet ...
-    </div>
-    <div ng-repeat='message in requirementMessages'>
-      {{ message }}
-    </div>
-  </div>
-  <div class='alert alert-success' ng-show='requirementsMessagesEmpty()'>
-    <div>
-      You can save this template!
-    </div>
-  </div>
   <div ng-class='resultClasses()' ng-show='hasResult()'>
         <button class="close" ng-click='resetResult()'>×</button>
         <ul>
           <li ng-repeat='message in getMessages()'>{{ message }}</li>
         </ul>
   </div>
-  <div class='row'>
-    <div class='col-md-2'>
-      <div class='row'>
-        <%= render partial: 'report_template_settings' %>
+  <form novalidate name='report_template_form'>
+    <div class='row'>
+      <div class='col-md-2'>
+        <div class='row'>
+          <%= render partial: 'report_template_settings' %>
+        </div>
+      </div>
+      <div class='col-md-10'>
+        <textarea ng-model='reportTemplate.content' redactor options='redactorOptions' name='content' required></textarea>
       </div>
     </div>
-    <div class='col-md-10'>
-      <textarea ng-model='reportTemplate.content' redactor options='redactorOptions' name='content' required></textarea>
-    </div>
-  </div>
+  </form>
   <div id='clipsmodal' class='hidden'>
       <ul class='list-group'>
         <li ng-repeat='snippet in snippets' class='list-group-item'>

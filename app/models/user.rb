@@ -22,6 +22,10 @@ class User
   
   has_many :my_reports, class_name: 'Report', dependent: :delete
   has_many :my_templates, class_name: 'ReportTemplate', dependent: :delete
+  
+  has_many :associate_invitations_sent, class_name: 'AssociateInvitation', inverse_of: :inviter, dependent: :delete 
+  has_many :associate_invitations_received, class_name: 'AssociateInvitation', inverse_of: :invitee, dependent: :delete #Think about this one
+  
   has_many :snippets, dependent: :delete
   has_many :password_reset_requests, dependent: :delete
   has_many :associates, class_name: 'UserAssociation', dependent: :delete, inverse_of: :user

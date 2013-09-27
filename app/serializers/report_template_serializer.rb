@@ -1,5 +1,5 @@
 class ReportTemplateSerializer < ActiveModel::Serializer
-  attributes :id, :name, :client
+  attributes :id, :name
   
   def id
     object.id.to_s
