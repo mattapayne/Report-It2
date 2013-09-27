@@ -56,21 +56,46 @@ class User
   end
   
   def disassociate_with!(user)
-    association = associates.where(associate: user).first
-    unless association.nil?
-      association.delete
-    end
-    association = user.associates.where(associate: self).first
-    unless association.nil?
-      association.delete
-    end
+    self.associates.where(associate: user).delete_all
+    user.associates.where(associate: self).delete_all
   end
   
   def associate_with!(user)
     unless associated_with?(user)
       associates.create!(associate: user)
       user.associates.create!(associate: self)
+      invitation = nil
+      if has_invited?(user)
+        invitation = self.get_invitation(user)
+      else
+        invitation = user.get_invitation(self)
+      end
+      unless invitation.nil?
+        invitation.status = :accepted
+        invitation.save!
+      end
     end
+  end
+  
+  def invite_to_associate!(user, message = nil)
+    if user.id == self.id
+      raise 'You cannot invite yourself to associate.'
+    end
+    if associated_with?(user)
+      raise 'You are already associated with this user.'
+    end
+    if has_invited?(user)
+      raise 'You have already invited this user to associate.'
+    end
+    self.associate_invitations_sent.create!(invitee: user, message: message)
+  end
+  
+  def has_invited?(user)
+    self.get_invitation_query(user).exists?
+  end
+  
+  def get_invitation(user)
+    self.get_invitation_query(user).first
   end
   
   protected
@@ -83,6 +108,10 @@ class User
     UserSetting.default_settings.each do |setting|
       self.settings << setting
     end
+  end
+
+  def get_invitation_query(user)
+    self.associate_invitations_sent.where(invitee: user)
   end
   
 end

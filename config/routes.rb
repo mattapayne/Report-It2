@@ -29,7 +29,7 @@ ReportIt::Application.routes.draw do
   end
   controller :reports do
     get 'reports' => :index
-    get 'reports/edit' => :edit, as: :edit_report
+    get 'reports/edit/:id' => :edit, as: :edit_report
     get 'reports/new' => :new, as: :new_report
     delete 'reports/:id' => :destroy
     put 'reports/:id' => :update

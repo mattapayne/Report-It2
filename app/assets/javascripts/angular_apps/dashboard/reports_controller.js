@@ -10,6 +10,15 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
        $scope.reports = reports; 
     });
     
+    $scope.edit = function(index) {
+      var report = $scope.reports[index];
+      DashboardService.editReport(report);
+    };
+    
+    $scope.add = function() {
+      DashboardService.addReport();
+    };
+    
     $scope.deleting = function(index) {
         return _.contains($scope.reportsBeingDeleted, index);
     };
@@ -31,12 +40,15 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     
     //since there is no 'finally' construct in Angular's promise returned by $http, we have to duplicate some code.
     self.deleteReport = function(index, report) {
-        DashboardService.destroyReport(report).success(function() {
-                $scope.reports.splice(index, 1);
-                self.stopManagingReport(index);
-            }).error(function() {
-                self.stopManagingReport(index);
-            });
-    };               
+        DashboardService.destroyReport(report).
+          success(function(response) {
+            $scope.reports.splice(index, 1);
+            self.stopManagingReport(index);
+            $scope.setSuccess(response.messages);
+        }).error(function(response) {
+            self.stopManagingReport(index);
+            $scope.setError(response.messages);
+        });
+    };
   }
 ]);

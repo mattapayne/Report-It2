@@ -8,6 +8,8 @@ describe User do
   
   let(:empty_user) { User.new }
   let(:complete_user) { User.new(all_user_props)}
+  let(:user_a) { User.new({first_name: 'Matt', last_name: 'Payne', email: 'test@test.ca', password: '232423', password_confirmation: '232423' }) }
+  let(:user_b) { User.new({first_name: 'Other', last_name: 'Other', email: 'other@test.ca', password: '232423', password_confirmation: '232423' })}
   
   describe 'Authentication' do
     
@@ -39,9 +41,32 @@ describe User do
   
   describe 'Associations between users' do
     
-    let(:user_a) { User.new({first_name: 'Matt', last_name: 'Payne', email: 'test@test.ca', password: '232423', password_confirmation: '232423' }) }
-    let(:user_b) { User.new({first_name: 'Other', last_name: 'Other', email: 'other@test.ca', password: '232423', password_confirmation: '232423' })}
-  
+    it 'should mark an invitation to associate as accepted when associating from inviter end' do
+      user_a.save!
+      user_b.save!
+      
+      user_a.invite_to_associate!(user_b)
+      user_a.associate_with!(user_b)
+      
+      invitation = user_a.get_invitation(user_b)
+      
+      invitation.wont_be_nil
+      invitation.accepted?.must_equal true
+    end
+    
+    it 'should mark an invitation to associate as accepted when associating from invitee end' do
+      user_a.save!
+      user_b.save!
+      
+      user_a.invite_to_associate!(user_b)
+      user_b.associate_with!(user_a)
+      
+      invitation = user_a.get_invitation(user_b)
+      
+      invitation.wont_be_nil
+      invitation.accepted?.must_equal true
+    end
+    
     it 'should associate users such that each is an associate of the other' do
       user_a.save!
       user_b.save!
@@ -112,6 +137,55 @@ describe User do
       #each is still associated with the other
       user_a.associates.count.must_equal 1
       user_b.associates.count.must_equal 1
+    end
+    
+  end
+  
+  describe 'Invite to associate' do
+    
+    it 'should throw an exception if attempting to invite self' do
+      proc { user_a.invite_to_associate!(user_a) }.must_raise RuntimeError  
+    end
+    
+    it 'should create an invitation when inviting a user to associate' do
+      user_a.save!
+      user_b.save!
+      
+      user_a.associate_invitations_sent.must_be_empty
+      user_b.associate_invitations_received.must_be_empty
+      
+      user_a.invite_to_associate!(user_b)
+      
+      user_a.associate_invitations_sent.wont_be_empty
+      user_a.associate_invitations_received.must_be_empty
+      
+      user_b.associate_invitations_received.wont_be_empty
+      user_b.associate_invitations_sent.must_be_empty
+    end
+    
+    it 'should throw an exception if an invitation has already been sent' do
+      user_a.save!
+      user_b.save!
+      
+      user_a.invite_to_associate!(user_b)
+      
+      proc { user_a.invite_to_associate!(user_b) }.must_raise RuntimeError
+    end
+    
+    it 'should throw an exception if the two users are already associated' do
+      user_a.save!
+      user_b.save!
+      
+      user_a.associate_with!(user_b)
+      
+      proc { user_a.invite_to_associate!(user_b) }.must_raise RuntimeError
+    end
+    
+    it 'should know if it has already invited a user' do
+      user_a.save!
+      user_b.save!
+      user_a.invite_to_associate!(user_b)
+      user_a.has_invited?(user_b).must_equal true
     end
     
   end

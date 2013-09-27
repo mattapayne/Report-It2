@@ -4,31 +4,37 @@
     Reports
   </div>
   <div class='panel-body'>
+    <div ng-class='resultClasses()' ng-show='hasResult()'>
+      <button class="close" ng-click='resetResult()'>×</button>
+      <ul>
+        <li ng-repeat='message in getMessages()'>{{ message }}</li>
+      </ul>
+    </div>
       <ul class='list-group'>
-        <li ng-hide='reports.length > 0' class='list-group-item'>You have not created any reports.</li>
+        <li ng-hide='reports.length > 0' class='list-group-item'>You have not created any report.</li>
         <li ng-repeat='report in reports | orderBy:name:false' class='list-group-item'>
-          <span>{{ report.name }}</span></span>
+          <span>{{ report.name }}</span>
           <div class='pull-right'>
-            <div class='button-group'>
+            <div class='btn-group'>
               <button type="button" data-toggle='dropdown' class='btn btn-default dropdown-toggle'>Export
                 <span class='caret'></span>
               </button>
               <ul class='dropdown-menu'>
                 <li>
-                  <%= link_to('Export to Word', export_path(:report, :doc, @report))%>
+                  <%= link_to('Export to Word', export_path(:report, :doc) + '/{{ report.id }}')%>
                 </li>
                 <li>
-                  <%= link_to('Export to PDF', export_path(:report, :pdf, @report)) %>
+                  <%= link_to('Export to PDF', export_path(:report, :pdf) + '/{{ report.id }}') %>
                 </li>
               </ul>
             </div>
-            <%= link_to('Edit', edit_report_path(@report), title: 'Edit this report', class: 'btn btn-default') %>
-            <a href='' ng-click='destroy($index)' ng-disabled='deleting($index)' title='Delete this report' class='btn btn-danger'>Delete</a>
+            <button type='button' title='Edit this report' ng-disabled='deleting($index)' class='btn btn-default' ng-click='edit($index)'>Edit</button>
+            <button type='button' ng-click='destroy($index)' ng-disabled='deleting($index)' title='Delete this report' class='btn btn-danger'>Delete</button>
           </div>
           <div class='clearfix'></div>
         </li>
       </ul>
-      <%= link_to('Add', new_report_path, title: 'Create a new report', class: 'btn btn-success pull-right') %>
+      <button type='button' title='Create a new report' ng-click='add()' class='btn btn-success pull-right'>Add</button>
   </div>
 </div>
 </div>

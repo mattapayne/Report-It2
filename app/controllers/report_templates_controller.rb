@@ -22,7 +22,6 @@ class ReportTemplatesController < ApplicationController
     else
       render json: { messages: @report_template.errors.full_messages }, status: 406
     end
-    
   end
   
   def edit

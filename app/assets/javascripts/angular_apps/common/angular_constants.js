@@ -13,7 +13,7 @@ angular.module('ReportIt.constants', []).
   }).
   constant('REPORT_URLS', {
     get_report_url: '/report/',
-    create_report_url: '/report',
+    create_report_url: '/reports',
     update_report_url: '/report/',
     get_snippets_url: '/snippets'
   }).
@@ -29,6 +29,8 @@ angular.module('ReportIt.constants', []).
     delete_report_template_url: '/report_templates/',
     edit_report_template_url: '/report_templates/edit/',
     add_report_template_url: '/report_templates/new',
+    edit_report_url: '/reports/edit/',
+    add_report_url: '/reports/new',
     get_settings_url: '/settings',
     update_setting_url: '/settings/'
   });

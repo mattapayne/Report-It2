@@ -8,11 +8,11 @@ class AssociateInvitation
   belongs_to :inviter, class_name: 'User', inverse_of: :associate_invitations_sent
   belongs_to :invitee, class_name: 'User', inverse_of: :associate_invitations_received
   
-  validates_presence_of :inviter, :invitee, :status
+  validates_presence_of :inviter, :invitee
   
-  after_initialize :set_status
+  before_create :set_status
   
   def set_status
-    self.status = :pending if new_record
+    self.status = :pending
   end
 end

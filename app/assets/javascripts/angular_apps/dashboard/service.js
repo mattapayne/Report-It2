@@ -9,6 +9,14 @@ function($http, $q, DASHBOARD_URLS, $window) {
         return $http.delete(DASHBOARD_URLS.delete_report_url + report.id);
     };
     
+    this.editReport = function(report) {
+        $window.location.href = DASHBOARD_URLS.edit_report_url + report.id;
+    };
+    
+    this.addReport = function() {
+        $window.location.href = DASHBOARD_URLS.add_report_url;
+    };
+    
     this.getReportTemplates = function() {
         return $http.get(DASHBOARD_URLS.get_report_templates_url); 
     };
