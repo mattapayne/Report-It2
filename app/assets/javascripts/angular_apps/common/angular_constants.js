@@ -33,6 +33,8 @@ angular.module('ReportIt.constants', []).
     delete_report_url: '/reports/',
     get_report_templates_url: '/report_templates',
     delete_report_template_url: '/report_templates/',
+    edit_report_template_url: '/report_templates/edit/',
+    add_report_template_url: '/report_templates/new',
     get_settings_url: '/settings',
     update_setting_url: '/settings/'
   });

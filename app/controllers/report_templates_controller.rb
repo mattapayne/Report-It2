@@ -24,19 +24,28 @@ class ReportTemplatesController < ApplicationController
   
   def edit
     @report_template_id = @report_template.id.to_s
-    render template: :single
+    render :single
   end
   
   def update
-    #ajax only
+    @report_template.organizations.clear
+    if @report_template.update_attributes(params_for_report_template)
+      render json: { redirect_url: dashboard_path }, status: 200
+    else
+      render json: { messages: @report_template.errors.full_messages }, status: 406
+    end
   end
   
   def destroy
-    #ajax only
+    if @report_template.delete
+      render json: { messages: ["Successfully deleted report template: '#{@report_template.name}'."]}, status: 200
+    else
+      render json: { messages: @report_template.errors.full_messages }, status: 406
+    end
   end
   
   def view
-    render json: @report_template, status: 200
+    render json: @report_template, status: 200, serializer: FullReportTemplateSerializer
   end
   
   protected
@@ -48,7 +57,9 @@ class ReportTemplatesController < ApplicationController
   private
   
   def params_for_report_template
-    params.require(:report_template).permit(:name, :description, :content, :client, :organizations)
+    params.require(:report_template).permit(:name, :description, :content, :client).tap do |whitelist|
+      whitelist[:organization_ids] = params[:report_template][:organization_ids]
+    end
   end
   
   def load_report_template

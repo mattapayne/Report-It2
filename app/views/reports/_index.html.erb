@@ -7,7 +7,7 @@
       <ul class='list-group'>
         <li ng-hide='reports.length > 0' class='list-group-item'>You have not created any reports.</li>
         <li ng-repeat='report in reports | orderBy:name:false' class='list-group-item'>
-          <span>{{ report.name }}</span>&nbsp;&nbsp;<span>{{ report.client || 'No client' }}</span>
+          <span>{{ report.name }}</span></span>
           <div class='pull-right'>
             <div class='button-group'>
               <button type="button" data-toggle='dropdown' class='btn btn-default dropdown-toggle'>Export

@@ -36,6 +36,85 @@ describe User do
     end
     
   end
+  
+  describe 'Associations between users' do
+    
+    let(:user_a) { User.new({first_name: 'Matt', last_name: 'Payne', email: 'test@test.ca', password: '232423', password_confirmation: '232423' }) }
+    let(:user_b) { User.new({first_name: 'Other', last_name: 'Other', email: 'other@test.ca', password: '232423', password_confirmation: '232423' })}
+  
+    it 'should associate users such that each is an associate of the other' do
+      user_a.save!
+      user_b.save!
+      
+      user_a.associate_with!(user_b)
+      
+      user_a.associated_with?(user_b).must_equal true
+      user_b.associated_with?(user_a).must_equal true
+    end
+    
+    it 'should disassociate users such that each is no longer an associate of the other' do
+      user_a.save!
+      user_b.save!
+      
+      user_a.associate_with!(user_b)
+      
+      user_a.associated_with?(user_b).must_equal true
+      user_b.associated_with?(user_a).must_equal true
+      
+      user_b.disassociate_with!(user_a)
+      
+      user_a.associated_with?(user_b).must_equal false
+      user_b.associated_with?(user_a).must_equal false
+    end
+    
+    it 'should have associates if some have been added' do
+      user_a.save!
+      user_b.save!
+      
+      user_a.associates.must_be_empty
+      user_b.associates.must_be_empty
+      
+      user_a.associate_with!(user_b)
+      
+      user_a.associates.wont_be_empty
+      user_b.associates.wont_be_empty
+    end
+    
+    it 'should handle multiple attempts at the same association gracefully when attempting the same association' do
+      user_a.save!
+      user_b.save!
+      
+      user_a.associate_with!(user_b)
+      
+      user_a.associates.count.must_equal 1
+      user_b.associates.count.must_equal 1
+      
+      user_a.associate_with!(user_b)
+      
+      user_a.associates.count.must_equal 1
+      user_b.associates.count.must_equal 1
+    end
+    
+    it 'should handle multiple attempts at the same association gracefully when attempting the inverse association' do
+      user_a.save!
+      user_b.save!
+      
+      #a associates with b
+      user_a.associate_with!(user_b)
+      
+      #each is associated to the other
+      user_a.associates.count.must_equal 1
+      user_b.associates.count.must_equal 1
+      
+      #user b associates with a
+      user_b.associate_with!(user_a)
+      
+      #each is still associated with the other
+      user_a.associates.count.must_equal 1
+      user_b.associates.count.must_equal 1
+    end
+    
+  end
     
   describe 'Validation' do
     

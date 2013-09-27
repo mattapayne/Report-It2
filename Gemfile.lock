@@ -92,6 +92,8 @@ GEM
       minitest-capybara (~> 0.4)
       minitest-metadata (~> 0.4)
       minitest-rails (~> 0.9.1)
+    mongoid-tags-arent-hard (1.1.4)
+      mongoid (>= 3.0.0)
     moped (1.5.1)
     multi_json (1.8.0)
     nokogiri (1.6.0)
@@ -165,6 +167,7 @@ DEPENDENCIES
   minitest-rails
   minitest-rails-capybara
   mongoid!
+  mongoid-tags-arent-hard
   rails (= 4.0.0)
   sass-rails (~> 4.0.0)
   sdoc

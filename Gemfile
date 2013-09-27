@@ -27,7 +27,7 @@ end
 
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bcrypt-ruby', '~> 3.0.0'
-
+gem 'mongoid-tags-arent-hard'
 gem 'angularjs-rails', '= 1.2.0.rc2'
 
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',

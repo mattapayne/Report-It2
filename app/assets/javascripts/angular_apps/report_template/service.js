@@ -20,6 +20,9 @@ angular.module('ReportIt.report_template.services').
         
         this.save = function(reportTemplate) {
             if (reportTemplate.id) {
+                //no point in sending these back ...
+                delete reportTemplate['organizations'];
+                delete reportTemplate['updated_at'];
                 return $http.put(REPORT_TEMPLATE_URLS.update_report_template_url + reportTemplate.id, angular.toJson( { report_template: reportTemplate }));
             }
             return $http.post(REPORT_TEMPLATE_URLS.create_report_template_url, angular.toJson({ report_template: reportTemplate }));

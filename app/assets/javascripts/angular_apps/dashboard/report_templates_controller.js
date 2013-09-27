@@ -10,6 +10,15 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportTemplatesCont
        $scope.reportTemplates = reportTemplates; 
     });
     
+    $scope.edit = function(index) {
+      var reportTemplate = $scope.reportTemplates[index];
+      DashboardService.editReportTemplate(reportTemplate);
+    };
+    
+    $scope.add = function() {
+      DashboardService.addReportTemplate();
+    };
+    
     $scope.deleting = function(index) {
         return _.contains($scope.reportTemplatesBeingDeleted, index);
     };
@@ -31,12 +40,15 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportTemplatesCont
     
     //since there is no 'finally' construct in Angular's promise returned by $http, we have to duplicate some code.
     self.deleteReportTemplate = function(index, reportTemplate) {
-        DashboardService.destroyReportTemplate(reportTemplate).success(function() {
-                $scope.reportTemplates.splice(index, 1);
-                self.stopManagingReportTemplate(index);
-            }).error(function() {
-                self.stopManagingReportTemplate(index);
-            });
+        DashboardService.destroyReportTemplate(reportTemplate).
+          success(function(response) {
+            $scope.reportTemplates.splice(index, 1);
+            self.stopManagingReportTemplate(index);
+            $scope.setSuccess(response.messages);
+        }).error(function(response) {
+            self.stopManagingReportTemplate(index);
+            $scope.setError(response.messages);
+        });
     };
   }
 ]);

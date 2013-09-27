@@ -9,6 +9,7 @@ RedactorPlugins.clips = {
 			{
 				$(s).click($.proxy(function()
 				{
+					console.log($(s).next('div').html());
 					this.insertClip($(s).next().html());
 					return false;
 

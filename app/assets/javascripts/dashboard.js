@@ -5,5 +5,4 @@
 //= require ./angular_apps/dashboard/reports_controller
 //= require ./angular_apps/dashboard/report_templates_controller
 //= require ./angular_apps/dashboard/snippets_controller
-//= require ./angular_apps/dashboard/organizations_controller
 //= require ./angular_apps/dashboard/settings_controller

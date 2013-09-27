@@ -21,6 +21,7 @@ end
 
 #non-environment specific settings
 ReportIt::Application.configure do
+    config.autoload_paths += %W(#{config.root}/lib)
     config.action_mailer.default_url_options = { :host => ENV['mailer_host'] }
     config.action_mailer.delivery_method :smtp
     config.action_mailer.raise_delivery_errors = true

@@ -3,6 +3,7 @@
 //= require twitter/bootstrap
 //= require underscore
 //= require angular
+//= require angular-sanitize
 //= require ./angular_apps/common/angular_loadmask
 //= require ./angular_apps/common/angular_constants
 //= require ./angular_apps/common/angular_validation

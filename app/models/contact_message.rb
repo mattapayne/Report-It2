@@ -1,4 +1,4 @@
-class Message
+class ContactMessage
   include Mongoid::Document
   include Mongoid::Timestamps
   

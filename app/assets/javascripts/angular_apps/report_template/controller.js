@@ -1,9 +1,10 @@
-angular.module('ReportIt.report_template.controllers').controller('ReportTemplateController', ['$scope', 'ReportTemplateService', 'IMAGE_UPLOAD_URLS',
-  function($scope, ReportTemplateService, IMAGE_UPLOAD_URLS) {    
+angular.module('ReportIt.report_template.controllers').controller('ReportTemplateController',
+                                                                  ['$scope', 'ReportTemplateService', 'IMAGE_UPLOAD_URLS', 'SharedScopeResponseHandling',
+  function($scope, ReportTemplateService, IMAGE_UPLOAD_URLS, SharedScopeResponseHandling) {    
     
       var self = this;
+      SharedScopeResponseHandling.mixin($scope);
       $scope.requirementMessages = {};
-      $scope.organizations = [];
       $scope.snippets = [];
       $scope.reportTemplate = null;
       
@@ -43,7 +44,9 @@ angular.module('ReportIt.report_template.controllers').controller('ReportTemplat
         ReportTemplateService.get(report_template_id).
           success(function(reportTemplate) {
               $scope.reportTemplate = reportTemplate;
-              self.loadOrganizations();
+          }).
+          error(function(response) {
+            $scope.setError(response.messages);  
           });
         ReportTemplateService.getSnippets().
           success(function(snippets) {
@@ -60,28 +63,10 @@ angular.module('ReportIt.report_template.controllers').controller('ReportTemplat
         ReportTemplateService.save($scope.reportTemplate).
           success(function(result) {
             window.location.href = result.redirect_url;
+          }).
+          error(function(response) {
+            $scope.setError(response.messages);  
           });
-      };
-      
-      self.setSelectedOrganizations = function() {
-        $scope.reportTemplate.organizations = _.reject(_.map($scope.organizations, function(o) {
-          if (o.associated) {
-            return o.id;
-          }
-          return null;
-        }), function(id) { return id == null; });
-      };
-      
-      self.loadOrganizations = function() {
-        ReportTemplateService.getOrganizations().
-          success(function(organizations) {
-            $scope.organizations = organizations;
-            if ($scope.reportTemplate.id) {
-              _.each($scope.organizations, function(o) {
-                o.associated = _.contains($scope.reportTemplate.organizations, o.id);
-              });
-            }
-        });
       };
   }
 ]);

@@ -38,7 +38,7 @@ ReportIt::Application.routes.draw do
   end
   controller :report_templates do
     get 'report_templates' => :index
-    get 'report_templates/edit/' => :edit, as: :edit_report_template
+    get 'report_templates/edit/:id' => :edit, as: :edit_report_template
     get 'report_templates/new' => :new, as: :new_report_template
     delete 'report_templates/:id' => :destroy
     put 'report_template/:id' => :update

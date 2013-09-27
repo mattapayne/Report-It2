@@ -1,5 +1,5 @@
 class FullReportSerializer < ActiveModel::Serializer
-  attributes :id, :name, :client, :content, :description, :report_template_id, :created_at, :updated_at, :organization_ids
+  attributes :id, :name, :client, :content, :description, :report_template_id, :created_at, :updated_at
   
   def id
     object.id.to_s
@@ -7,10 +7,6 @@ class FullReportSerializer < ActiveModel::Serializer
   
   def report_template_id
     object_report_template_id.to_s
-  end
-  
-  def organization_ids
-    object.organizations.map(&:id.to_s)
   end
   
 end

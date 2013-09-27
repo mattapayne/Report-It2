@@ -7,7 +7,7 @@
 <div ng-app='ReportIt.report_template' ng-controller='ReportTemplateController', ng-init="init('<%= @report_template_id %>')">
   <ol class='breadcrumb'>
     <li>
-      <%= link_to('Dashboard', root_path) %>
+      <%= link_to('Dashboard', dashboard_path) %>
     </li>
     <li class='active'>
       <% if @report_template.nil? %>
@@ -30,6 +30,12 @@
       You can save this template!
     </div>
   </div>
+  <div ng-class='resultClasses()' ng-show='hasResult()'>
+        <button class="close" ng-click='resetResult()'>×</button>
+        <ul>
+          <li ng-repeat='message in getMessages()'>{{ message }}</li>
+        </ul>
+  </div>
   <div class='row'>
     <div class='col-md-2'>
       <div class='row'>
@@ -41,13 +47,11 @@
     </div>
   </div>
   <div id='clipsmodal' class='hidden'>
-    <div class='snippets'>
-      <ul>
-        <li ng-repeat='snippet in snippets' class='snippet'>
+      <ul class='list-group'>
+        <li ng-repeat='snippet in snippets' class='list-group-item'>
           <a href='' class='redactor_clip_link'>{{ snippet.name }}</a>
-          <div class='hidden' ng-bind-html-unsafe='snippet.content'></div>
+          <pre ng-bind-html='snippet.content'></pre>
         </li>
       </ul>
-    </div>
   </div>
 </div>
