@@ -8,7 +8,7 @@ class UserTagsController < ApplicationController
     def update
       current_user.tags.clear
       tags = params_for_tags
-      current_user.tags << tags
+      current_user.tags << tags unless tags.nil?
       if current_user.save
         render json: { messages: ['Successfully updated your tags,'] }
       else
@@ -20,6 +20,7 @@ class UserTagsController < ApplicationController
     private
     
   def params_for_tags
-    params.require(:values)
+    return params.require(:tags) if params[:tags].present?
+    return []
   end
 end

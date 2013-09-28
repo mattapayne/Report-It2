@@ -62,6 +62,6 @@ function($http, $q, DASHBOARD_URLS, $window) {
     };
     
     this.updateUserTags = function(tags) {
-        return $http.put(DASHBOARD_URLS.update_user_tags_url, angular.toJson({ values: tags }));  
+        return $http.put(DASHBOARD_URLS.update_user_tags_url, angular.toJson({ tags: tags }));  
     };
 }]);
