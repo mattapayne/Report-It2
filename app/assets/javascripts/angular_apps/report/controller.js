@@ -21,7 +21,11 @@ angular.module('ReportIt.report.controllers').controller('ReportController',
       $scope.uiSelect2Options = {
         allowClear: true,
         dropdownAutoWidth: false,
-        containerCssClass: 'col-lg-12'
+        containerCssClass: 'col-lg-12',
+        formatNoMatches: function(term) {
+          console.log(term);
+          return "No report templates are available";
+        }
       };
       
       //used for the tag selector
