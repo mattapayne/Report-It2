@@ -4,6 +4,7 @@ class Report
   include Mongoid::TagsArentHard
   include ::ShareableModel
   include SimpleEnum::Mongoid
+  include ::ImageContainingModel
   
   field :name
   field :content

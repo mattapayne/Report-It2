@@ -30,9 +30,11 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem "mongoid-tags-arent-hard", "~> 1.1.4"
 gem 'angularjs-rails', '= 1.2.0.rc2'
 gem "simple_enum", "~> 1.6.6"
-
+gem "rmagick", "~> 2.13.2"
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
-                              :github => 'anjlab/bootstrap-rails'              
+                              :github => 'anjlab/bootstrap-rails'
+gem "carrierwave", "~> 0.9.0"
+gem "fog", "~> 1.15.0"
 
 group :development, :test do
   gem 'minitest-rails', '~> 0.9.2'

@@ -5,6 +5,10 @@ defaults: &defaults
   mailer_domain: <dev domain here>
   mailer_password: <dev password here>
   secret_key_base: <key here>
+  aws_access_key_id: <access key here>
+  aws_secret_access_key: <secret key here>
+  aws_bucket_name: <bucket name here>
+  aws_region: us-west-2
 
 development:
   <<: *defaults

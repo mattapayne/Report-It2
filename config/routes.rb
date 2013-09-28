@@ -58,4 +58,7 @@ ReportIt::Application.routes.draw do
   controller :export do
     get 'export/:type/:format/' => :export, as: :export
   end
+  controller :image_upload do
+    post '/upload' => :create
+  end
 end

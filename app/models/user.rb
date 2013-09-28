@@ -98,6 +98,12 @@ class User
     self.get_invitation_query(user).first
   end
   
+  def get_value_for_setting(key)
+    setting = self.settings.where(key: key).first
+    return nil if setting.nil?
+    return setting.value
+  end
+  
   protected
   
   def add_signup_token
