@@ -23,7 +23,6 @@ angular.module('ReportIt.report.controllers').controller('ReportController',
         dropdownAutoWidth: false,
         containerCssClass: 'col-lg-12',
         formatNoMatches: function(term) {
-          console.log(term);
           return "No report templates are available";
         }
       };

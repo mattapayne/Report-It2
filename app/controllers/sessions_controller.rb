@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
         render json: { message: "You have not yet validated your account. Please do so before logging in." }, status: 401
       else     
         login(user.id)
-        render json: { redirect: dashboard_path }, status: 200
+        render json: { redirect: dashboard_path }
       end
     else
       #TODO - change the way that the error messages are sent back. Should be an array that the client side code can process.

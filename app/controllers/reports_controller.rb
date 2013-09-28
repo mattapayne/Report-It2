@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
   before_action :require_login
   before_action :load_report, only: [:update, :destroy, :edit, :view]
+  before_action :extract_tags, only: [:create, :update]
   
   def index
     tag_filter  = params_for_report_filters.split(',') unless params_for_report_filters.nil?
@@ -15,27 +16,21 @@ class ReportsController < ApplicationController
   end
   
   def create
-    tags = params_for_report[:tags] if params_for_report[:tags].present?
     @report = current_user.my_reports.build(params_for_report)
     if @report.save
-      update_user_tags(tags)
+      update_user_tags(@tags)
       render json: {
-        messages: ['Successfully created the report.'],
-        report: @report },
-      serializer: FullReportWithMessagesSerializer
+        messages: ['Successfully created the report.'], report: @report }, serializer: FullReportWithMessagesSerializer
     else
       render json: { messages: @report.errors.full_messages }, status: 406
     end
   end
   
   def update
-    tags = params_for_report[:tags] if params_for_report[:tags].present?
     if @report.update_attributes(params_for_report)
-      update_user_tags(tags)
+      update_user_tags(@tags)
       render json: {
-        messages: ['Successfully updated the report.'],
-        report: @report },
-      serializer: FullReportWithMessagesSerializer
+        messages: ['Successfully updated the report.'], report: @report }, serializer: FullReportWithMessagesSerializer
     else
       render json: { messages: @report.errors.full_messages }, status: 406
     end
@@ -55,7 +50,7 @@ class ReportsController < ApplicationController
   end
   
   def view
-    #view handles getting either a new or a pre-existing one report, so we need to create a new one if
+    #view handles getting either a new or a pre-existing report, so we need to create a new one if
     #one was not found in the before_action of 'load_report'
     @report = current_user.my_reports.build if @report.nil?
     render json: @report, serializer: FullReportSerializer
@@ -68,6 +63,10 @@ class ReportsController < ApplicationController
   end
   
   private
+  
+  def extract_tags
+    @tags = params_for_report[:tags] if params_for_report[:tags].present?
+  end
   
   def update_user_tags(tags)
     unless tags.nil?

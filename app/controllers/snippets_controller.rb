@@ -3,13 +3,13 @@ class SnippetsController < ApplicationController
   before_action :load_snippet, only: [:update, :destroy]
   
   def index
-    render json: current_user.snippets.to_a, status: 200
+    render json: current_user.snippets.to_a
   end
   
   def create
     @snippet = current_user.snippets.build(params_for_snippet)
     if @snippet.save
-      render json: { messages: ["Successfully create the snippet: #{@snippet.name}"], snippet: @snippet }, status: 200
+      render json: { messages: ["Successfully create the snippet: #{@snippet.name}"], snippet: @snippet }
     else
       render json: { messages: @snippet.errors.full_messages.to_a }, status: 406
     end
@@ -18,7 +18,7 @@ class SnippetsController < ApplicationController
   def update
     if @snippet
       if @snippet.update_attributes(params_for_snippet)
-        render json: { messages: ["Successfully updated the snippet: #{@snippet.name}"] }, status: 200
+        render json: { messages: ["Successfully updated the snippet: #{@snippet.name}"] }
       else
         render json: { messages: @snippet.errors.full_messages.to_a }, status: 406
       end
@@ -30,7 +30,7 @@ class SnippetsController < ApplicationController
   def destroy
     if @snippet
       if @snippet.delete
-        render json: { messages: ["Successfully deleted the snippet: #{@snippet.name}"] }, status: 200
+        render json: { messages: ["Successfully deleted the snippet: #{@snippet.name}"] }
       else
         render json: { messages: @snippet.errors.full_messages.to_a }, status: 406
       end

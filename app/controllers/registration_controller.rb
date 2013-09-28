@@ -10,7 +10,7 @@ class RegistrationController < ApplicationController
     @user = User.new(params_for_registration)
     if @user.save
       UserMailer.activate_account_email(@user).deliver
-      render json: { messages: ["Thank-you. You should receive an email shortly asking you to verify your account."] }, status: 200
+      render json: { messages: ["Thank-you. You should receive an email shortly asking you to verify your account."] }
     else
       render json: { messages: @user.errors.full_messages.to_a }, status: 406
     end

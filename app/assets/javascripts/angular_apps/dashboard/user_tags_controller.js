@@ -10,7 +10,6 @@ angular.module('ReportIt.dashboard.controllers').controller('UserTagsController'
         dropdownAutoWidth: false,
         width: '350px',
         formatNoMatches: function(term) {
-          console.log(term);
           return "No tags are available";
         }
     };

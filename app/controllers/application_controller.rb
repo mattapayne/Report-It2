@@ -18,26 +18,7 @@ class ApplicationController < ActionController::Base
   end
   
   def current_user
-    unless @current_user.nil?
-      return @current_user
-    end
-    #Could not connect to a primary node for replica set #<Moped::Cluster:70335573022940 @seeds=[<Moped::Node resolved_address="127.0.0.1:27017">]>
-    #MOPED: Retrying connection attempt 1 more time(s). runtime: n/a
-    timedout = false
-    count = 0
-    begin
-      begin
-        @current_user = User.find(session[:user_id]) if session[:user_id]
-        timedout = false
-      rescue Timeout::Error => e
-        timedout = true
-        count = count + 1
-        puts "&&&&&&&&& Mongo connection timed out #{count} time. &&&&&&&&&&"
-        puts "Exception: #{e}"
-      end
-    end while(timedout == true && count <= 3)
-    
-    @current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
   
   def logged_in?

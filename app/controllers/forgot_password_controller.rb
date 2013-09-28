@@ -14,7 +14,7 @@ class ForgotPasswordController < ApplicationController
         @user.password_reset_requests << @request
         if @user.save
           UserMailer.password_reset_request_email(@user, @request).deliver
-          render json: { messages: ["Thank-you. You will receive an email shortly asking you to verify your password reset request."] }, status: 200
+          render json: { messages: ["Thank-you. You will receive an email shortly asking you to verify your password reset request."] }
         else
           render json: { messages: @user.errors.full_messages.to_a }, status: 406
         end
