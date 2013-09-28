@@ -1,6 +1,6 @@
 angular.module('ReportIt.report_template.services').
-    service('ReportTemplateService', ['$http', '$q', 'REPORT_TEMPLATE_URLS',
-        function($http, $q, REPORT_TEMPLATE_URLS) {
+    service('ReportTemplateService', ['$http', '$q', 'REPORT_TEMPLATE_URLS', 'DASHBOARD_URLS',
+        function($http, $q, REPORT_TEMPLATE_URLS, DASHBOARD_URLS) {
             this.get = function(reportTemplateId) {
                 return $http.get(REPORT_TEMPLATE_URLS.get_report_template_url + reportTemplateId); 
             };
@@ -14,5 +14,13 @@ angular.module('ReportIt.report_template.services').
                     
             this.getSnippets = function() {
                 return $http.get(REPORT_TEMPLATE_URLS.get_snippets_url);
+            };
+            
+            this.lookupUserTags = function() {
+                return DASHBOARD_URLS.get_user_tags_url + "/template";
+            };
+            
+            this.lookupUserTagsFiltered = function() {
+                return DASHBOARD_URLS.get_user_tags_url + "/template?query=%QUERY";
             };
 }]);

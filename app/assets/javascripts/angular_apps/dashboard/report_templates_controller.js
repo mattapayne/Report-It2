@@ -6,8 +6,15 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportTemplatesCont
     $scope.reportTemplatesBeingDeleted = [];
     $scope.reportTemplates = [];
     
-    DashboardService.getReportTemplates().success(function(reportTemplates) {
+    /*DashboardService.getReportTemplates().success(function(reportTemplates) {
        $scope.reportTemplates = reportTemplates; 
+    });*/
+    
+    $scope.$on('template-filters-changed', function(e, selectedTags) {
+      DashboardService.getReportTemplates(selectedTags).
+        success(function(reportTemplates) {
+          $scope.reportTemplates = reportTemplates; 
+        });
     });
     
     $scope.edit = function(index) {

@@ -17,6 +17,11 @@ angular.module('ReportIt.report_template.controllers').controller('ReportTemplat
         plugins: ['clips', 'fontsize', 'fontfamily', 'fontcolor', 'fullscreen', 'tableborder']
       };
       
+      $scope.queryTags = {
+        prefetch: ReportTemplateService.lookupUserTags(),
+        remote: ReportTemplateService.lookupUserTagsFiltered()
+      };
+      
       $scope.init = function(report_template_id) {
         ReportTemplateService.get(report_template_id).
           success(function(reportTemplate) {

@@ -17,10 +17,18 @@ angular.module('ReportIt.report.services').
             };
             
             this.getReportTemplates = function() {
-                return $http.get(DASHBOARD_URLS.get_report_templates_url);
+                return $http.get(DASHBOARD_URLS.get_report_templates_url + "?tags=all");
             };
             
             this.getReportTemplate = function(reportTemplateId) {
                 return $http.get(REPORT_TEMPLATE_URLS.get_report_template_url + reportTemplateId);
+            };
+            
+            this.lookupUserTags = function() {
+                return DASHBOARD_URLS.get_user_tags_url + "/report";
+            };
+            
+            this.lookupUserTagsFiltered = function() {
+                return DASHBOARD_URLS.get_user_tags_url + "/report?query=%QUERY";
             };
 }]);

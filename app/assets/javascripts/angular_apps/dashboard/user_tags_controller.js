@@ -1,22 +1,25 @@
-angular.module('ReportIt.dashboard.controllers').controller('UserTagsController', ['$scope', 'DashboardService', 'SharedScopeResponseHandling',
-  function($scope, DashboardService, SharedScopeResponseHandling) {
+angular.module('ReportIt.dashboard.controllers').controller('UserTagsController', ['$scope', 'DashboardService',
+  function($scope, DashboardService) {
     
     var self = this;
-    SharedScopeResponseHandling.mixin($scope);
+    $scope.selectedTags = [];
+    $scope.tagType = null;
     $scope.tags = [];
     
-    DashboardService.getUserTags().
-      success(function(tags) {
-        $scope.tags = tags;
-    });
-      
-    $scope.save = function() {
-      DashboardService.updateUserTags($scope.tags).
-        success(function(response) {
-          $scope.setSuccess(response.messages);
-        }).
-        error(function(response) {
-          $scope.setError(response.messages);
-        });
+    $scope.init = function(tagType) {
+      $scope.tagType = tagType;
+      DashboardService.getUserTags(tagType).
+       success(function(tags) {
+         $scope.tags = tags;
+      });  
+    };
+    
+    $scope.applyFilter = function() {
+      if ($scope.tagType === 'report') {
+        $scope.$emit('report-filters-changed', $scope.selectedTags);
+      }
+      else {
+        $scope.$emit('template-filters-changed', $scope.selectedTags);
+      }
     };
   }]);

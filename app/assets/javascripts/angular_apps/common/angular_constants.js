@@ -33,6 +33,5 @@ angular.module('ReportIt.constants', []).
     add_report_url: '/reports/new',
     get_settings_url: '/settings',
     update_setting_url: '/settings/',
-    get_user_tags_url: '/user_tags',
-    update_user_tags_url: '/user_tags'
+    get_user_tags_url: '/user_tags'
   });

@@ -10,7 +10,7 @@ angular.module('ReportIt.dashboard', [
                                       'ReportIt.shared',
                                       'ReportIt-redactor',
                                       'ReportIt-tooltip',
-                                      'bootstrap-tagsinput']).
+                                      'ReportIt-widgets']).
   config(["$httpProvider", function(provider) {
   provider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
 }]);

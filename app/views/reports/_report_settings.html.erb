@@ -19,15 +19,23 @@
       </div>
       <div class='row'>
         <div class='col-lg-12'>
-          <select chosen style='width:100%'
-            data-placeholder='Use a template to start the report'
+          <select id='template-select' report-it-chosen chosen='reportTemplates' style='width:100%'
+            data-placeholder='Use a template if you want a head start'
             ng-model='report.report_template_id'
             ng-change='updateSelectedReportTemplate()'
             ng-options='t.id as t.name for t in reportTemplates'
-            allow-single-deselect="true"
             no-results-text="'No project templates available'">
-            <option value=""></option>
           </select>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-lg-12'>
+          <label class='control-label'>Tags</label>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-lg-12'>
+          <input style='width:100%' type='text' ng-model='report.tags' bs-tags-input bs-tags-typeahead='queryTags'  />
         </div>
       </div>
       <div class='row'>

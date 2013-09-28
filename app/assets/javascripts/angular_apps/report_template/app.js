@@ -9,7 +9,9 @@ angular.module('ReportIt.report_template', [
                                             'ReportIt.report_template.controllers',
                                             'ReportIt-redactor',
                                             'ReportIt.shared',
-                                            'ngSanitize']).
+                                            'ngSanitize',
+                                            'bsTagsInput',
+                                            'ReportIt-widgets']).
   config(["$httpProvider", function(provider) {
     provider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
   }]);

@@ -62,7 +62,6 @@ ReportIt::Application.routes.draw do
     post '/upload' => :create
   end
   controller :user_tags do
-    get '/user_tags' => :index
-    put '/user_tags' => :update
+    get '/user_tags/:type' => :index
   end
 end

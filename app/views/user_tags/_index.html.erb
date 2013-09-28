@@ -1,25 +1,10 @@
-<div ng-controller='UserTagsController'>
-  <div class='panel panel-default'>
-    <div class='panel-heading'>
-      Tags
-    </div>
-    <div class='panel-body'>
-      <div class='alert alert-info small-text'>
-        Add or remove your custom tags here.
-        These tags can be used in your reports or report templates to categorized them so that you can find them again!
-        If you are adding a tag, hit enter when you are done and it'll be added.
-      </div>
-      <div ng-class='resultClasses()' ng-show='hasResult()'>
-        <button class="close" ng-click='resetResult()'>×</button>
-        <ul>
-          <li ng-repeat='message in getMessages()'>{{ message }}</li>
-        </ul>
-      </div>
-      <bootstrap-tagsinput ng-model='tags' tagClass='tag label label-info'></bootstrap-tagsinput>
-      <div class='clearfix pull-right'>
-        <a ng-click='save()' title='Save changes to your tags' class='btn btn-success'>Save Changes</a>
-      </div>
-      <div class='clearfix'></div>
-    </div>
-  </div>
+<div ng-controller='UserTagsController' ng-init="init('<%= tagType %>')">
+  <select report-it-chosen style='width:25%;'
+        chosen="tags"
+        multiple
+        data-placeholder="Choose one or more tags"
+        ng-model="selectedTags"
+        ng-change='applyFilter()'
+        ng-options="tag for tag in tags">
+</select>
 </div>

@@ -10,5 +10,5 @@
 //= require ./angular_apps/common/angular_validation
 //= require ./angular_apps/common/angular_tooltip
 //= require ./angular_apps/common/report_it_shared
-//= require ../../../vendor/assets/javascripts/angular_chosen/chosen
+//= require ./angular_apps/common/angular_widgets
 //= require site

@@ -3,7 +3,16 @@ class ReportTemplatesController < ApplicationController
   before_action :load_report_template, only: [:update, :destroy, :edit, :view]
   
   def index
-    render json: current_user.my_templates.to_a
+    tag_filter  = params_for_report_template_filters.split(',') unless params_for_report_template_filters.nil?
+    case tag_filter
+      when nil
+        templates = [] #should switch to the #none syntax
+      when ['all'] #ugly - need to change this
+        templates = current_user.my_templates
+      else
+        templates = current_user.my_templates.all_in(tags: tag_filter)
+    end   
+    render json: templates.to_a
   end
   
   def new
@@ -13,8 +22,10 @@ class ReportTemplatesController < ApplicationController
   end
   
   def create
+    tags = params_for_report_template[:tags] if params_for_report_template[:tags].present?
     @report_template = current_user.my_templates.build(params_for_report_template)
     if @report_template.save
+      update_user_tags(tags)
       render json: {
         messages: ['Successfully created the report template.'],
         report_template: @report_template },
@@ -30,7 +41,9 @@ class ReportTemplatesController < ApplicationController
   end
   
   def update
+    tags = params_for_report_template[:tags] if params_for_report_template[:tags].present?
     if @report_template.update_attributes(params_for_report_template)
+      update_user_tags(tags)
       render json: {
         messages: ['Successfully updated the report template.'],
         report_template: @report_template },
@@ -63,8 +76,19 @@ class ReportTemplatesController < ApplicationController
   
   private
   
+  def update_user_tags(tags)
+    unless tags.nil?
+      current_user.template_tags << tags
+      current_user.save
+    end
+  end
+  
+  def params_for_report_template_filters
+    return params.require(:tags) if params[:tags].present?
+  end
+  
   def params_for_report_template
-    params.require(:report_template).permit(:name, :description, :content)
+    params.require(:report_template).permit(:name, :description, :content, tags: [])
   end
   
   def load_report_template

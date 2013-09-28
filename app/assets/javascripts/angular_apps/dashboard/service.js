@@ -1,8 +1,9 @@
 angular.module('ReportIt.dashboard.services').service('DashboardService', ['$http', '$q', 'DASHBOARD_URLS', '$window',
 function($http, $q, DASHBOARD_URLS, $window) {
     
-    this.getReports = function() {
-        return $http.get(DASHBOARD_URLS.get_reports_url); 
+    this.getReports = function(tags) {
+        var qs = (tags && tags.length > 0) ? "?tags=" + tags.join(",") : "";
+        return $http.get(DASHBOARD_URLS.get_reports_url + qs); 
     };
     
     this.destroyReport = function(report) {
@@ -17,8 +18,9 @@ function($http, $q, DASHBOARD_URLS, $window) {
         $window.location.href = DASHBOARD_URLS.add_report_url;
     };
     
-    this.getReportTemplates = function() {
-        return $http.get(DASHBOARD_URLS.get_report_templates_url); 
+    this.getReportTemplates = function(tags) {
+        var qs = (tags && tags.length > 0) ? "?tags=" + tags.join(",") : "";
+        return $http.get(DASHBOARD_URLS.get_report_templates_url + qs); 
     };
     
     this.editReportTemplate = function(reportTemplate) {
@@ -57,11 +59,7 @@ function($http, $q, DASHBOARD_URLS, $window) {
         return $http.put(DASHBOARD_URLS.update_setting_url + setting.id, angular.toJson({ setting: setting }));
     };
     
-    this.getUserTags = function() {
-        return $http.get(DASHBOARD_URLS.get_user_tags_url);  
-    };
-    
-    this.updateUserTags = function(tags) {
-        return $http.put(DASHBOARD_URLS.update_user_tags_url, angular.toJson({ tags: tags }));  
+    this.getUserTags = function(tagType) {
+        return $http.get(DASHBOARD_URLS.get_user_tags_url + "/" + tagType);  
     };
 }]);

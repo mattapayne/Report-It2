@@ -10,8 +10,11 @@
         <li ng-repeat='message in getMessages()'>{{ message }}</li>
       </ul>
     </div>
+    <div id='report-tags'>
+     <%= render partial: "user_tags/index", locals: {tagType: 'report'} %>
+     </div>
       <ul class='list-group'>
-        <li ng-hide='reports.length > 0' class='list-group-item'>You have not created any report.</li>
+        <li ng-hide='reports.length > 0' class='list-group-item'>Please select one or more tags to filter your reports.</li>
         <li ng-repeat='report in reports | orderBy:name:false' class='list-group-item'>
           <span>{{ report.name }}</span>
           <div class='pull-right'>

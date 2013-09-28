@@ -30,7 +30,8 @@ class User
   has_many :password_reset_requests, dependent: :delete
   has_many :associates, class_name: 'UserAssociation', dependent: :delete, inverse_of: :user
   
-  taggable_with :tags
+  taggable_with :report_tags
+  taggable_with :template_tags
   
   validates_presence_of :first_name, :last_name, :email
   validates_format_of :email, with: Mongoid::Document::email_regex, on: :create
