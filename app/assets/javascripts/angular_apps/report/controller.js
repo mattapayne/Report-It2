@@ -1,5 +1,5 @@
 angular.module('ReportIt.report.controllers').controller('ReportController',
-                                                                  ['$scope', 'ReportService', 'IMAGE_UPLOAD_URLS', 'SharedScopeResponseHandling',
+  ['$scope', 'ReportService', 'IMAGE_UPLOAD_URLS', 'SharedScopeResponseHandling',
   function($scope, ReportService, IMAGE_UPLOAD_URLS, SharedScopeResponseHandling) {    
     
       var self = this;
@@ -18,6 +18,13 @@ angular.module('ReportIt.report.controllers').controller('ReportController',
         plugins: ['clips', 'fontsize', 'fontfamily', 'fontcolor', 'fullscreen', 'tableborder']
       };
       
+      $scope.uiSelect2Options = {
+        allowClear: true,
+        dropdownAutoWidth: false,
+        containerCssClass: 'col-lg-12'
+      };
+      
+      //used for the tag selector
       $scope.queryTags = {
         prefetch: ReportService.lookupUserTags(),
         remote: ReportService.lookupUserTagsFiltered()
@@ -47,8 +54,13 @@ angular.module('ReportIt.report.controllers').controller('ReportController',
         if ($scope.report.report_template_id) {
           ReportService.getReportTemplate($scope.report.report_template_id).
             success(function(reportTemplate){
-              $scope.report.content = reportTemplate.content;  
+              $scope.report.content = reportTemplate.content;
+              $scope.report.tags = reportTemplate.tags;
             });
+        }
+        else {
+            $scope.report.content = '';
+            $scope.report.tags = [];
         }
       };
       

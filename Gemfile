@@ -37,6 +37,7 @@ gem "carrierwave", "~> 0.9.0"
 gem "fog", "~> 1.15.0"
 gem "chosen-rails", "~> 1.0.0"
 gem 'compass-rails', github: 'milgner/compass-rails', branch: 'rails4'
+gem "angular-ui-select2-rails", "~> 0.1.1"
 
 group :development, :test do
   gem 'minitest-rails', '~> 0.9.2'

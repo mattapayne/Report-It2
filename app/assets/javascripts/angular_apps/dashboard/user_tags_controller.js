@@ -6,6 +6,11 @@ angular.module('ReportIt.dashboard.controllers').controller('UserTagsController'
     $scope.tagType = null;
     $scope.tags = [];
     
+    $scope.uiSelect2Options = {
+        dropdownAutoWidth: false,
+        width: '350px'
+    };
+    
     $scope.init = function(tagType) {
       $scope.tagType = tagType;
       DashboardService.getUserTags(tagType).

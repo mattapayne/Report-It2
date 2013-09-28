@@ -11,7 +11,8 @@ angular.module('ReportIt.report', [
                                             'ReportIt.shared',
                                             'ngSanitize',
                                             'bsTagsInput',
-                                            'ReportIt-widgets']).
-  config(["$httpProvider", function(provider) {
-    provider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
+                                            'ui.select2']).
+  config(["$httpProvider", '$sceProvider', function($httpProvider, $sceProvider) {
+    $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
+    $sceProvider.enabled(false);
   }]);

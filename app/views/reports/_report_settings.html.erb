@@ -18,15 +18,13 @@
         </div>
       </div>
       <div class='row'>
-        <div class='col-lg-12'>
-          <select id='template-select' report-it-chosen chosen='reportTemplates' style='width:100%'
+          <select ui-select2='uiSelect2Options'
             data-placeholder='Use a template if you want a head start'
             ng-model='report.report_template_id'
-            ng-change='updateSelectedReportTemplate()'
-            ng-options='t.id as t.name for t in reportTemplates'
-            no-results-text="'No project templates available'">
+            ng-change='updateSelectedReportTemplate()'>
+            <option></option>
+            <option ng-repeat='rt in reportTemplates' value='{{ rt.id }}'>{{ rt.name }}</option>
           </select>
-        </div>
       </div>
       <div class='row'>
         <div class='col-lg-12'>

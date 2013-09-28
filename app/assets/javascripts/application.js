@@ -5,10 +5,10 @@
 //= require angular
 //= require angular-sanitize
 //= require chosen-jquery
+//= require angular-ui-select2
 //= require ./angular_apps/common/angular_loadmask
 //= require ./angular_apps/common/angular_constants
 //= require ./angular_apps/common/angular_validation
 //= require ./angular_apps/common/angular_tooltip
 //= require ./angular_apps/common/report_it_shared
-//= require ./angular_apps/common/angular_widgets
 //= require site

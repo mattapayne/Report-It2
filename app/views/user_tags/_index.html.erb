@@ -1,10 +1,9 @@
 <div ng-controller='UserTagsController' ng-init="init('<%= tagType %>')">
-  <select report-it-chosen style='width:25%;'
-        chosen="tags"
+  <select ui-select2='uiSelect2Options' ng-model='selectedTags'
         multiple
         data-placeholder="Choose one or more tags"
-        ng-model="selectedTags"
-        ng-change='applyFilter()'
-        ng-options="tag for tag in tags">
+        ng-change='applyFilter()'>
+        <option value=""></option>
+        <option ng-repeat='tag in tags' value='{{ tag }}'>{{ tag }}</option>
 </select>
 </div>
