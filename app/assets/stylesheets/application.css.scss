@@ -11,6 +11,7 @@
  *= require_self
  *= require twitter/bootstrap
  *= require_tree ../../../vendor/assets/javascripts/jquery_loadmask/.
+ *= require chosen
  */
 
 html, body {
@@ -67,4 +68,9 @@ html, body {
 .spacer5
 {
    margin-top: 5px; 
+}
+
+.small-text
+{
+  font-size: 10pt;
 }

@@ -32,7 +32,7 @@ ReportIt::Application.routes.draw do
     get 'reports/edit/:id' => :edit, as: :edit_report
     get 'reports/new' => :new, as: :new_report
     delete 'reports/:id' => :destroy
-    put 'reports/:id' => :update
+    put 'report/:id' => :update
     post 'reports' => :create
     get 'report/(:id)' => :view
   end
@@ -60,5 +60,9 @@ ReportIt::Application.routes.draw do
   end
   controller :image_upload do
     post '/upload' => :create
+  end
+  controller :user_tags do
+    get '/user_tags' => :index
+    put '/user_tags' => :update
   end
 end

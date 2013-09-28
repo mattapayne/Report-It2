@@ -56,4 +56,12 @@ function($http, $q, DASHBOARD_URLS, $window) {
     this.updateSetting = function(setting) {
         return $http.put(DASHBOARD_URLS.update_setting_url + setting.id, angular.toJson({ setting: setting }));
     };
+    
+    this.getUserTags = function() {
+        return $http.get(DASHBOARD_URLS.get_user_tags_url);  
+    };
+    
+    this.updateUserTags = function(tags) {
+        return $http.put(DASHBOARD_URLS.update_user_tags_url, angular.toJson({ values: tags }));  
+    };
 }]);

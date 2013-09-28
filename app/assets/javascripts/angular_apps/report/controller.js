@@ -6,6 +6,7 @@ angular.module('ReportIt.report.controllers').controller('ReportController',
       SharedScopeResponseHandling.mixin($scope);
       $scope.snippets = [];
       $scope.report = null;
+      $scope.reportTemplates = [];
       
       $scope.redactorOptions = {
         imageUpload : IMAGE_UPLOAD_URLS.image_upload_url,
@@ -30,6 +31,20 @@ angular.module('ReportIt.report.controllers').controller('ReportController',
           success(function(snippets) {
             $scope.snippets = snippets
           });
+          
+        ReportService.getReportTemplates().
+          success(function(reportTemplates) {
+            $scope.reportTemplates = reportTemplates;
+          });
+      };
+      
+      $scope.updateSelectedReportTemplate = function() {
+        if ($scope.report.report_template_id) {
+          ReportService.getReportTemplate($scope.report.report_template_id).
+            success(function(reportTemplate){
+              $scope.report.content = reportTemplate.content;  
+            });
+        }
       };
       
       $scope.save = function() {
