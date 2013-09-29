@@ -19,3 +19,15 @@ class MiniTest::Spec
     DatabaseCleaner.clean
   end
 end
+
+module MiniTest::Assertions
+  def assert_collection_contains_all(collection, other)
+    assert other.all? { |i| collection.include?(i)}, "Expected: #{collection.inspect} to include all from: #{other.inspect}"
+  end
+  def assert_collection_contains_none(collection, other)
+    assert !other.any? { |i| collection.include?(i)}, "Expected: #{collection.inspect} to NOT include any from: #{other.inspect}"
+  end
+end
+
+Array.infect_an_assertion :assert_collection_contains_all, :must_contain_all
+Array.infect_an_assertion :assert_collection_contains_none, :must_contain_none

@@ -27,6 +27,20 @@ describe ReportTemplate do
     end
     
   end
+  
+  describe 'Tags' do
+    
+    it 'should know if it has all of the tags specified' do
+      report_template.tags = ['a', 'b', 'c', 'd', 'e']
+      report_template.has_all_tags?(['a', 'b']).must_equal true
+    end
+    
+    it 'should know if it does not have all of the tags specified' do
+      report_template.tags = ['a', 'b', 'c', 'd', 'e']
+      report_template.has_all_tags?(['a', 'x']).must_equal false
+    end
+    
+  end
 
   describe 'Validation' do
     it "must be valid if all required fields are present" do
@@ -51,6 +65,27 @@ describe ReportTemplate do
   end
   
   describe 'Sharing' do
+    
+    it 'should know whether it is owned or shared with a specific user when the user is the creator' do
+      setup_share
+      report_template.owned_or_shared_with?(user_a).must_equal true
+    end
+    
+    it 'should know whether it is owned or shared with a specific user when it has been shared with the user' do
+      setup_share
+      report_template.owned_or_shared_with?(user_b).must_equal true
+    end
+
+    it 'should know whether it is owned or shared with a specific user when it has NOT been shared with the user' do
+      report_template.creator = user_a
+      report_template.save!
+      report_template.owned_or_shared_with?(user_b).must_equal false
+    end
+    
+    it 'should know whether it is owned or shared with a specific user when it has NOT been shared with the user and the user is not the creator' do
+      other = User.new
+      report_template.owned_or_shared_with?(other).must_equal false
+    end
   
     it 'should share with a user associated with the creator' do
       setup_share
@@ -65,6 +100,33 @@ describe ReportTemplate do
       
       user_a.templates_shared_by_me.wont_be_empty
       user_b.templates_shared_with_me.wont_be_empty
+    end
+    
+        #exercise a bug
+    it 'should not change the ownership of the template when shared' do
+      report_template.creator = user_a
+      report_template.save!
+      
+      report_template.creator.id.must_equal user_a.id
+      
+      user_a.associate_with!(user_b)
+      
+      report_template.creator.id.must_equal user_a.id
+      
+      report_template.share_with!(user_b)
+      
+      report_template.creator.id.must_equal user_a.id
+      
+      user_a.my_templates.first.id.must_equal report_template.id
+      user_a.all_templates.first.id.must_equal report_template.id
+      
+      report_template.creator.id.must_equal user_a.id
+      
+      user_b.my_templates.must_be_empty
+      user_b.all_templates.first.id.must_equal report_template.id
+      
+      report_template.creator.id.must_equal user_a.id
+      
     end
     
     it 'should not share with a user not associated with the creator' do

@@ -39,6 +39,88 @@ describe User do
     
   end
   
+  describe 'Reports' do
+    
+    it 'should get all reports, both owned and shared with the user' do
+      r1 = Report.new(name: "1", content: "xxx", creator: user_a)
+      r2 = Report.new(name: "2", content: "xfeee", creator: user_b)
+      r1.save!
+      r2.save!
+      
+      user_b.all_reports.count.must_equal 1
+      
+      user_a.all_reports.count.must_equal 1
+      
+      user_a.associate_with!(user_b)
+      
+      r1.share_with!(user_b)
+      
+      #user_b should now have 2 reports
+      user_b.all_reports.count.must_equal 2
+      
+      #user_a should still have 1 report
+      user_a.all_reports.count.must_equal 1
+    end
+    
+    it 'should get all report tags from reports both owned and shared with the user' do
+      r1 = Report.new(name: "1", content: "xxx", creator: user_a, tags: ['1', '2'])
+      r2 = Report.new(name: "2", content: "xfeee", creator: user_b, tags: ['3', '4'])
+      r1.save!
+      r2.save!
+      
+      user_a.associate_with!(user_b)
+      
+      r1.share_with!(user_b)
+      
+      user_a.report_tags.must_contain_all ['1', '2']
+      user_a.report_tags.must_contain_none ['3', '4']
+      
+      user_b.report_tags.must_contain_all ['1', '2', '3', '4']
+    end
+    
+  end
+  
+  describe 'Templates' do
+    
+    it 'should get all templates, both owned and shared with the user' do
+      t1 = ReportTemplate.new(name: "1", content: "xxx", creator: user_a)
+      t2 = ReportTemplate.new(name: "2", content: "xfeee", creator: user_b)
+      t1.save!
+      t2.save!
+      
+      user_b.all_templates.count.must_equal 1
+      
+      user_a.all_templates.count.must_equal 1
+      
+      user_a.associate_with!(user_b)
+      
+      t1.share_with!(user_b)
+      
+      #user_b should now have 2 templates
+      user_b.all_templates.count.must_equal 2
+      
+      #user_a should still have 1 template
+      user_a.all_templates.count.must_equal 1
+    end
+    
+    it 'should get all template tags from reports both owned and shared with the user' do
+      t1 = ReportTemplate.new(name: "1", content: "xxx", creator: user_a, tags: ['1', '2'])
+      t2 = ReportTemplate.new(name: "2", content: "xfeee", creator: user_b, tags: ['3', '4'])
+      t1.save!
+      t2.save!
+      
+      user_a.associate_with!(user_b)
+      
+      t1.share_with!(user_b)
+      
+      user_a.template_tags.must_contain_all ['1', '2']
+      user_a.template_tags.must_contain_none ['3', '4']
+      
+      user_b.template_tags.must_contain_all ['1', '2', '3', '4']
+    end
+    
+  end
+  
   describe 'Associations between users' do
     
     it 'should mark an invitation to associate as accepted when associating from inviter end' do
