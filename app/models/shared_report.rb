@@ -7,4 +7,8 @@ class SharedReport
   belongs_to :report
   
   validates_presence_of :shared_with, :shared_by, :report
+  
+  #eager load the report, since we will always care about it
+  SharedReport.includes(:report)
+  
 end

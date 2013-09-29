@@ -16,7 +16,7 @@
       <ul class='list-group'>
         <li ng-hide='reportTemplates.length > 0' class='list-group-item'>Please select one or more tags to filter your templates.</li>
         <li ng-repeat='report_template in reportTemplates | orderBy:name:false' class='list-group-item'>
-          <span>{{ report_template.name }}</span>
+          <span>{{ report_template.name }} ({{ report_template.shared ? "Shared with you by " + report_template.shared_by : "You created" }})</span>
           <div class='pull-right'>
             <div class='btn-group'>
               <button type="button" data-toggle='dropdown' class='btn btn-default dropdown-toggle'>Export
@@ -31,6 +31,7 @@
                 </li>
               </ul>
             </div>
+            <button type='button' title='Share this report template' ng-disabled='deleting($index) || isShared($index)' class='btn btn-default' ng-click='share($index)'>Share</button>
             <button type='button' title='Edit this report template' ng-disabled='deleting($index)' class='btn btn-default' ng-click='edit($index)'>Edit</button>
             <button type='button' ng-click='destroy($index)' ng-disabled='deleting($index)' title='Delete this report template' class='btn btn-danger'>Delete</button>
           </div>

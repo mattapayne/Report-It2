@@ -6,13 +6,6 @@ module ShareableModel
       check_association_between_users(user)
       unless currently_shared_between?(self.creator, user)
         self.shares.create!(shared_by: self.creator, shared_with: user)
-        tags = self.tags || []
-        if self.class == Report
-          user.report_tags << tags
-        else
-          user.template_tags << tags
-        end
-        user.save!
       end
     else
       raise "This #{model_name} cannot be shared with #{user.full_name}, because the user is the creator."

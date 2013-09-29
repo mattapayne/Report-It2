@@ -30,9 +30,6 @@ class User
   has_many :password_reset_requests, dependent: :delete
   has_many :associates, class_name: 'UserAssociation', dependent: :delete, inverse_of: :user
   
-  taggable_with :report_tags
-  taggable_with :template_tags
-  
   validates_presence_of :first_name, :last_name, :email
   validates_format_of :email, with: Mongoid::Document::email_regex, on: :create
   validates_length_of :password, minimum: 6, on: :create
@@ -40,12 +37,38 @@ class User
   
   before_create :add_default_settings, :add_signup_token
   
-  def all_reports
-    my_reports.concat(reports_shared_with_me.map {|share| share.report })
+  def report_tags
+    all_reports.map {|r| r.tags }.flatten.compact.uniq
   end
   
-  def all_templates
-    my_templates.concat(templates_shared_with_me.map {|share| share.report_template })
+  def template_tags
+    all_templates.map {|r| r.tags }.flatten.compact.uniq
+  end
+  
+  def all_reports(tags=nil)
+    mine = my_reports
+    shared_with_me = reports_shared_with_me.map { |share| share.report }
+    
+    unless tags.nil?
+      mine = mine.all_in(tags: tags)
+      shared_with_me = shared_with_me.select { |r| r.has_all_tags?(tags) }
+    end
+    
+    all = mine.to_a.concat(shared_with_me.to_a).compact
+    all
+  end
+  
+  def all_templates(tags=nil)
+    mine = my_templates
+    shared_with_me = templates_shared_with_me.map { |share| share.report_template }
+    
+    unless tags.nil?
+      mine = mine.all_in(tags: tags)
+      shared_with_me = shared_with_me.select { |t| t.has_all_tags?(tags) }
+    end
+    
+    all = mine.to_a.concat(shared_with_me.to_a).compact
+    all
   end
   
   def email_taken?

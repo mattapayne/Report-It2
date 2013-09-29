@@ -1,4 +1,4 @@
-angular.module('ReportIt.report.controllers').controller('ReportController',
+angular.module('ReportIt.report.controllers').controller('NewReportController',
   ['$scope', 'ReportService', 'IMAGE_UPLOAD_URLS', 'SharedScopeResponseHandling',
   function($scope, ReportService, IMAGE_UPLOAD_URLS, SharedScopeResponseHandling) {    
     
@@ -33,26 +33,24 @@ angular.module('ReportIt.report.controllers').controller('ReportController',
         remote: ReportService.lookupUserTagsFiltered()
       };
       
-      $scope.init = function(report_id) {
-        ReportService.get(report_id).
-          success(function(report) {
-            $scope.report = report;
-          }).
-          error(function(response) {
-            $scope.setError(response.messages);  
-          });
-          
-        ReportService.getSnippets().
-          success(function(snippets) {
-            $scope.snippets = snippets
-          });
-          
-        ReportService.getReportTemplates().
-          success(function(reportTemplates) {
-            $scope.reportTemplates = reportTemplates;
-          });
-      };
-      
+      ReportService.get(null).
+        success(function(report) {
+          $scope.report = report;
+        }).
+        error(function(response) {
+          $scope.setError(response.messages);  
+        });
+        
+      ReportService.getSnippets().
+        success(function(snippets) {
+          $scope.snippets = snippets
+        });
+        
+      ReportService.getReportTemplates().
+        success(function(reportTemplates) {
+          $scope.reportTemplates = reportTemplates;
+        });
+    
       $scope.updateSelectedReportTemplate = function() {
         if ($scope.report.report_template_id) {
           ReportService.getReportTemplate($scope.report.report_template_id).
@@ -70,8 +68,7 @@ angular.module('ReportIt.report.controllers').controller('ReportController',
       $scope.save = function() {
         ReportService.save($scope.report).
           success(function(response) {
-            $scope.report = response.report;
-            $scope.setSuccess(response.messages);
+            ReportService.editReport(response.report);
           }).
           error(function(response) {
             $scope.setError(response.messages);  
@@ -79,17 +76,9 @@ angular.module('ReportIt.report.controllers').controller('ReportController',
       };
       
       $scope.getBreadcrumb = function() {
-        var bc = '';
-        if ($scope.report !== null) {
-          if ($scope.report.new_record == true) {
-            bc = 'New Report';
-          }
-          else {
-            bc = 'Editing Report';
-          }
-          if ($scope.report.name && $scope.report.name.length > 0) {
-            bc += ": '" + $scope.report.name + "'";
-          }
+        var bc = "New Report";
+        if ($scope.report && $scope.report.name && $scope.report.name.length > 0) {
+          bc += ": " + $scope.report.name;
         }
         return bc;
       }

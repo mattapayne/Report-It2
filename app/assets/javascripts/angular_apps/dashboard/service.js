@@ -15,7 +15,7 @@ function($http, $q, DASHBOARD_URLS, $window) {
     };
     
     this.addReport = function() {
-        $window.location.href = DASHBOARD_URLS.add_report_url;
+        $window.location.href = DASHBOARD_URLS.new_report_url;
     };
     
     this.getReportTemplates = function(tags) {
@@ -28,7 +28,7 @@ function($http, $q, DASHBOARD_URLS, $window) {
     };
     
     this.addReportTemplate = function() {
-        $window.location.href = DASHBOARD_URLS.add_report_template_url;
+        $window.location.href = DASHBOARD_URLS.new_report_template_url;
     };
     
     this.destroyReportTemplate = function(reportTemplate) {

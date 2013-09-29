@@ -29,21 +29,23 @@ ReportIt::Application.routes.draw do
   end
   controller :reports do
     get 'reports' => :index
-    get 'reports/edit/:id' => :edit, as: :edit_report
-    get 'reports/new' => :new, as: :new_report
-    delete 'reports/:id' => :destroy
-    put 'report/:id' => :update
-    post 'reports' => :create
-    get 'report/(:id)' => :view
+    get 'reports/edit/:id' => :edit, as: :edit_report #renders the view for editing one
+    get 'reports/edit_json/:id' => :edit_json, as: :get_existing_report_json
+    get 'reports/new' => :new, as: :new_report #renders the view for creating one
+    get 'reports/new_json' => :new_json, as: :get_new_report_json
+    put 'reports/update/:id' => :update, as: :update_report
+    post 'reports/create' => :create, as: :create_report
+    delete 'reports/delete/:id' => :destroy, as: :delete_report
   end
   controller :report_templates do
     get 'report_templates' => :index
-    get 'report_templates/edit/:id' => :edit, as: :edit_report_template
-    get 'report_templates/new' => :new, as: :new_report_template
-    delete 'report_templates/:id' => :destroy
-    put 'report_template/:id' => :update
-    post 'report_templates' => :create
-    get 'report_template/(:id)' => :view
+    get 'report_templates/edit/:id' => :edit, as: :edit_report_template #renders the view for editing one
+    get 'report_templates/edit_json/:id' => :edit_json, as: :get_existing_report_template_json
+    get 'report_templates/new' => :new, as: :new_report_template #renders the view for creating one
+    get 'report_templates/new_json' => :new_json, as: :get_new_report_template_json
+    put 'report_templates/update/:id' => :update, as: :update_report_template
+    post 'report_templates/create' => :create, as: :create_report_template
+    delete 'report_templates/delete/:id' => :destroy, as: :delete_report_template
   end
   controller :snippets do
     get 'snippets' => :index

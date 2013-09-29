@@ -6,16 +6,21 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     $scope.reportsBeingDeleted = [];
     $scope.reports = [];
     
-    /*DashboardService.getReports().success(function(reports) {
-       $scope.reports = reports; 
-    });*/
-    
     $scope.$on('report-filters-changed', function(e, selectedTags) {
       DashboardService.getReports(selectedTags).
         success(function(reports) {
           $scope.reports = reports; 
         });
     });
+    
+    $scope.share = function(index) {
+      alert("Share!!");
+    };
+    
+    $scope.isShared = function(index) {
+      var report = $scope.reports[index];
+      return report.shared == true;
+    };
     
     $scope.edit = function(index) {
       var report = $scope.reports[index];

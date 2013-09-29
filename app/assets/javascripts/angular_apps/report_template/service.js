@@ -1,8 +1,11 @@
 angular.module('ReportIt.report_template.services').
-    service('ReportTemplateService', ['$http', '$q', 'REPORT_TEMPLATE_URLS', 'DASHBOARD_URLS',
-        function($http, $q, REPORT_TEMPLATE_URLS, DASHBOARD_URLS) {
+    service('ReportTemplateService', ['$http', '$q', '$window', 'REPORT_TEMPLATE_URLS', 'DASHBOARD_URLS',
+        function($http, $q, $window, REPORT_TEMPLATE_URLS, DASHBOARD_URLS) {
             this.get = function(reportTemplateId) {
-                return $http.get(REPORT_TEMPLATE_URLS.get_report_template_url + reportTemplateId); 
+                if (reportTemplateId) {
+                    return $http.get(REPORT_TEMPLATE_URLS.get_report_template_json_url + reportTemplateId); 
+                }
+                return $http.get(REPORT_TEMPLATE_URLS.get_new_report_template_json_url); 
             };
             
             this.save = function(reportTemplate) {
@@ -22,5 +25,9 @@ angular.module('ReportIt.report_template.services').
             
             this.lookupUserTagsFiltered = function() {
                 return DASHBOARD_URLS.get_user_tags_url + "/template?query=%QUERY";
+            };
+            
+            this.editReportTemplate = function(reportTemplate) {
+                $window.location.href = DASHBOARD_URLS.edit_report_template_url + reportTemplate.id;
             };
 }]);

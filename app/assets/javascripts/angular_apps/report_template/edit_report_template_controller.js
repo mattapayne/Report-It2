@@ -1,5 +1,5 @@
-angular.module('ReportIt.report_template.controllers').controller('ReportTemplateController',
-                                                                  ['$scope', 'ReportTemplateService', 'IMAGE_UPLOAD_URLS', 'SharedScopeResponseHandling',
+angular.module('ReportIt.report_template.controllers').controller('EditReportTemplateController',
+  ['$scope', 'ReportTemplateService', 'IMAGE_UPLOAD_URLS', 'SharedScopeResponseHandling',
   function($scope, ReportTemplateService, IMAGE_UPLOAD_URLS, SharedScopeResponseHandling) {    
     
       var self = this;
@@ -49,19 +49,10 @@ angular.module('ReportIt.report_template.controllers').controller('ReportTemplat
       };
       
       $scope.getBreadcrumb = function() {
-        var bc = '';
-        if ($scope.reportTemplate !== null) {
-          if ($scope.reportTemplate.new_record == true) {
-            bc = 'New Report Template';
-          }
-          else {
-            bc = 'Editing Report Template';
-          }
-          if ($scope.reportTemplate.name && $scope.reportTemplate.name.length > 0) {
-            bc += ": '" + $scope.reportTemplate.name + "'";
-          }
+        var bc = "Edit Report Template";
+        if ($scope.reportTemplate && $scope.reportTemplate.name && $scope.reportTemplate.name.length > 0) {
+          bc += ": " + $scope.reportTemplate.name;
         }
-        
         return bc;
       }
   }

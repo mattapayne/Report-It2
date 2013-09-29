@@ -1,31 +1,31 @@
 class ReportTemplatesController < ApplicationController
   before_action :require_login
-  before_action :load_report_template, only: [:update, :destroy, :edit, :view]
+  before_action :load_report_template, only: [:update, :destroy, :edit, :edit_json]
   before_action :construct_tag_filter, only: [:index]
-  before_action :extract_tags, only: [:create, :update]
   
   def index
     case @tag_filter
       when nil
-        templates = [] #should switch to the #none syntax
-      when ['all'] #ugly - need to change this
-        templates = current_user.my_templates
+        reports = []
+      when ['all'] #Ugh!
+        reports = current_user.all_templates
       else
-        templates = current_user.my_templates.all_in(tags: @tag_filter)
-    end   
-    render json: templates.to_a
+        reports = current_user.all_templates(@tag_filter)
+    end
+    render json: reports.to_a
   end
   
   def new
-    @report_template = nil
-    @report_template_id = nil
-    render :single
+    
+  end
+  
+  def edit
+    
   end
   
   def create
     @report_template = current_user.my_templates.build(params_for_report_template)
     if @report_template.save
-      update_user_tags(@tags)
       @result = ReportTemplateWithMessages.new(['Successfully created the report template.'], @report_template)
       render json: @result, serializer: ReportTemplateWithMessagesSerializer
     else
@@ -33,14 +33,8 @@ class ReportTemplatesController < ApplicationController
     end
   end
   
-  def edit
-    @report_template_id = @report_template.id.to_s
-    render :single
-  end
-  
   def update
     if @report_template.update_attributes(params_for_report_template)
-      update_user_tags(@tags)
       @result = ReportTemplateWithMessages.new(['Successfully updated the report template.'], @report_template)
       render json: @result, serializer: ReportTemplateWithMessagesSerializer
     else
@@ -56,10 +50,12 @@ class ReportTemplatesController < ApplicationController
     end
   end
   
-  def view
-    #view handles getting either a new or a pre-existing one report_template, so we need to create a new one if
-    #one was not found in the before_action of 'load_report_template'
-    @report_template = current_user.my_templates.build if @report_template.nil?
+  def new_json
+    @report_template = current_user.my_templates.build
+    render json: @report_template, serializer: FullReportTemplateSerializer
+  end
+  
+  def edit_json
     render json: @report_template, serializer: FullReportTemplateSerializer
   end
   
@@ -71,20 +67,9 @@ class ReportTemplatesController < ApplicationController
   
   private
   
-  def extract_tags
-    @tags = params_for_report_template[:tags] if params_for_report_template[:tags].present?
-  end
-  
   def construct_tag_filter
     unless params_for_report_template_filters.nil?
       @tag_filter = params_for_report_template_filters.split(',')
-    end
-  end
-  
-  def update_user_tags(tags)
-    unless tags.nil?
-      current_user.template_tags << tags
-      current_user.save
     end
   end
   
@@ -97,6 +82,10 @@ class ReportTemplatesController < ApplicationController
   end
   
   def load_report_template
-    @report_template = current_user.all_templates.find(params[:id]) unless params[:id].nil?
+    @report_template = ReportTemplate.find(params[:id])
+    unless @report_template && @report_template.owned_or_shared_with?(current_user)
+      render_not_allowed_json_response("You do not have permission to access this report template.") and return
+    end
+    @report_template_id = @report_template.id
   end
 end

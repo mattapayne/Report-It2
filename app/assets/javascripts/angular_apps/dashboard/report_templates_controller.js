@@ -6,16 +6,21 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportTemplatesCont
     $scope.reportTemplatesBeingDeleted = [];
     $scope.reportTemplates = [];
     
-    /*DashboardService.getReportTemplates().success(function(reportTemplates) {
-       $scope.reportTemplates = reportTemplates; 
-    });*/
-    
     $scope.$on('template-filters-changed', function(e, selectedTags) {
       DashboardService.getReportTemplates(selectedTags).
         success(function(reportTemplates) {
           $scope.reportTemplates = reportTemplates; 
         });
     });
+    
+    $scope.share = function(index) {
+      alert("Share!!");
+    };
+    
+    $scope.isShared = function(index) {
+      var reportTemplate = $scope.reportTemplates[index];
+      return reportTemplate.shared == true;
+    };
     
     $scope.edit = function(index) {
       var reportTemplate = $scope.reportTemplates[index];

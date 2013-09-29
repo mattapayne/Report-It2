@@ -22,12 +22,20 @@ angular.module('ReportIt.dashboard.controllers').controller('UserTagsController'
       });  
     };
     
+    $scope.noFilter = function() {
+      self.notify(['all']);
+    };
+    
     $scope.applyFilter = function() {
+      self.notify($scope.selectedTags);
+    };
+    
+    self.notify = function(tags) {
       if ($scope.tagType === 'report') {
-        $scope.$emit('report-filters-changed', $scope.selectedTags);
+        $scope.$emit('report-filters-changed', tags);
       }
       else {
-        $scope.$emit('template-filters-changed', $scope.selectedTags);
+        $scope.$emit('template-filters-changed', tags);
       }
     };
   }]);

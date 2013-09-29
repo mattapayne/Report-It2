@@ -1,12 +1,17 @@
 class FullReportSerializer < ActiveModel::Serializer
-  attributes :id, :name, :content, :description, :report_template_id, :created_at, :updated_at, :new_record, :tags, :shared
+  attributes :id, :name, :content, :description, :report_template_id, :created_at, :updated_at, :new_record, :tags, :shared, :shared_by
   
   def id
     object.id.to_s
   end
   
+  def shared_by
+    if shared
+      object.creator.full_name
+    end
+  end
+  
   def shared
-    puts "#{object.inspect}"
     object.creator.id != scope.id
   end
   

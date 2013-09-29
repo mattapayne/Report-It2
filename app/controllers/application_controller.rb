@@ -64,6 +64,13 @@ class ApplicationController < ActionController::Base
     request.xhr?
   end
   
+  def render_not_allowed_json_response(messages)
+    if messages.is_a?(String)
+      messages = [messages]
+    end
+    render json: { messages: messages}, status: 401
+  end
+  
   private
   
   def set_common_variables

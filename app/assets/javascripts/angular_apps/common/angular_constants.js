@@ -6,16 +6,20 @@ angular.module('ReportIt.constants', []).
   constant('REGISTER_URLS', {create_registration_url: '/register'}).
   constant('FORGOT_PASSWORD_URLS', {create_forgot_password_request_url: 'forgot_password'}).
   constant('REPORT_TEMPLATE_URLS', {
-    get_report_template_url: '/report_template/',
-    create_report_template_url: '/report_templates',
-    update_report_template_url: '/report_template/',
-    get_snippets_url: '/snippets'
+    new_report_template_url: '/report_templates/new',
+    update_report_template_url: '/report_templates/update/',
+    get_snippets_url: '/snippets',
+    get_report_template_json_url: '/report_templates/edit_json/',
+    get_new_report_template_json_url: '/report_templates/new_json',
+    create_report_template_url: '/report_templates/create'
   }).
   constant('REPORT_URLS', {
-    get_report_url: '/report/',
-    create_report_url: '/reports',
-    update_report_url: '/report/',
-    get_snippets_url: '/snippets'
+    new_report_url: '/reports/new',
+    update_report_url: '/reports/update/',
+    get_snippets_url: '/snippets',
+    get_report_json_url: '/reports/edit_json/',
+    get_new_report_json_url: '/reports/new_json',
+    create_report_url: '/reports/create'
   }).
   constant('IMAGE_UPLOAD_URLS', {image_upload_url: '/upload/'}).
   constant('DASHBOARD_URLS', {
@@ -24,13 +28,13 @@ angular.module('ReportIt.constants', []).
     update_snippet_url: '/snippets/',
     delete_snippet_url: '/snippets/',
     get_reports_url: '/reports',
-    delete_report_url: '/reports/',
+    delete_report_url: '/reports/delete/',
     get_report_templates_url: '/report_templates',
-    delete_report_template_url: '/report_templates/',
+    delete_report_template_url: '/report_templates/delete/',
     edit_report_template_url: '/report_templates/edit/',
-    add_report_template_url: '/report_templates/new',
+    new_report_template_url: '/report_templates/new',
+    new_report_url: '/reports/new',
     edit_report_url: '/reports/edit/',
-    add_report_url: '/reports/new',
     get_settings_url: '/settings',
     update_setting_url: '/settings/',
     get_user_tags_url: '/user_tags'

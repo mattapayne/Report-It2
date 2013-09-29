@@ -22,6 +22,15 @@ class ReportTemplate
   before_create :set_status
   after_destroy :remove_stored_images
   
+  def has_all_tags?(tags_to_include)
+    tags_to_include.all? { |t| self.tags.include?(t) }
+  end
+  
+  def owned_or_shared_with?(user)
+    return true if self.creator.id == user.id
+    return self.shares.where(shared_with: user).exists?
+  end
+  
   protected
   
   #overrides a hook method in ::ShareableModel to ensure that all relationships are removed

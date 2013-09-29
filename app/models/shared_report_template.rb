@@ -7,4 +7,7 @@ class SharedReportTemplate
   belongs_to :report_template
   
   validates_presence_of :shared_with, :shared_by, :report_template
+  
+  #eager load
+  SharedReportTemplate.includes(:report_template)
 end

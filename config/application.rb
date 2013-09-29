@@ -15,7 +15,7 @@ ENV.update YAML.load_file('config/application.yml')[Rails.env] rescue {}
 
 module ReportIt
   class Application < Rails::Application
-    
+
   end
 end
 

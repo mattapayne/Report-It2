@@ -1,4 +1,5 @@
 class RedactorImage
+  include ActiveModel::Model
   extend CarrierWave::Mount
   mount_uploader :image, ImageUploader
   
