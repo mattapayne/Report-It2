@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   
+  serialization_scope :current_user
+  
   add_flash_types :error, :info, :warning, :success
   
   protect_from_forgery
@@ -40,7 +42,7 @@ class ApplicationController < ActionController::Base
   def require_login
     unless logged_in?
       unless ajax_request?
-        redirect_to root_url, error: "Please log in first"
+        redirect_to root_path, error: "Please log in first"
       else
         render_not_logged_in_ajax_response
       end
@@ -49,7 +51,7 @@ class ApplicationController < ActionController::Base
   
   def require_logout
     if logged_in?
-      redirect_to dashboard_url
+      redirect_to dashboard_path
     end
   end
   
@@ -71,7 +73,7 @@ class ApplicationController < ActionController::Base
   
   #common response when an action requested via AJAX is not authorized.
   def render_not_logged_in_ajax_response
-    render json: { redirect: root_url }, status: 401
+    render json: { redirect: root_path }, status: 401
   end
     
 end

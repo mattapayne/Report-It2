@@ -53,7 +53,7 @@ ReportIt::Application.routes.draw do
   end
   controller :settings do
     get 'settings' => :index
-    put 'settings/:id' => :update
+    put 'settings/:id' => :update, as: :update_settings
   end
   controller :export do
     get 'export/:type/:format/' => :export, as: :export
@@ -62,6 +62,6 @@ ReportIt::Application.routes.draw do
     post '/upload' => :create
   end
   controller :user_tags do
-    get '/user_tags/:type' => :index
+    get '/user_tags/:type' => :index, as: :user_tags
   end
 end

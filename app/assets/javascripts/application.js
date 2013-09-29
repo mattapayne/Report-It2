@@ -1,3 +1,4 @@
+//= require js-routes
 //= require jquery
 //= require_tree ../../../vendor/assets/javascripts/jquery_loadmask/.
 //= require twitter/bootstrap

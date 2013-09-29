@@ -26,9 +26,8 @@ class ReportTemplatesController < ApplicationController
     @report_template = current_user.my_templates.build(params_for_report_template)
     if @report_template.save
       update_user_tags(@tags)
-      render json: {
-        messages: ['Successfully created the report template.'], report_template: @report_template },
-      serializer: FullReportTemplateWithMessagesSerializer
+      @result = ReportTemplateWithMessages.new(['Successfully created the report template.'], @report_template)
+      render json: @result, serializer: ReportTemplateWithMessagesSerializer
     else
       render json: { messages: @report_template.errors.full_messages }, status: 406
     end
@@ -42,9 +41,8 @@ class ReportTemplatesController < ApplicationController
   def update
     if @report_template.update_attributes(params_for_report_template)
       update_user_tags(@tags)
-      render json: {
-        messages: ['Successfully updated the report template.'], report_template: @report_template },
-      serializer: FullReportTemplateWithMessagesSerializer
+      @result = ReportTemplateWithMessages.new(['Successfully updated the report template.'], @report_template)
+      render json: @result, serializer: ReportTemplateWithMessagesSerializer
     else
       render json: { messages: @report_template.errors.full_messages }, status: 406
     end
@@ -77,8 +75,10 @@ class ReportTemplatesController < ApplicationController
     @tags = params_for_report_template[:tags] if params_for_report_template[:tags].present?
   end
   
-  def construct_tag_filter(args)
-    @tag_filter = params_for_report_template_filters.split(',') unless params_for_report_template_filters.nil?
+  def construct_tag_filter
+    unless params_for_report_template_filters.nil?
+      @tag_filter = params_for_report_template_filters.split(',')
+    end
   end
   
   def update_user_tags(tags)
@@ -97,6 +97,6 @@ class ReportTemplatesController < ApplicationController
   end
   
   def load_report_template
-    @report_template = current_user.my_templates.find(params[:id]) unless params[:id].nil?
+    @report_template = current_user.all_templates.find(params[:id]) unless params[:id].nil?
   end
 end

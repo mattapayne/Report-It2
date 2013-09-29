@@ -3,7 +3,7 @@ class UserTagsController < ApplicationController
     
   def index
     filter = params_for_filter
-    filtered_tags = filter.nil? ? @tags : @tags.select { |t| t.downcase.contains?(filter) }
+    filtered_tags = filter.nil? ? @tags : @tags.select { |t| t.downcase.include?(filter) }
     filtered_tags = filtered_tags.map(&:downcase).uniq
     render json: filtered_tags.to_a
   end

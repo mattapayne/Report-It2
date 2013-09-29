@@ -20,6 +20,8 @@ class Report
   validates_presence_of :name, :content, :creator
 
   before_create :set_status
+  after_destroy :remove_stored_images
+  before_save :check_owner
   
   protected
   
@@ -33,6 +35,11 @@ class Report
   
   def set_status
     self.status = :draft
+  end
+  
+  def remove_stored_images
+    #No plan for this yet. It only matters in production.
+    #maybe we create a simple collection of images to be removed and have an offline service delete them
   end
   
 end

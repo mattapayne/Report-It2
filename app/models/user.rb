@@ -40,6 +40,14 @@ class User
   
   before_create :add_default_settings, :add_signup_token
   
+  def all_reports
+    my_reports.concat(reports_shared_with_me.map {|share| share.report })
+  end
+  
+  def all_templates
+    my_templates.concat(templates_shared_with_me.map {|share| share.report_template })
+  end
+  
   def email_taken?
     errors.full_messages.include?('Email is already taken')
   end

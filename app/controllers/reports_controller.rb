@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
   
   def index
     tag_filter  = params_for_report_filters.split(',') unless params_for_report_filters.nil?
-    reports = tag_filter.nil? ? [] : current_user.my_reports.all_in(tags: tag_filter)
+    reports = tag_filter.nil? ? [] : current_user.all_reports.all_in(tags: tag_filter)
     render json: reports.to_a
   end
   
@@ -19,8 +19,8 @@ class ReportsController < ApplicationController
     @report = current_user.my_reports.build(params_for_report)
     if @report.save
       update_user_tags(@tags)
-      render json: {
-        messages: ['Successfully created the report.'], report: @report }, serializer: FullReportWithMessagesSerializer
+      @result = ReportWithMessages.new(['Successfully created the report.'], @report)
+      render json: @result, serializer: ReportWithMessagesSerializer
     else
       render json: { messages: @report.errors.full_messages }, status: 406
     end
@@ -29,8 +29,8 @@ class ReportsController < ApplicationController
   def update
     if @report.update_attributes(params_for_report)
       update_user_tags(@tags)
-      render json: {
-        messages: ['Successfully updated the report.'], report: @report }, serializer: FullReportWithMessagesSerializer
+      result = ReportWithMessages.new(['Successfully updated the report.'], @report)
+      render json: result, serializer: ReportWithMessagesSerializer
     else
       render json: { messages: @report.errors.full_messages }, status: 406
     end
@@ -84,7 +84,7 @@ class ReportsController < ApplicationController
   end
   
   def load_report
-    @report = current_user.my_reports.find(params[:id]) if params[:id]
+    @report = current_user.all_reports.find(params[:id]) if params[:id]
   end
   
 end
