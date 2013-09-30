@@ -24,6 +24,7 @@ angular.module('ReportIt.dashboard.controllers').controller('UserTagsController'
     
     $scope.noFilter = function() {
       self.notify(['all']);
+      $scope.selectedTags = [];
     };
     
     $scope.applyFilter = function() {

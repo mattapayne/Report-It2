@@ -9,7 +9,7 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportTemplatesCont
     $scope.$on('template-filters-changed', function(e, selectedTags) {
       DashboardService.getReportTemplates(selectedTags).
         success(function(reportTemplates) {
-          $scope.reportTemplates = reportTemplates; 
+          $scope.reportTemplates = reportTemplates;
         });
     });
     

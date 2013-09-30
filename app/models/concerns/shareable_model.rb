@@ -5,6 +5,7 @@ module ShareableModel
     unless self.creator.id == user.id
       check_association_between_users(user)
       unless currently_shared_between?(self.creator, user)
+        #TODO - can a user that has the item shared to them also share it to someone else?
         self.shares.create!(shared_by: self.creator, shared_with: user)
       end
     else
