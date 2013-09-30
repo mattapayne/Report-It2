@@ -6,6 +6,7 @@ class User
   field :first_name
   field :last_name
   field :email
+  field :gravatar_url
   field :password_digest
   field :signup_token
   field :reports, type: Array # => collection of report ids - those created by the user and those shared with the user
@@ -27,7 +28,7 @@ class User
   validates_length_of :password, minimum: 6, on: :create
   validates_uniqueness_of :email
   
-  before_create :add_default_settings, :add_signup_token
+  before_create :add_default_settings, :add_signup_token, :set_gravatar_url
   
   def report_tags
     all_reports.map {|r| r.tags }.flatten.compact.uniq
@@ -93,6 +94,10 @@ class User
     end
   end
   
+  def get_associates
+    self.class.find(self.associates || []) || []
+  end
+  
   def invite_to_associate!(user, message = nil)
     if user.id == self.id
       raise 'You cannot invite yourself to associate.'
@@ -121,6 +126,11 @@ class User
   end
   
   protected
+  
+  def set_gravatar_url
+    gravatar_id = Digest::MD5.hexdigest(self.email.downcase)
+    self.gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}.png"
+  end
   
   def add_signup_token
     self.signup_token = SecureRandom.uuid

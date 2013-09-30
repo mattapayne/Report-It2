@@ -7,6 +7,7 @@ class ReportTemplate
   include ::ImageContainingModel
   include ::TaggedModel
   
+  #used by ShareableModel to determine the collection to look at on the user when operating on it
   user_shared_collection_name :report_templates
   
   field :name

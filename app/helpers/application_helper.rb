@@ -1,9 +1,7 @@
 module ApplicationHelper
   
   def gravatar_url(user, size)
-    @gravatar ||= (
-    gravatar_id = Digest::MD5.hexdigest(user.email.downcase)
-    "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}")
+    "#{user.gravatar_url}?s=#{size}"
   end
 
   def navbar_item_active_class(active_page, page_name)

@@ -1,6 +1,6 @@
 class ReportTemplatesController < ApplicationController
   before_action :require_login
-  before_action :load_report_template, only: [:update, :destroy, :edit, :edit_json]
+  before_action :load_report_template, only: [:update, :destroy, :edit, :edit_json, :shares]
   before_action :construct_tag_filter, only: [:index]
   
   def index
@@ -13,6 +13,27 @@ class ReportTemplatesController < ApplicationController
         reports = current_user.all_templates(@tag_filter)
     end
     render json: reports.to_a
+  end
+  
+  def shares
+    #associates with whom the report template has been shared
+    @current_sharees = @report_template.get_shares(current_user) || []
+    #associates with whom the report template has not been shared
+    @potential_sharees = current_user.get_associates.reject { |u| @report_template.shared?(u) }
+    render json: Shares.new(@current_sharees, @potential_sharees), serializer: SharesSerializer
+  end
+  
+  def update_share
+    @user = User.find(params_for_share[:user_id])
+    @shared = params_for_share[:shared]
+    @report_template = ReportTemplate.find(params_for_share[:report_template_id])
+    
+    if @shared
+      @report_template.share_with!(@user)
+    else
+      @report_template.unshare_with!(@user)
+    end
+    render nothing: true, status: 200
   end
   
   def new
@@ -71,6 +92,10 @@ class ReportTemplatesController < ApplicationController
     unless params_for_report_template_filters.nil?
       @tag_filter = params_for_report_template_filters.split(',')
     end
+  end
+  
+  def params_for_share
+    params.require(:share).permit(:user_id, :report_template_id, :shared)
   end
   
   def params_for_report_template_filters

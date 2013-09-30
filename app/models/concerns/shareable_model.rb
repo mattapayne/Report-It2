@@ -53,6 +53,12 @@ module ShareableModel
     self.creator.id == user.id
   end
   
+  def get_shares(requesting_user)
+    users = User.any_in(self.shared_collection_name => self.id) || []
+    users = users.reject {|u| u.id == requesting_user.id } #exclude the requesting user
+    users
+  end
+  
   protected
   
   def shared_collection_name
