@@ -16,12 +16,6 @@ class ReportsController < ApplicationController
     render json: reports.to_a
   end
   
-  def new
-    @report = nil
-    @report_id = nil
-    render :single
-  end
-  
   def create
     @report = current_user.my_reports.build(params_for_report)
     if @report.save
