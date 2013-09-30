@@ -12,12 +12,12 @@ class ReportTemplate
   field :images, type: Array
   
   as_enum :status, draft: 0, published: 1
-  belongs_to :creator, class_name: 'User'
+  #belongs_to :creator, class_name: 'User'
   has_many :reports
-  has_many :shares, class_name: 'SharedReportTemplate', dependent: :destroy
+  #has_many :shares, class_name: 'SharedReportTemplate', dependent: :destroy
   taggable_with :tags
   
-  validates_presence_of :name, :content, :creator
+  validates_presence_of :name, :content#, :creator
   
   before_create :set_status
   after_destroy :remove_stored_images
