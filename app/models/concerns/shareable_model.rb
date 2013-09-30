@@ -79,12 +79,10 @@ module ShareableModel
   #this accesses the collection that contains this ids of the shared items (reports or report templates currently)
   #if the collection is nil, we initialize it to an empty array
   def shared_collection(user)
-    collection = user.send(self.shared_collection_name)
-    if collection.nil?
-      collection = []
-      user.send("#{self.shared_collection_name}=".to_sym, collection)
+    if user.send(self.shared_collection_name).nil?
+      user.send("#{self.shared_collection_name}=".to_sym, [])
     end
-    collection
+    user.send(self.shared_collection_name)
   end
   
   def ensure_associated!(user)
