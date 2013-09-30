@@ -16,14 +16,8 @@ class ReportsController < ApplicationController
     render json: reports.to_a
   end
   
-  def new
-    @report = nil
-    @report_id = nil
-    render :single
-  end
-  
   def create
-    @report = current_user.my_reports.build(params_for_report)
+    @report = Report.create(params_for_report.merge(creator: current_user))
     if @report.save
       @result = ReportWithMessages.new(['Successfully created the report.'], @report)
       render json: @result, serializer: ReportWithMessagesSerializer
@@ -42,7 +36,7 @@ class ReportsController < ApplicationController
   end
   
   def destroy
-    if @report.delete
+    if @report.destroy #call destroy to ensure that callbacks are run, since delete does not run them
       render json: { messages: ["Successfully deleted report: '#{@report.name}'."]}
     else
       render json: { messages: @report.errors.full_messages }, status: 406
@@ -58,7 +52,7 @@ class ReportsController < ApplicationController
   end
   
   def new_json
-    @report = current_user.my_reports.build
+    @report = Report.new(creator: current_user)
     render json: @report, serializer: FullReportSerializer
   end
   
@@ -90,7 +84,7 @@ class ReportsController < ApplicationController
   
   def load_report
     @report = Report.find(params[:id]) if params[:id]
-    unless @report && @report.owned_or_shared_with?(current_user)
+    unless @report && @report.owned_by_or_shared_with?(current_user)
       redirect_to dashboard_path and return
     end
     @report_id = @report.id

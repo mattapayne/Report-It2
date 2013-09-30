@@ -2,33 +2,25 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
   include ActiveModel::SecurePassword
-  include Mongoid::TagsArentHard
   
   field :first_name
   field :last_name
   field :email
   field :password_digest
   field :signup_token
+  field :reports, type: Array # => collection of report ids - those created by the user and those shared with the user
+  field :report_templates, type: Array# => collection of report template ids - those created by the user and those shared with the user
+  field :associates, type: Array# => collection of user ids that are associated with this user
   
   has_secure_password
   
   embeds_many :settings, class_name: 'UserSetting'
-  
-  #has_many :templates_shared_by_me, class_name: 'SharedReportTemplate', inverse_of: :shared_by, dependent: :delete
-  #has_many :templates_shared_with_me, class_name: 'SharedReportTemplate', inverse_of: :shared_with
-  
-  #has_many :reports_shared_by_me, class_name: 'SharedReport', inverse_of: :shared_by
-  #has_many :reports_shared_with_me, class_name: 'SharedReport', inverse_of: :shared_with
-  
-  #has_many :my_reports, class_name: 'Report', dependent: :delete
-  #has_many :my_templates, class_name: 'ReportTemplate', dependent: :delete
   
   has_many :associate_invitations_sent, class_name: 'AssociateInvitation', inverse_of: :inviter, dependent: :delete 
   has_many :associate_invitations_received, class_name: 'AssociateInvitation', inverse_of: :invitee, dependent: :delete #Think about this one
   
   has_many :snippets, dependent: :delete
   has_many :password_reset_requests, dependent: :delete
-  #has_many :associates, class_name: 'UserAssociation', dependent: :delete, inverse_of: :user
   
   validates_presence_of :first_name, :last_name, :email
   validates_format_of :email, with: Mongoid::Document::email_regex, on: :create
@@ -46,29 +38,19 @@ class User
   end
   
   def all_reports(tags=nil)
-    mine = my_reports
-    shared_with_me = reports_shared_with_me.map { |share| share.report }
-    
+    query = Report.any_in(id: self.reports)
     unless tags.nil?
-      mine = mine.all_in(tags: tags)
-      shared_with_me = shared_with_me.select { |r| r.has_all_tags?(tags) }
+      query = query.all_in(tags: tags)
     end
-    
-    all = mine.to_a.concat(shared_with_me.to_a).compact
-    all
+    return query
   end
   
   def all_templates(tags=nil)
-    mine = my_templates
-    shared_with_me = templates_shared_with_me.map { |share| share.report_template }
-    
+    query = ReportTemplate.any_in(id: self.report_templates)
     unless tags.nil?
-      mine = mine.all_in(tags: tags)
-      shared_with_me = shared_with_me.select { |t| t.has_all_tags?(tags) }
+      query = query.all_in(tags: tags)
     end
-    
-    all = mine.to_a.concat(shared_with_me.to_a).compact
-    all
+    return query
   end
   
   def email_taken?
@@ -84,18 +66,20 @@ class User
   end
   
   def associated_with?(user)
-    associates.where(associate: user).exists?
+    self_associates = self.associates || []
+    user_associates = user.associates || []
+    self_associates.include?(user.id) && user_associates.include?(self.id)
   end
   
   def disassociate_with!(user)
-    self.associates.where(associate: user).delete_all
-    user.associates.where(associate: self).delete_all
+    self.pull(associates: user.id)
+    user.pull(associates: self.id)
   end
   
   def associate_with!(user)
     unless associated_with?(user)
-      associates.create!(associate: user)
-      user.associates.create!(associate: self)
+      self.add_to_set(associates: user.id)
+      user.add_to_set(associates: self.id)
       invitation = nil
       if has_invited?(user)
         invitation = self.get_invitation(user)

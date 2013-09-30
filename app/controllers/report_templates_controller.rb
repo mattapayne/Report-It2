@@ -24,7 +24,7 @@ class ReportTemplatesController < ApplicationController
   end
   
   def create
-    @report_template = current_user.my_templates.build(params_for_report_template)
+    @report_template = ReportTemplate.create(params_for_report_template.merge(creator: current_user))
     if @report_template.save
       @result = ReportTemplateWithMessages.new(['Successfully created the report template.'], @report_template)
       render json: @result, serializer: ReportTemplateWithMessagesSerializer
@@ -43,7 +43,7 @@ class ReportTemplatesController < ApplicationController
   end
   
   def destroy
-    if @report_template.delete
+    if @report_template.destroy #Use destroy to ensure callbacks are fired, as deleted does not fire them
       render json: { messages: ["Successfully deleted report template: '#{@report_template.name}'."]}
     else
       render json: { messages: @report_template.errors.full_messages }, status: 406
@@ -51,7 +51,7 @@ class ReportTemplatesController < ApplicationController
   end
   
   def new_json
-    @report_template = current_user.my_templates.build
+    @report_template = ReportTemplate.new(creator: current_user)
     render json: @report_template, serializer: FullReportTemplateSerializer
   end
   
@@ -83,7 +83,7 @@ class ReportTemplatesController < ApplicationController
   
   def load_report_template
     @report_template = ReportTemplate.find(params[:id])
-    unless @report_template && @report_template.owned_or_shared_with?(current_user)
+    unless @report_template && @report_template.owned_by_or_shared_with?(current_user)
       render_not_allowed_json_response("You do not have permission to access this report template.") and return
     end
     @report_template_id = @report_template.id

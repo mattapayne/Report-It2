@@ -4,15 +4,25 @@ module ImageContainingModel
   IMAGE_URL_REGEX = /(?<filename>.{36}\.(jpg|jpeg|gif|png))/i
   
   included do
-    before_save :set_images    
+    before_save :set_images
+    after_destroy :remove_images
   end
 
   protected
   
   def set_images
-    if self.respond_to?(:images)
-      self.images = get_image_names
-    end
+    self.images = get_image_names
+  end
+  
+  def remove_images
+    #No plan for this yet. It only matters in production.
+    #maybe we create a simple collection of images to be removed and have an offline service delete them
+    image_count = (get_image_names || []).count
+    Rails.logger.debug "I was destroyed. Removing #{image_count} associated images."
+  end
+  
+  def model_name
+    return self.class.name.titleize.downcase
   end
   
   private
