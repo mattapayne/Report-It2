@@ -1,6 +1,6 @@
 class ReportsController < ApplicationController
   before_action :require_login
-  before_action :load_report, only: [:update, :destroy, :edit, :edit_json]
+  before_action :load_report, only: [:update, :destroy, :edit, :edit_json, :shares]
   before_action :construct_tag_filter, only: [:index]
   
   def index
@@ -17,7 +17,7 @@ class ReportsController < ApplicationController
   end
   
   def create
-    @report = current_user.my_reports.build(params_for_report)
+    @report = Report.create(params_for_report.merge(creator: current_user))
     if @report.save
       @result = ReportWithMessages.new(['Successfully created the report.'], @report)
       render json: @result, serializer: ReportWithMessagesSerializer
@@ -36,7 +36,7 @@ class ReportsController < ApplicationController
   end
   
   def destroy
-    if @report.delete
+    if @report.destroy #call destroy to ensure that callbacks are run, since delete does not run them
       render json: { messages: ["Successfully deleted report: '#{@report.name}'."]}
     else
       render json: { messages: @report.errors.full_messages }, status: 406
@@ -51,8 +51,29 @@ class ReportsController < ApplicationController
     
   end
   
+  def shares
+    #associates with whom the report template has been shared
+    @current_sharees = @report.get_shares(current_user) || []
+    #associates with whom the report template has not been shared
+    @potential_sharees = current_user.get_associates.reject { |u| @report.shared?(u) }
+    render json: Shares.new(@current_sharees, @potential_sharees), serializer: SharesSerializer
+  end
+  
+  def update_share
+    @user = User.find(params_for_share[:user_id])
+    @shared = params_for_share[:shared]
+    @report = Report.find(params_for_share[:report_id])
+    
+    if @shared
+      @report.share_with!(@user)
+    else
+      @report.unshare_with!(@user)
+    end
+    render nothing: true, status: 200
+  end
+  
   def new_json
-    @report = current_user.my_reports.build
+    @report = Report.new(creator: current_user)
     render json: @report, serializer: FullReportSerializer
   end
   
@@ -74,6 +95,10 @@ class ReportsController < ApplicationController
     end
   end
   
+  def params_for_share
+    params.require(:share).permit(:user_id, :report_id, :shared)
+  end
+  
   def params_for_report_filters
     return params.require(:tags) if params[:tags].present?
   end
@@ -84,7 +109,7 @@ class ReportsController < ApplicationController
   
   def load_report
     @report = Report.find(params[:id]) if params[:id]
-    unless @report && @report.owned_or_shared_with?(current_user)
+    unless @report && @report.owned_by_or_shared_with?(current_user)
       redirect_to dashboard_path and return
     end
     @report_id = @report.id

@@ -166,3 +166,18 @@ twitter-typeahead .tt-query,
     }
   }
 }
+
+img.shared, img.not-shared
+{
+  cursor:pointer;
+  height: 32px;
+  width:32px;
+}
+
+img.shared {
+  border:5px solid green;
+}
+
+img.not-shared {
+  border:5px solid red;
+}

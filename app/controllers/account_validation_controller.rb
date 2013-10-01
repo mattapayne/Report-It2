@@ -15,7 +15,7 @@ class AccountValidationController < ApplicationController
   
   private
   
-  def params_for_validation(args)
+  def params_for_validation
     params.require(:token)
   end
 end

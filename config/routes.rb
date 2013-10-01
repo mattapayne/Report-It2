@@ -33,8 +33,10 @@ ReportIt::Application.routes.draw do
     get 'reports/edit_json/:id' => :edit_json, as: :get_existing_report_json
     get 'reports/new' => :new, as: :new_report #renders the view for creating one
     get 'reports/new_json' => :new_json, as: :get_new_report_json
+    get 'reports/shares/:id' => :shares, as: :get_report_shares
     put 'reports/update/:id' => :update, as: :update_report
     post 'reports/create' => :create, as: :create_report
+    post 'reports/update_share' => :update_share, as: :update_report_share
     delete 'reports/delete/:id' => :destroy, as: :delete_report
   end
   controller :report_templates do
@@ -43,8 +45,10 @@ ReportIt::Application.routes.draw do
     get 'report_templates/edit_json/:id' => :edit_json, as: :get_existing_report_template_json
     get 'report_templates/new' => :new, as: :new_report_template #renders the view for creating one
     get 'report_templates/new_json' => :new_json, as: :get_new_report_template_json
+    get 'report_templates/shares/:id' => :shares, as: :get_report_template_shares
     put 'report_templates/update/:id' => :update, as: :update_report_template
     post 'report_templates/create' => :create, as: :create_report_template
+    post 'report_templates/update_share' => :update_share, as: :update_template_report_share
     delete 'report_templates/delete/:id' => :destroy, as: :delete_report_template
   end
   controller :snippets do
