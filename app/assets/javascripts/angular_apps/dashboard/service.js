@@ -62,4 +62,22 @@ function($http, $q, DASHBOARD_URLS, $window) {
     this.getUserTags = function(tagType) {
         return $http.get(DASHBOARD_URLS.get_user_tags_url + "/" + tagType);  
     };
+    
+    this.getSharingForReportTemplate = function(reportTemplate) {
+      return $http.get(DASHBOARD_URLS.get_shares_for_report_template_url + reportTemplate.id);  
+    };
+    
+    this.updateReportTemplateShare = function(reportTemplate, share, shareStatus) {
+        return $http.post(DASHBOARD_URLS.update_report_template_share,
+                          angular.toJson({share: { user_id: share.id, shared: shareStatus, report_template_id: reportTemplate.id }}));
+    };
+        
+    this.getSharingForReport = function(report) {
+      return $http.get(DASHBOARD_URLS.get_shares_for_report_url + report.id);  
+    };
+    
+    this.updateReportShare = function(report, share, shareStatus) {
+        return $http.post(DASHBOARD_URLS.update_report_share,
+                          angular.toJson({share: { user_id: share.id, shared: shareStatus, report_id: report.id }}));
+    };
 }]);

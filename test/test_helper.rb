@@ -22,9 +22,11 @@ end
 
 module MiniTest::Assertions
   def assert_collection_contains_all(collection, other)
+    collection ||= []
     assert other.all? { |i| collection.include?(i)}, "Expected: #{collection.inspect} to include all from: #{other.inspect}"
   end
   def assert_collection_contains_none(collection, other)
+    collection ||= []
     assert !other.any? { |i| collection.include?(i)}, "Expected: #{collection.inspect} to NOT include any from: #{other.inspect}"
   end
 end

@@ -33,9 +33,27 @@
             </div>
             <button type='button' title='Share this report' ng-disabled='deleting($index) || isShared($index)' class='btn btn-default' ng-click='share($index)'>Share</button>
             <button type='button' title='Edit this report' ng-disabled='deleting($index)' class='btn btn-default' ng-click='edit($index)'>Edit</button>
-            <button type='button' ng-click='destroy($index)' ng-disabled='deleting($index)' title='Delete this report' class='btn btn-danger'>Delete</button>
+            <button type='button' ng-click='destroy($index)' ng-disabled='deleting($index) || isShared($index)' title='Delete this report' class='btn btn-danger'>Delete</button>
           </div>
           <div class='clearfix'></div>
+          <div ng-show='displaySharing($index)' class='spacer5'>
+            <div class='panel panel-default'>
+              <div class='panel-heading'>
+                Sharing
+                <button type="button" class="close" aria-hidden="true" ng-click='hideSharing($index)', title='Cancel editing'>&times;</button>
+              </div>
+              <div class='panel-body'>
+                <div ng-hide='hasShares($index)'>You are not associated with anyone yet, so you can't share this report.</div>
+                <div ng-show='hasShares($index)' class='row'>
+                  <div ng-repeat='share in getShares($index)' class='col-md-2'>
+                    <img ng-click='onClickShare(report, share)' ng-src='{{ share.gravatar_url}}'
+                         alt='{{share.full_name}}' title='{{ getShareTitle(share) }}'
+                         ng-class="share.has_share ? 'shared' : 'not-shared'" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
       </ul>
       <button type='button' title='Create a new report' ng-click='add()' class='btn btn-success pull-right'>Add</button>

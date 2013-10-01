@@ -12,7 +12,6 @@ describe User do
   let(:user_b) { User.new({first_name: 'Other', last_name: 'Other', email: 'other@test.ca', password: '232423', password_confirmation: '232423' })}
   
   describe 'Authentication' do
-    
     it 'should authenticate the correct password and return the user' do
       complete_user.authenticate('password').must_equal complete_user
     end
@@ -20,11 +19,9 @@ describe User do
     it 'should NOT authenticate the wrong password' do
       complete_user.authenticate('test').must_equal false
     end
-    
   end
   
   describe 'Before save' do
-    
     it 'should set the signup token' do
       complete_user.signup_token.must_be_nil
       complete_user.save!
@@ -36,37 +33,36 @@ describe User do
       complete_user.save!
       complete_user.settings.wont_be_empty
     end
-    
   end
   
   describe 'Reports' do
     
+    before :each do
+      user_a.save!
+      user_b.save!
+    end
+    
     it 'should get all reports, both owned and shared with the user' do
-      r1 = Report.new(name: "1", content: "xxx", creator: user_a)
-      r2 = Report.new(name: "2", content: "xfeee", creator: user_b)
-      r1.save!
-      r2.save!
+      r1 = Report.create!(name: "1", content: "xxx", creator: user_a)
+      r2 = Report.create!(name: "2", content: "xfeee", creator: user_b)
       
-      user_b.all_reports.count.must_equal 1
-      
-      user_a.all_reports.count.must_equal 1
+      user_a.reports.must_include(r1.id)
+      user_b.reports.must_include(r2.id)
       
       user_a.associate_with!(user_b)
       
       r1.share_with!(user_b)
       
       #user_b should now have 2 reports
-      user_b.all_reports.count.must_equal 2
+      user_b.reports.count.must_equal 2
       
       #user_a should still have 1 report
-      user_a.all_reports.count.must_equal 1
+      user_a.reports.count.must_equal 1
     end
     
     it 'should get all report tags from reports both owned and shared with the user' do
-      r1 = Report.new(name: "1", content: "xxx", creator: user_a, tags: ['1', '2'])
-      r2 = Report.new(name: "2", content: "xfeee", creator: user_b, tags: ['3', '4'])
-      r1.save!
-      r2.save!
+      r1 = Report.create!(name: "1", content: "xxx", creator: user_a, tags: ['1', '2'])
+      r2 = Report.create!(name: "2", content: "xfeee", creator: user_b, tags: ['3', '4'])
       
       user_a.associate_with!(user_b)
       
@@ -77,37 +73,37 @@ describe User do
       
       user_b.report_tags.must_contain_all ['1', '2', '3', '4']
     end
-    
   end
   
-  describe 'Templates' do
+  describe 'Report Templates' do
+    
+    before :each do
+      user_a.save!
+      user_b.save!
+    end
     
     it 'should get all templates, both owned and shared with the user' do
-      t1 = ReportTemplate.new(name: "1", content: "xxx", creator: user_a)
-      t2 = ReportTemplate.new(name: "2", content: "xfeee", creator: user_b)
-      t1.save!
-      t2.save!
+      t1 = ReportTemplate.create!(name: "1", content: "xxx", creator: user_a)
+      t2 = ReportTemplate.create!(name: "2", content: "xfeee", creator: user_b)
       
-      user_b.all_templates.count.must_equal 1
+      #check the owned templates
+      user_a.report_templates.must_include(t1.id)
+      user_b.report_templates.must_include(t2.id)
       
-      user_a.all_templates.count.must_equal 1
-      
+      #share one
       user_a.associate_with!(user_b)
-      
       t1.share_with!(user_b)
       
       #user_b should now have 2 templates
-      user_b.all_templates.count.must_equal 2
+      user_b.report_templates.count.must_equal 2
       
       #user_a should still have 1 template
-      user_a.all_templates.count.must_equal 1
+      user_a.report_templates.count.must_equal 1
     end
     
     it 'should get all template tags from reports both owned and shared with the user' do
-      t1 = ReportTemplate.new(name: "1", content: "xxx", creator: user_a, tags: ['1', '2'])
-      t2 = ReportTemplate.new(name: "2", content: "xfeee", creator: user_b, tags: ['3', '4'])
-      t1.save!
-      t2.save!
+      t1 = ReportTemplate.create!(name: "1", content: "xxx", creator: user_a, tags: ['1', '2'])
+      t2 = ReportTemplate.create!(name: "2", content: "xfeee", creator: user_b, tags: ['3', '4'])
       
       user_a.associate_with!(user_b)
       
@@ -118,15 +114,16 @@ describe User do
       
       user_b.template_tags.must_contain_all ['1', '2', '3', '4']
     end
-    
   end
   
   describe 'Associations between users' do
     
-    it 'should mark an invitation to associate as accepted when associating from inviter end' do
+    before :each do
       user_a.save!
       user_b.save!
-      
+    end
+    
+    it 'should mark an invitation to associate as accepted when associating from inviter end' do
       user_a.invite_to_associate!(user_b)
       user_a.associate_with!(user_b)
       
@@ -137,9 +134,6 @@ describe User do
     end
     
     it 'should mark an invitation to associate as accepted when associating from invitee end' do
-      user_a.save!
-      user_b.save!
-      
       user_a.invite_to_associate!(user_b)
       user_b.associate_with!(user_a)
       
@@ -150,19 +144,13 @@ describe User do
     end
     
     it 'should associate users such that each is an associate of the other' do
-      user_a.save!
-      user_b.save!
-      
       user_a.associate_with!(user_b)
-      
+
       user_a.associated_with?(user_b).must_equal true
       user_b.associated_with?(user_a).must_equal true
     end
     
     it 'should disassociate users such that each is no longer an associate of the other' do
-      user_a.save!
-      user_b.save!
-      
       user_a.associate_with!(user_b)
       
       user_a.associated_with?(user_b).must_equal true
@@ -175,22 +163,17 @@ describe User do
     end
     
     it 'should have associates if some have been added' do
-      user_a.save!
-      user_b.save!
-      
-      user_a.associates.must_be_empty
-      user_b.associates.must_be_empty
+      user_a.associates.must_be_nil
+      user_b.associates.must_be_nil
       
       user_a.associate_with!(user_b)
       
-      user_a.associates.wont_be_empty
-      user_b.associates.wont_be_empty
+      user_a.associates.must_include(user_b.id)
+      user_b.associates.must_include(user_a.id)
     end
     
     it 'should handle multiple attempts at the same association gracefully when attempting the same association' do
-      user_a.save!
-      user_b.save!
-      
+
       user_a.associate_with!(user_b)
       
       user_a.associates.count.must_equal 1
@@ -203,9 +186,6 @@ describe User do
     end
     
     it 'should handle multiple attempts at the same association gracefully when attempting the inverse association' do
-      user_a.save!
-      user_b.save!
-      
       #a associates with b
       user_a.associate_with!(user_b)
       
@@ -225,14 +205,16 @@ describe User do
   
   describe 'Invite to associate' do
     
+    before :each do
+      user_a.save!
+      user_b.save!
+    end
+      
     it 'should throw an exception if attempting to invite self' do
       proc { user_a.invite_to_associate!(user_a) }.must_raise RuntimeError  
     end
     
     it 'should create an invitation when inviting a user to associate' do
-      user_a.save!
-      user_b.save!
-      
       user_a.associate_invitations_sent.must_be_empty
       user_b.associate_invitations_received.must_be_empty
       
@@ -246,26 +228,18 @@ describe User do
     end
     
     it 'should throw an exception if an invitation has already been sent' do
-      user_a.save!
-      user_b.save!
-      
       user_a.invite_to_associate!(user_b)
       
       proc { user_a.invite_to_associate!(user_b) }.must_raise RuntimeError
     end
     
     it 'should throw an exception if the two users are already associated' do
-      user_a.save!
-      user_b.save!
-      
       user_a.associate_with!(user_b)
       
       proc { user_a.invite_to_associate!(user_b) }.must_raise RuntimeError
     end
     
     it 'should know if it has already invited a user' do
-      user_a.save!
-      user_b.save!
       user_a.invite_to_associate!(user_b)
       user_a.has_invited?(user_b).must_equal true
     end

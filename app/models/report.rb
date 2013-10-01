@@ -5,6 +5,10 @@ class Report
   include ::ShareableModel
   include SimpleEnum::Mongoid
   include ::ImageContainingModel
+  include ::TaggedModel
+  
+   #used by ShareableModel to determine the collection to look at on the user when operating on it
+  user_shared_collection_name :reports
   
   field :name
   field :content
@@ -14,40 +18,16 @@ class Report
   as_enum :status, draft: 0, published: 1
   belongs_to :creator, class_name: 'User'
   belongs_to :report_template
-  has_many :shares, class_name: 'SharedReport'
   taggable_with :tags
   
   validates_presence_of :name, :content, :creator
 
   before_create :set_status
-  after_destroy :remove_stored_images
-  
-  def has_all_tags?(tags_to_include)
-    tags_to_include.all? { |t| self.tags.include?(t) }
-  end
-  
-  def owned_or_shared_with?(user)
-    return true if self.creator.id == user.id
-    return self.shares.where(shared_with: user).exists?
-  end
-  
-  protected
-  
-  #overrides a hook method in ::ShareableModel to ensure that all relationships are removed
-  def before_destroy_share(user, share)
-    self.creator.reports_shared_by_me.delete(share)
-    user.reports_shared_with_me.delete(share)
-  end
   
   private
   
   def set_status
     self.status = :draft
   end
-  
-  def remove_stored_images
-    #No plan for this yet. It only matters in production.
-    #maybe we create a simple collection of images to be removed and have an offline service delete them
-  end
-  
+
 end

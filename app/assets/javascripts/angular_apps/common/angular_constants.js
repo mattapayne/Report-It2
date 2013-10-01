@@ -37,5 +37,9 @@ angular.module('ReportIt.constants', []).
     edit_report_url: '/reports/edit/',
     get_settings_url: '/settings',
     update_setting_url: '/settings/',
-    get_user_tags_url: '/user_tags'
+    get_user_tags_url: '/user_tags',
+    get_shares_for_report_template_url: 'report_templates/shares/',
+    update_report_template_share: '/report_templates/update_share',
+    get_shares_for_report_url: 'reports/shares/',
+    update_report_share: '/reports/update_share'
   });
