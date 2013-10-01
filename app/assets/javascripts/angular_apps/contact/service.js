@@ -1,6 +1,6 @@
 angular.module('ReportIt.contact.services').
-    service('MessageService', ['$http', '$q', 'CONTACT_URLS', function($http, $q, CONTACT_URLS) {
+    service('MessageService', ['$http', function($http) {
         this.sendMessage = function(message) {
-            return $http.post(CONTACT_URLS.create_message_url, angular.toJson({ message: message }));
+            return $http.post(ReportIt.routes.create_message_path(), angular.toJson({ message: message }));
         };
 }]);

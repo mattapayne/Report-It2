@@ -7,14 +7,14 @@
       <div class='alert alert-info small-text'>
         Snippets are shortcuts. You can use them when writing you reports to add common, boilerplate stuff.
       </div>
-      <div ng-class='resultClasses()' ng-show='hasResult()'>
+      <div ng-class='resultClasses()' ng-if='hasResult()'>
         <button class="close" ng-click='resetResult()'>×</button>
         <ul>
           <li ng-repeat='message in getMessages()'>{{ message }}</li>
         </ul>
       </div>
       <ul class='list-group'>
-        <li class='list-group-item' ng-hide='snippets.length > 0'>You have not created any snippets yet.</li>
+        <li class='list-group-item' ng-if='snippets.length == 0'>You have not created any snippets yet.</li>
         <li ng-repeat='snippet in snippets | orderBy:name:false' class='list-group-item'>
           <a href='' tooltip="snippet.content" tooltip-title='Snippet Preview'>{{ snippet.name }}</a>
           <div class='pull-right'>
@@ -35,7 +35,9 @@
                   <textarea type='text' name='snippet_content' id='content' placeholder='Content' ng-model='snippet.content' redactor options='redactorOptions' class='form-control'></textarea>
                 </div>
                 <div class='form-group'>
-                  <a href='' ng-click='update($index)' ng-disabled='!snippetIsValid($index)' class='btn btn-success btn-xs' title='Updae this Snippet'>Update</a>
+                  <div class='pull-right'>
+                    <a href='' ng-click='update($index)' ng-disabled='!snippetIsValid($index)' class='btn btn-success btn-xs' title='Updae this Snippet'>Update</a>
+                  </div>
                 </div>
               </div>
             </div>

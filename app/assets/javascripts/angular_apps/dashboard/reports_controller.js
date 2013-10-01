@@ -7,10 +7,9 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     $scope.reports = [];
     $scope.openShares = {}; //keyed on item index - value is an object holding open/closed state and shares: { open: true, report_id: xxxx, shares: [] }
   
-    //DashboardService.getReports(['all']).
-    //  success(function(reports) {
-    //    $scope.reports = reports; 
-    //});
+    $scope.$watch("reports", function() {
+      $scope.openShares = {};  
+    });
         
     $scope.$on('report-filters-changed', function(e, selectedTags) {
       DashboardService.getReports(selectedTags).
@@ -28,6 +27,13 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
         var state = $scope.openShares[index];
         return state.open;
       }
+    };
+    
+    $scope.sharingOpenCssClass = function(index) {
+      if($scope.displaySharing(index)) {
+        return "sharing-open";
+      };
+      return '';
     };
     
     $scope.hideSharing = function(index) {

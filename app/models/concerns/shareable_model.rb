@@ -54,7 +54,9 @@ module ShareableModel
   end
   
   def get_shares(requesting_user)
-    users = User.any_in(self.shared_collection_name => self.id) || []
+    puts "Requesting: #{requesting_user.id}"
+    #ie: User.any_in(:reports => self.id) or User.any_in(:report_templates => self.id)
+    users = User.any_in(self.shared_collection_name.to_sym => self.id) || []
     users = users.reject {|u| u.id == requesting_user.id } #exclude the requesting user
     users
   end

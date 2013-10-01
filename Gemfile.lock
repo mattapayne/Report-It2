@@ -93,6 +93,7 @@ GEM
     erubis (2.7.0)
     excon (0.25.3)
     execjs (2.0.2)
+    ffaker (1.19.0)
     fog (1.15.0)
       builder
       excon (~> 0.25.0)
@@ -224,6 +225,7 @@ DEPENDENCIES
   chosen-rails (~> 1.0.0)
   compass-rails!
   database_cleaner (~> 1.1.1)
+  ffaker (~> 1.19.0)
   fog (~> 1.15.0)
   jbuilder (~> 1.2)
   jquery-rails (~> 3.0.4)

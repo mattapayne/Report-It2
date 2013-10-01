@@ -4,7 +4,7 @@
     Report Templates
   </div>
   <div class='panel-body'>
-    <div ng-class='resultClasses()' ng-show='hasResult()'>
+    <div ng-class='resultClasses()' ng-if='hasResult()'>
       <button class="close" ng-click='resetResult()'>×</button>
       <ul>
         <li ng-repeat='message in getMessages()'>{{ message }}</li>
@@ -14,8 +14,8 @@
       <%= render partial: "user_tags/index", locals: {tagType: 'template'} %>
     </div>
       <ul class='list-group'>
-        <li ng-hide='reportTemplates.length > 0' class='list-group-item'>Please select one or more tags to filter your templates.</li>
-        <li ng-repeat='report_template in reportTemplates | orderBy:name:false' class='list-group-item'>
+        <li ng-if='reportTemplates.length == 0' class='list-group-item'>Please select one or more tags to filter your templates.</li>
+        <li ng-repeat="report_template in reportTemplates | orderBy:'name'" class='list-group-item' ng-class='sharingOpenCssClass($index)'>
           <span>{{ report_template.name }} ({{ report_template.shared ? "Shared with you by " + report_template.shared_by : "You created" }})</span>
           <div class='pull-right'>
             <div class='btn-group'>
@@ -36,16 +36,16 @@
             <button type='button' ng-click='destroy($index)' ng-disabled='deleting($index) || isShared($index)' title='Delete this report template' class='btn btn-danger'>Delete</button>
           </div>
           <div class='clearfix'></div>
-          <div ng-show='displaySharing($index)' class='spacer5'>
+          <div ng-if='displaySharing($index)' class='spacer5'>
             <div class='panel panel-default'>
               <div class='panel-heading'>
                 Sharing
                 <button type="button" class="close" aria-hidden="true" ng-click='hideSharing($index)', title='Cancel editing'>&times;</button>
               </div>
               <div class='panel-body'>
-                <div ng-hide='hasShares($index)'>You are not associated with anyone yet, so you can't share this template.</div>
-                <div ng-show='hasShares($index)' class='row'>
-                  <div ng-repeat='share in getShares($index)' class='col-md-2'>
+                <div ng-if='!hasShares($index)'>You are not associated with anyone yet, so you can't share this template.</div>
+                <div ng-if='hasShares($index)' class='row'>
+                  <div ng-repeat="share in getShares($index) | orderBy:'full_name'" class='col-md-1'>
                     <img ng-click='onClickShare(report_template, share)' ng-src='{{ share.gravatar_url}}'
                          alt='{{share.full_name}}' title='{{ getShareTitle(share) }}'
                          ng-class="share.has_share ? 'shared' : 'not-shared'" />

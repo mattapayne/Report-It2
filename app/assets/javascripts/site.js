@@ -1,6 +1,6 @@
 $(function() {
     
-    var loginErrorMessage = null;
+    var loginErrorMessage = '';
     
     $("#login-form input[name=email]").focus();
     
@@ -16,7 +16,7 @@ $(function() {
     });
     
     $('#login-button').on('hidden.bs.popover', function () {
-        loginErrorMessage = null;
+        loginErrorMessage = '';
     });
     
     $("#login-form").on('submit', function(e) {
@@ -31,7 +31,7 @@ $(function() {
             },
             error: function(response) {
                 var json = response.responseJSON;
-                loginErrorMessage = json.message;
+                loginErrorMessage = json.messages.join("\n");
                 $("#login-button").popover('show');
             }
         });

@@ -3,7 +3,7 @@
 <% end %>
 <div class='container'  ng-app='ReportIt.forgot_password'>
   <div class='row' ng-controller='ForgotPasswordController'>
-    <div ng-class='resultClasses()' ng-show='hasResult()'>
+    <div ng-class='resultClasses()' ng-if='hasResult()'>
       <button class="close" data-dismiss="alert">×</button>
       <strong ng-show='resultIsError()'>Some errors occurred ...</strong>
       <strong ng-show='resultIsSuccess()'>Success!</strong>

@@ -1,6 +1,6 @@
 angular.module('ReportIt.dashboard.controllers').controller('SnippetsController',
-  ['$scope', 'DashboardService', 'SharedScopeResponseHandling', 'IMAGE_UPLOAD_URLS',
-  function($scope, DashboardService, SharedScopeResponseHandling, IMAGE_UPLOAD_URLS) {
+  ['$scope', 'DashboardService', 'SharedScopeResponseHandling',
+  function($scope, DashboardService, SharedScopeResponseHandling) {
     
     var self = this;
     SharedScopeResponseHandling.mixin($scope);
@@ -15,8 +15,8 @@ angular.module('ReportIt.dashboard.controllers').controller('SnippetsController'
         linebreaks: true,
         paragraphy: false,
         minHeight: 200,
-        imageUpload : IMAGE_UPLOAD_URLS.image_upload_url,
-        clipboardUploadUrl: IMAGE_UPLOAD_URLS.image_upload_url,
+        imageUpload : ReportIt.routes.api_v1_image_upload_path(),
+        clipboardUploadUrl: ReportIt.routes.api_v1_image_upload_path(),
         plugins: ['fontsize', 'fontfamily', 'fontcolor']
     };
     

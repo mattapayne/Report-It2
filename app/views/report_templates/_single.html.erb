@@ -25,8 +25,9 @@
   </div>
 </form>
 <div id='clipsmodal' class='hidden'>
-    <ul class='list-group'>
-      <li ng-repeat='snippet in snippets' class='list-group-item'>
+    <ul class='list-group snippet-list'>
+      <li ng-if='snippets.length == 0' class='list-group-item'>You have not created any snippets yet.</li>
+      <li ng-show='snippets.length > 0' ng-repeat='snippet in snippets' class='list-group-item'>
         <a href='' class='redactor_clip_link'>{{ snippet.name }}</a>
         <pre ng-bind-html='snippet.content'></pre>
       </li>

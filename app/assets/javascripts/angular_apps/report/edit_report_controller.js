@@ -1,6 +1,6 @@
 angular.module('ReportIt.report.controllers').controller('EditReportController',
-  ['$scope', 'ReportService', 'IMAGE_UPLOAD_URLS', 'SharedScopeResponseHandling',
-  function($scope, ReportService, IMAGE_UPLOAD_URLS, SharedScopeResponseHandling) {    
+  ['$scope', 'ReportService', 'SharedScopeResponseHandling',
+  function($scope, ReportService, SharedScopeResponseHandling) {    
     
       var self = this;
       SharedScopeResponseHandling.mixin($scope);
@@ -9,8 +9,8 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
       $scope.reportTemplates = [];
       
       $scope.redactorOptions = {
-        imageUpload : IMAGE_UPLOAD_URLS.image_upload_url,
-        clipboardUploadUrl: IMAGE_UPLOAD_URLS.image_upload_url,
+        imageUpload : ReportIt.routes.api_v1_image_upload_path(),
+        clipboardUploadUrl: ReportIt.routes.api_v1_image_upload_path(),
         focus: true,
         minHeight: 550,
         linebreaks: true,
@@ -28,8 +28,12 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
       };
       
       //used for the tag selector
-      $scope.queryTags = {
+      /*$scope.queryTags = {
         prefetch: ReportService.lookupUserTags(),
+        remote: ReportService.lookupUserTagsFiltered()
+      };*/
+      
+      $scope.queryTags = {
         remote: ReportService.lookupUserTagsFiltered()
       };
       

@@ -7,10 +7,9 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportTemplatesCont
     $scope.reportTemplates = [];
     $scope.openShares = {};
     
-    //DashboardService.getReportTemplates(['all']).
-    //  success(function(reportTemplates) {
-    //    $scope.reportTemplates = reportTemplates; 
-    //  });
+    $scope.$watch("reportTemplates", function() {
+      $scope.openShares = {};  
+    });
       
     $scope.$on('template-filters-changed', function(e, selectedTags) {
       DashboardService.getReportTemplates(selectedTags).
@@ -28,6 +27,13 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportTemplatesCont
         var state = $scope.openShares[index];
         return state.open;
       }
+    };
+    
+    $scope.sharingOpenCssClass = function(index) {
+      if($scope.displaySharing(index)) {
+        return "sharing-open";
+      };
+      return '';
     };
     
     $scope.hideSharing = function(index) {

@@ -65,10 +65,19 @@ class ApplicationController < ActionController::Base
   end
   
   def render_not_allowed_json_response(messages)
+    messages = [] unless messages
     if messages.is_a?(String)
       messages = [messages]
     end
     render json: { messages: messages}, status: 401
+  end
+  
+  def render_not_found_json_response(messages)
+    messages = [] unless messages
+    if messages.is_a?(String)
+      messages = [messages]
+    end
+    render json: { messages: messages}, status: 406
   end
   
   private

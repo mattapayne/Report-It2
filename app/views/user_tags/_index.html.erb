@@ -4,6 +4,6 @@
         data-placeholder="Choose one or more tags"
         ng-change='applyFilter()'>
         <option value=""></option>
-        <option ng-repeat='tag in tags' value='{{ tag }}'>{{ tag }}</option>
+        <option ng-repeat="tag in tags | orderBy:'toString()'" value='{{ tag }}'>{{ tag }}</option>
   </select>
 </div>

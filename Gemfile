@@ -46,4 +46,5 @@ group :development, :test do
   gem "minitest-rails-capybara", "~> 0.10.0"
   gem "minitest-colorize", "~> 0.0.5"
   gem "minitest-focus", "~> 1.0.0"
+  gem "ffaker", "~> 1.19.0"
 end

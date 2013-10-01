@@ -1,9 +1,51 @@
 ReportIt::Application.routes.draw do
   root to: "home#index"
+  
+  namespace :api, defaults: { format: 'json'} do
+    namespace :v1 do
+      controller :user_tags do
+        get '/user_tags/:type' => :index, as: :get_user_tags
+      end
+      controller :snippets do
+        get 'snippets' => :index, as: :get_snippets
+        delete 'snippets/:id' => :destroy, as: :destroy_snippet
+        put 'snippets/:id' => :update, as: :update_snippet
+        post 'snippets' => :create, as: :create_snippet
+      end
+      controller :settings do
+        get 'settings' => :index, as: :get_settings
+        put 'settings/:id' => :update, as: :update_settings
+      end
+      controller :reports do
+        get 'reports' => :index, as: :get_reports
+        get 'reports/new' => :new, as: :new_report
+        get 'reports/edit/:id' => :edit, as: :edit_report
+        put 'reports/:id' => :update, as: :update_report
+        post 'reports' => :create, as: :create_report
+        delete 'reports/:id' => :destroy, as: :destroy_report
+      end
+      controller :report_templates do
+        get 'report_templates' => :index, as: :get_report_templates
+        get 'report_templates/new' => :new, as: :new_report_template
+        get 'report_templates/edit/:id' => :edit, as: :edit_report_template
+        put 'report_templates/:id' => :update, as: :update_report_template
+        post 'report_templates' => :create, as: :create_report_template
+        delete 'report_templates/:id' => :destroy, as: :destroy_report_template
+      end
+      controller :shares do
+        get '/shares/:type/:id' => :index, as: :get_shares
+        put '/shares/:type/:id' => :update, as: :update_share
+      end
+      controller :image_upload do
+        post '/upload' => :create, as: :image_upload
+      end
+    end
+  end
+  
   controller :home do
     get 'about' => :about
     get 'contact' => :contact
-    post 'message' => :create
+    post 'message' => :create, as: :create_message
   end
   controller :sessions do
     post 'login' => :create
@@ -14,60 +56,31 @@ ReportIt::Application.routes.draw do
   end
   controller :registration do
     get 'register' => :new
-    post 'register' => :create
+    post 'register' => :create, as: :create_registration
   end
   controller :account_validation do
     get 'validate_account/:token' => :new, as: 'validate_account'
   end
   controller :forgot_password do
     get 'forgot_password' => :new
-    post 'forgot_password' => :create
+    post 'forgot_password' => :create, as: :create_forgot_password_request
     get 'password_reset/:token' => :reset, as: 'password_reset'
   end
   controller :my_account do
     get 'my_account' => :index  
   end
   controller :reports do
-    get 'reports' => :index
-    get 'reports/edit/:id' => :edit, as: :edit_report #renders the view for editing one
-    get 'reports/edit_json/:id' => :edit_json, as: :get_existing_report_json
-    get 'reports/new' => :new, as: :new_report #renders the view for creating one
-    get 'reports/new_json' => :new_json, as: :get_new_report_json
-    get 'reports/shares/:id' => :shares, as: :get_report_shares
-    put 'reports/update/:id' => :update, as: :update_report
-    post 'reports/create' => :create, as: :create_report
-    post 'reports/update_share' => :update_share, as: :update_report_share
-    delete 'reports/delete/:id' => :destroy, as: :delete_report
+    get 'reports/edit/:id' => :edit, as: :edit_report
+    get 'reports/new' => :new, as: :new_report
   end
   controller :report_templates do
-    get 'report_templates' => :index
-    get 'report_templates/edit/:id' => :edit, as: :edit_report_template #renders the view for editing one
-    get 'report_templates/edit_json/:id' => :edit_json, as: :get_existing_report_template_json
-    get 'report_templates/new' => :new, as: :new_report_template #renders the view for creating one
-    get 'report_templates/new_json' => :new_json, as: :get_new_report_template_json
-    get 'report_templates/shares/:id' => :shares, as: :get_report_template_shares
-    put 'report_templates/update/:id' => :update, as: :update_report_template
-    post 'report_templates/create' => :create, as: :create_report_template
-    post 'report_templates/update_share' => :update_share, as: :update_template_report_share
-    delete 'report_templates/delete/:id' => :destroy, as: :delete_report_template
-  end
-  controller :snippets do
-    get 'snippets' => :index
-    delete 'snippets/:id' => :destroy
-    put 'snippets/:id' => :update
-    post 'snippets' => :create
-  end
-  controller :settings do
-    get 'settings' => :index
-    put 'settings/:id' => :update, as: :update_settings
+    get 'report_templates/edit/:id' => :edit, as: :edit_report_template
+    get 'report_templates/new' => :new, as: :new_report_template
   end
   controller :export do
     get 'export/:type/:format/' => :export, as: :export
   end
   controller :image_upload do
     post '/upload' => :create
-  end
-  controller :user_tags do
-    get '/user_tags/:type' => :index, as: :user_tags
   end
 end

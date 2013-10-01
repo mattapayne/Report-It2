@@ -263,9 +263,109 @@
   about_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"about",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
+// api_v1_create_report => /api/v1/reports(.:format)
+  api_v1_create_report_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_create_report_template => /api/v1/report_templates(.:format)
+  api_v1_create_report_template_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_create_snippet => /api/v1/snippets(.:format)
+  api_v1_create_snippet_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"snippets",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_destroy_report => /api/v1/reports/:id(.:format)
+  api_v1_destroy_report_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_destroy_report_template => /api/v1/report_templates/:id(.:format)
+  api_v1_destroy_report_template_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_destroy_snippet => /api/v1/snippets/:id(.:format)
+  api_v1_destroy_snippet_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"snippets",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_edit_report => /api/v1/reports/edit/:id(.:format)
+  api_v1_edit_report_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[7,"/",false]],[6,"edit",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_edit_report_template => /api/v1/report_templates/edit/:id(.:format)
+  api_v1_edit_report_template_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[7,"/",false]],[6,"edit",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_get_report_templates => /api/v1/report_templates(.:format)
+  api_v1_get_report_templates_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_get_reports => /api/v1/reports(.:format)
+  api_v1_get_reports_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_get_settings => /api/v1/settings(.:format)
+  api_v1_get_settings_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"settings",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_get_shares => /api/v1/shares/:type/:id(.:format)
+  api_v1_get_shares_path: function(_type, _id, options) {
+  return Utils.build_path(["type","id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"shares",false]],[7,"/",false]],[3,"type",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_get_snippets => /api/v1/snippets(.:format)
+  api_v1_get_snippets_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"snippets",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_get_user_tags => /api/v1/user_tags/:type(.:format)
+  api_v1_get_user_tags_path: function(_type, options) {
+  return Utils.build_path(["type"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"user_tags",false]],[7,"/",false]],[3,"type",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_image_upload => /api/v1/upload(.:format)
+  api_v1_image_upload_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"upload",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_new_report => /api/v1/reports/new(.:format)
+  api_v1_new_report_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[7,"/",false]],[6,"new",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_new_report_template => /api/v1/report_templates/new(.:format)
+  api_v1_new_report_template_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[7,"/",false]],[6,"new",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_update_report => /api/v1/reports/:id(.:format)
+  api_v1_update_report_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_update_report_template => /api/v1/report_templates/:id(.:format)
+  api_v1_update_report_template_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_update_settings => /api/v1/settings/:id(.:format)
+  api_v1_update_settings_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"settings",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_update_share => /api/v1/shares/:type/:id(.:format)
+  api_v1_update_share_path: function(_type, _id, options) {
+  return Utils.build_path(["type","id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"shares",false]],[7,"/",false]],[3,"type",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_update_snippet => /api/v1/snippets/:id(.:format)
+  api_v1_update_snippet_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"snippets",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
 // contact => /contact(.:format)
   contact_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"contact",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// create_forgot_password_request => /forgot_password(.:format)
+  create_forgot_password_request_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"forgot_password",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// create_message => /message(.:format)
+  create_message_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"message",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// create_registration => /register(.:format)
+  create_registration_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"register",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // dashboard => /dashboard(.:format)
   dashboard_path: function(options) {
@@ -295,10 +395,6 @@
   logout_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"logout",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
-// message => /message(.:format)
-  message_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"message",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
 // my_account => /my_account(.:format)
   my_account_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"my_account",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
@@ -319,25 +415,9 @@
   register_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"register",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
-// report_templates => /report_templates(.:format)
-  report_templates_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"report_templates",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
-// reports => /reports(.:format)
-  reports_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"reports",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
 // root => /
   root_path: function(options) {
   return Utils.build_path([], [], [7,"/",false], arguments);
-  },
-// settings => /settings(.:format)
-  settings_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"settings",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
-// snippets => /snippets(.:format)
-  snippets_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"snippets",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // upload => /upload(.:format)
   upload_path: function(options) {

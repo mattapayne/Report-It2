@@ -95,7 +95,9 @@ class User
   end
   
   def get_associates
-    self.class.find(self.associates || []) || []
+    ids = self.associates || []
+    associated_users = User.find(ids)
+    return associated_users || []
   end
   
   def invite_to_associate!(user, message = nil)

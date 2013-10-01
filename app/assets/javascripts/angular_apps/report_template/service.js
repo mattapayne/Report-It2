@@ -1,33 +1,34 @@
 angular.module('ReportIt.report_template.services').
-    service('ReportTemplateService', ['$http', '$q', '$window', 'REPORT_TEMPLATE_URLS', 'DASHBOARD_URLS',
-        function($http, $q, $window, REPORT_TEMPLATE_URLS, DASHBOARD_URLS) {
+    service('ReportTemplateService', ['$http', '$q', '$window', function($http, $q, $window) {
             this.get = function(reportTemplateId) {
                 if (reportTemplateId) {
-                    return $http.get(REPORT_TEMPLATE_URLS.get_report_template_json_url + reportTemplateId); 
+                    return $http.get(ReportIt.routes.api_v1_edit_report_template_path(reportTemplateId));
                 }
-                return $http.get(REPORT_TEMPLATE_URLS.get_new_report_template_json_url); 
+                return $http.get(ReportIt.routes.api_v1_new_report_template_path());
             };
             
             this.save = function(reportTemplate) {
                 if (reportTemplate.new_record) {
-                    return $http.post(REPORT_TEMPLATE_URLS.create_report_template_url, angular.toJson({ report_template: reportTemplate }));
+                    return $http.post(ReportIt.routes.api_v1_create_report_template_path(),
+                        angular.toJson({ report_template: reportTemplate }));
                 }
-                return $http.put(REPORT_TEMPLATE_URLS.update_report_template_url + reportTemplate.id, angular.toJson( { report_template: reportTemplate }));
+                return $http.put(ReportIt.routes.api_v1_update_report_template_path(reportTemplate.id),
+                            angular.toJson( { report_template: reportTemplate }));
             };
                     
             this.getSnippets = function() {
-                return $http.get(REPORT_TEMPLATE_URLS.get_snippets_url);
+                return $http.get(ReportIt.routes.api_v1_get_snippets_path());
             };
             
             this.lookupUserTags = function() {
-                return DASHBOARD_URLS.get_user_tags_url + "/template";
+                return $http.get(ReportIt.routes.api_v1_get_user_tags_path('template'));
             };
             
             this.lookupUserTagsFiltered = function() {
-                return DASHBOARD_URLS.get_user_tags_url + "/template?query=%QUERY";
+                return decodeURIComponent(ReportIt.routes.api_v1_get_user_tags_path('template', {query: '%QUERY'}));
             };
             
             this.editReportTemplate = function(reportTemplate) {
-                $window.location.href = DASHBOARD_URLS.edit_report_template_url + reportTemplate.id;
+                $window.location.href = ReportIt.routes.edit_report_template_path(reportTemplate.id);
             };
 }]);

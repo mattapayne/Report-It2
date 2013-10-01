@@ -13,11 +13,11 @@ class HomeController < ApplicationController
   end
   
   def create
-    @message = ContactMessage.new(params_for_message)
-    if @message.save
+    message = ContactMessage.new(params_for_message)
+    if message.save
       render json: { messages: ["Successfully sent your message."] }
     else
-      render json: { messages: @message.errors.full_messages.to_a }, status: 406
+      render json: { messages: message.errors.full_messages.to_a }, status: 406
     end
   end
   

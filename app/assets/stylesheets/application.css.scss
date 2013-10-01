@@ -172,6 +172,7 @@ img.shared, img.not-shared
   cursor:pointer;
   height: 32px;
   width:32px;
+  margin:3px;
 }
 
 img.shared {
@@ -180,4 +181,14 @@ img.shared {
 
 img.not-shared {
   border:5px solid red;
+}
+
+li.sharing-open {
+  //TODO - not sure about this one yet
+}
+
+ul.snippet-list
+{
+  margin-left:5px;
+  margin-right:5px;
 }

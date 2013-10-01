@@ -1,6 +1,6 @@
 angular.module('ReportIt.report_template.controllers').controller('NewReportTemplateController',
-  ['$scope', 'ReportTemplateService', 'IMAGE_UPLOAD_URLS', 'SharedScopeResponseHandling',
-  function($scope, ReportTemplateService, IMAGE_UPLOAD_URLS, SharedScopeResponseHandling) {    
+  ['$scope', 'ReportTemplateService', 'SharedScopeResponseHandling',
+  function($scope, ReportTemplateService, SharedScopeResponseHandling) {    
     
       var self = this;
       SharedScopeResponseHandling.mixin($scope);
@@ -8,8 +8,8 @@ angular.module('ReportIt.report_template.controllers').controller('NewReportTemp
       $scope.reportTemplate = null;
       
       $scope.redactorOptions = {
-        imageUpload : IMAGE_UPLOAD_URLS.image_upload_url,
-        clipboardUploadUrl: IMAGE_UPLOAD_URLS.image_upload_url,
+        imageUpload : ReportIt.routes.api_v1_image_upload_path(),
+        clipboardUploadUrl: ReportIt.routes.api_v1_image_upload_path(),
         focus: true,
         minHeight: 550,
         linebreaks: true,
