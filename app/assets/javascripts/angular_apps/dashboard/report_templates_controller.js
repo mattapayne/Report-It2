@@ -7,12 +7,17 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportTemplatesCont
     $scope.reportTemplates = [];
     $scope.openShares = {};
     
+    //DashboardService.getReportTemplates(['all']).
+    //  success(function(reportTemplates) {
+    //    $scope.reportTemplates = reportTemplates; 
+    //  });
+      
     $scope.$on('template-filters-changed', function(e, selectedTags) {
       DashboardService.getReportTemplates(selectedTags).
         success(function(reportTemplates) {
           $scope.reportTemplates = reportTemplates; 
         });
-    });
+    });  
     
     $scope.displaySharing = function(index) {
       var hasBeenLoaded = index in $scope.openShares;

@@ -6,7 +6,12 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     $scope.reportsBeingDeleted = [];
     $scope.reports = [];
     $scope.openShares = {}; //keyed on item index - value is an object holding open/closed state and shares: { open: true, report_id: xxxx, shares: [] }
-    
+  
+    //DashboardService.getReports(['all']).
+    //  success(function(reports) {
+    //    $scope.reports = reports; 
+    //});
+        
     $scope.$on('report-filters-changed', function(e, selectedTags) {
       DashboardService.getReports(selectedTags).
         success(function(reports) {

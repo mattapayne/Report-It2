@@ -19,7 +19,6 @@ angular.module('ReportIt.dashboard.controllers').controller('UserTagsController'
       DashboardService.getUserTags(tagType).
        success(function(tags) {
          $scope.tags = tags;
-         $scope.selectedTags = tags;
       });  
     };
     
