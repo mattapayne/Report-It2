@@ -97,7 +97,7 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     };
     
     $scope.reportHasShares = function(report) {
-      if (report.shares_visible && self.reportSharesExist(report)) {
+      if (report.shares_visible && self.reportSharesExist(report) && report.shares.length > 0) {
         return true;
       }
       return false;
@@ -119,13 +119,24 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     };
     
     $scope.addReport = function() {
-      DashboardService.addReport();
+      DashboardService.addReport({type: 'report'});
+    };
+    
+    $scope.addReportTemplate = function() {
+      DashboardService.addReport({type: 'template'});
     };
    
     $scope.destroy = function(report) {
         if (confirm("Are you sure?")) {
             self.deleteReport(report);
         }
+    };
+    
+    $scope.copyReport = function(report) {
+      DashboardService.copyReport(report).
+        success(function(new_report) {
+          DashboardService.editReport(new_report);
+      });
     };
     
     //since there is no 'finally' construct in Angular's promise returned by $http, we have to duplicate some code.

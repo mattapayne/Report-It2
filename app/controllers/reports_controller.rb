@@ -7,7 +7,7 @@ class ReportsController < ApplicationController
   end
   
   def new
-    
+    @type = params[:type]
   end
   
   protected

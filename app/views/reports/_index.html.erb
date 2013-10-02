@@ -56,9 +56,10 @@
                 </li>
               </ul>
             </div>
+            <button type='button' title='Copy this report' class='btn btn-default' ng-click='copyReport(report)'>Copy</button>
             <button type='button' title='Share this report' ng-disabled='isSharedWithCurrentUser(report)' class='btn btn-default' ng-click='openReportSharingArea(report)'>Share</button>
             <button type='button' title='Edit this report' class='btn btn-default' ng-click='editReport(report)'>Edit</button>
-            <button type='button' ng-click='destroy($index)' ng-disabled='isSharedWithCurrentUser(report)' title='Delete this report' class='btn btn-danger'>Delete</button>
+            <button type='button' ng-click='destroy(report)' ng-disabled='isSharedWithCurrentUser(report)' title='Delete this report' class='btn btn-danger'>Delete</button>
           </div>
           <div class='clearfix'></div>
           <div ng-if='shouldDisplaySharingForReport(report)' class='spacer5'>
@@ -81,7 +82,10 @@
           </div>
         </li>
       </ul>
-      <button type='button' title='Create a new report' ng-click='addReport()' class='btn btn-success pull-right'>Add</button>
+      <div class='pull-right'>
+        <button type='button' title='Create a new report' ng-click='addReport()' class='btn btn-success'>Add Report</button>
+        <button type='button' title='Create a new report' ng-click='addReportTemplate()' class='btn btn-success'>Add Report Template</button>
+      </div>
   </div>
 </div>
 </div>

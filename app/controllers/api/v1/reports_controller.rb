@@ -1,7 +1,7 @@
 module Api
   module V1
     class ReportsController < ApiController
-      before_action :load_report, only: [:update, :destroy, :edit]
+      before_action :load_report, only: [:update, :destroy, :edit, :copy]
       before_action :construct_search_params, only: [:index]
       
       def index
@@ -37,12 +37,18 @@ module Api
       end
       
       def new
-        report = Report.new(creator: current_user)
+        type = params[:type]
+        report = Report.new(creator: current_user, report_type: type)
         render json: report, serializer: FullReportSerializer
       end
   
       def edit
         render json: @report, serializer: FullReportSerializer
+      end
+      
+      def copy
+        new_report = Report.copy(current_user, @report)
+        render json: new_report, serializer: FullReportSerializer
       end
       
       private

@@ -1,10 +1,10 @@
 angular.module('ReportIt.report.services').
     service('ReportService', ['$http', '$q', '$window', function($http, $q, $window) {
-            this.get = function(reportId) {
+            this.get = function(reportId, reportType) {
                 if (reportId) {
                     return $http.get(ReportIt.routes.api_v1_edit_report_path(reportId)); 
                 }
-                return $http.get(ReportIt.routes.api_v1_new_report_path()); 
+                return $http.get(ReportIt.routes.api_v1_new_report_path(reportType)); 
             };
             
             this.save = function(report) {

@@ -15,6 +15,7 @@ class Report
   as_enum :report_type, report: 0, template: 1
   belongs_to :creator, class_name: 'User'
   belongs_to :last_edited_by, class_name: 'User'
+  belongs_to :report_template, class_name: 'Report'
   taggable_with :tags
   
   #validation
@@ -40,6 +41,17 @@ class Report
     end
     query = query.page(searchInfo.page_number).limit(searchInfo.per_page)
     query
+  end
+  
+  def self.copy(current_user, other)
+    Report.create!({
+      creator: current_user,
+      name: "Copy of: #{other.name}",
+      content: other.content,
+      report_type: other.report_type,
+      description: other.description,
+      tags: other.tags
+    })
   end
   
   def share_with!(user)

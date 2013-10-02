@@ -1,8 +1,13 @@
 class FullReportSerializer < ActiveModel::Serializer
-  attributes :id, :name, :content, :description, :created_at, :updated_at, :new_record, :tags, :shared_with_current_user, :shared_by, :report_type, :last_edited_by
+  attributes :id, :name, :content, :description, :created_at, :updated_at, :new_record, :report_template_id,
+    :tags, :shared_with_current_user, :shared_by, :report_type, :last_edited_by, :report_types
   
   def id
     object.id.to_s
+  end
+  
+  def report_types
+    Report.report_types_for_select.map {|item| {value: item[1], name: item[0]}}
   end
   
   def last_edited_by

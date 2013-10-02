@@ -20,3 +20,10 @@ task :fake => :environment do
   # report
   puts "Faked!\n#{faker.report}"
 end
+
+desc "Create user"
+task :create_user => :environment do
+  faker = Fakeout::Builder.new
+  faker.users(1, true, {first_name: "Matt", last_name: "Payne", email: "paynmatt@gmail.com"})
+  puts "Faked!\n#{faker.report}"
+end

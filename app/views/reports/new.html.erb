@@ -4,6 +4,6 @@
 <%= content_for :head_js do %>
   <%= javascript_include_tag 'report' %>
 <% end %>
-<div ng-app='ReportIt.report' ng-controller='NewReportController'>
+<div ng-app='ReportIt.report' ng-controller='NewReportController' ng-init="init('<%= @type %>')">
   <%= render partial: 'single' %>
 </div>

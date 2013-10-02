@@ -1,13 +1,12 @@
 angular.module('ReportIt.report.controllers').controller('NewReportController',
-  ['$scope', 'ReportService', 'SharedScopeResponseHandling',
-  function($scope, ReportService, SharedScopeResponseHandling) {    
+  ['$scope', '$q', 'ReportService', 'SharedScopeResponseHandling',
+  function($scope, $q, ReportService, SharedScopeResponseHandling) {    
     
       var self = this;
       SharedScopeResponseHandling.mixin($scope);
       $scope.snippets = [];
       $scope.report = null;
       $scope.reportTemplates = [];
-      $scope.dataLoading = true;
       
       $scope.redactorOptions = {
         imageUpload : ReportIt.routes.api_v1_image_upload_path(),
@@ -19,38 +18,23 @@ angular.module('ReportIt.report.controllers').controller('NewReportController',
         plugins: ['clips', 'fontsize', 'fontfamily', 'fontcolor', 'fullscreen', 'tableborder']
       };
       
-      $scope.uiSelect2Options = {
-        allowClear: true,
-        dropdownAutoWidth: false,
-        containerCssClass: 'col-lg-12',
-        formatNoMatches: function(term) {
-          return "No report templates are available";
-        }
-      };
-      
       //TODO - this will have to get tags for either a report or a template
       $scope.queryTags = {
         remote: ReportService.lookupUserTagsFiltered()
       };
       
-      ReportService.get(null).
-        success(function(report) {
-          $scope.report = report;
-        }).
-        error(function(response) {
-          $scope.setError(response.messages);  
-        });
+      $scope.init = function(reportType) {
+
+        var loadReport = ReportService.get(null, reportType);
+        var loadSnippets = ReportService.getSnippets();
+        var loadReportTemplates = ReportService.getReportTemplates();
         
-      ReportService.getSnippets().
-        success(function(snippets) {
-          $scope.snippets = snippets
+        $q.all([loadReport, loadSnippets, loadReportTemplates]).then(function(aggregatedResults) {
+            $scope.report = aggregatedResults[0].data;
+            $scope.snippets = aggregatedResults[1].data;
+            $scope.reportTemplates = aggregatedResults[2].data;
         });
-        
-      ReportService.getReportTemplates().
-        success(function(reportTemplates) {
-          $scope.reportTemplates = reportTemplates;
-          $scope.dataLoading = false;
-        });
+      };
     
       $scope.updateSelectedReportTemplate = function() {
         if ($scope.report.report_template_id) {

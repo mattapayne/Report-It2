@@ -15,6 +15,10 @@ function($http, $q, $window) {
             per_page: resultsPerPage}));
     };
     
+    this.copyReport = function(report) {
+      return $http.post(ReportIt.routes.api_v1_copy_report_path(report.id));  
+    };
+    
     this.destroyReport = function(report) {
         return $http.delete(ReportIt.routes.api_v1_destroy_report_path(report.id));
     };
@@ -23,8 +27,9 @@ function($http, $q, $window) {
         $window.location.href = ReportIt.routes.edit_report_path(report.id);
     };
     
-    this.addReport = function() {
-        $window.location.href = ReportIt.routes.new_report_path();
+    this.addReport = function(options) {
+        var type = angular.isUndefined(options.type) || options.type === null ? 'report' : options.type;
+        $window.location.href = ReportIt.routes.new_report_path(type);
     };
     
     this.getSnippets = function() {

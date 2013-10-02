@@ -18,10 +18,11 @@ ReportIt::Application.routes.draw do
       end
       controller :reports do
         get 'reports' => :index, as: :get_reports
-        get 'reports/new' => :new, as: :new_report
+        get 'reports/new/:type' => :new, as: :new_report
         get 'reports/edit/:id' => :edit, as: :edit_report
         put 'reports/:id' => :update, as: :update_report
         post 'reports' => :create, as: :create_report
+        post 'reports/copy/:id' => :copy, as: :copy_report
         delete 'reports/:id' => :destroy, as: :destroy_report
       end
       controller :shares do
@@ -63,7 +64,7 @@ ReportIt::Application.routes.draw do
   end
   controller :reports do
     get 'reports/edit/:id' => :edit, as: :edit_report
-    get 'reports/new' => :new, as: :new_report
+    get 'reports/new/:type' => :new, as: :new_report
   end
   controller :export do
     get 'export/:type/:format/' => :export, as: :export
