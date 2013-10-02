@@ -14,8 +14,8 @@ task :fake => :environment do
   # fake reports
   faker.reports(1000)
   
-  #fake report templates
-  faker.templates(200)
+  #fake templates
+  faker.reports(200, {report_type: :template})
 
   # report
   puts "Faked!\n#{faker.report}"

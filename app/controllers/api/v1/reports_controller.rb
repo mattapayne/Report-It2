@@ -2,19 +2,11 @@ module Api
   module V1
     class ReportsController < ApiController
       before_action :load_report, only: [:update, :destroy, :edit]
-      before_action :construct_tag_filter, only: [:index]
+      before_action :construct_search_params, only: [:index]
       
       def index
-        tag_filter  = params_for_report_filters.split(',') unless params_for_report_filters.nil?
-        case tag_filter
-          when nil
-            reports = []
-          when ['all'] #Ugh!
-            reports = current_user.all_reports
-          else
-            reports = current_user.all_reports(tag_filter)
-        end
-        render json: reports.to_a
+        reports = Report.search(@search)
+        render json: reports, each_serializer: ReportSerializer
       end
   
       def create
@@ -28,7 +20,7 @@ module Api
       end
   
       def update
-        if @report.update_attributes(params_for_report)
+        if @report.update_attributes(params_for_report.merge(last_edited_by: current_user))
           result = ReportWithMessages.new(['Successfully updated the report.'], @report)
           render json: result, serializer: ReportWithMessagesSerializer
         else
@@ -54,19 +46,13 @@ module Api
       end
       
       private
-  
-      def construct_tag_filter
-        unless params_for_report_filters.nil?
-          @tag_filter = params_for_report_filters.split(',')
-        end
-      end
       
-      def params_for_report_filters
-        return params.require(:tags) if params[:tags].present?
+      def construct_search_params
+        @search = ReportSearchParams.new(current_user, params[:tags], params[:report_type], params[:term], params[:page], params[:per_page])
       end
       
       def params_for_report
-        params.require(:report).permit(:name, :description, :content, :report_template_id, tags: [])
+        params.require(:report).permit(:name, :description, :content, :report_type, tags: [])
       end
       
       def load_report

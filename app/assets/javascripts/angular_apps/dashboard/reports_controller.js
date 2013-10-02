@@ -3,61 +3,81 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     
     var self = this;
     SharedScopeResponseHandling.mixin($scope);
-    $scope.reportsBeingDeleted = [];
     $scope.reports = [];
-    $scope.openShares = {}; //keyed on item index - value is an object holding open/closed state and shares: { open: true, report_id: xxxx, shares: [] }
-  
-    $scope.$watch("reports", function() {
-      $scope.openShares = {};  
-    });
-        
-    $scope.$on('report-filters-changed', function(e, selectedTags) {
-      DashboardService.getReports(selectedTags).
-        success(function(reports) {
-          $scope.reports = reports; 
-        });
-    });
+    $scope.searchTerm = "";
+    $scope.reportTypes = ["Reports", "Templates"];
+    $scope.selectedReportType = "Reports";
+    $scope.selectedTags = [];
+    $scope.tags = [];
+    $scope.currentPage = 1;
     
-    $scope.displaySharing = function(index) {
-      var hasBeenLoaded = index in $scope.openShares;
-      if (hasBeenLoaded === false) {
-        return false;
-      }
-      else {
-        var state = $scope.openShares[index];
-        return state.open;
-      }
+    $scope.uiSelect2Options = {
+        dropdownAutoWidth: false,
+        width: '350px',
+        formatNoMatches: function(term) {
+          return "No tags are available";
+        }
     };
     
-    $scope.sharingOpenCssClass = function(index) {
-      if($scope.displaySharing(index)) {
+    self.loadReports = function() {
+      DashboardService.getReports($scope.selectedTags, $scope.searchTerm, $scope.selectedReportType).
+        success(function(response) {
+          $scope.reports = response;
+      });
+    };
+    
+    self.loadReports();
+    
+    DashboardService.getUserTags($scope.selectedReportType).
+      success(function(response) {
+        $scope.tags = response;  
+    });
+      
+    $scope.reportTypeChanged = function() {
+      self.loadReports();
+      $scope.selectedTags = [];
+      $scope.tags = [];
+      DashboardService.getUserTags($scope.selectedReportType).
+        success(function(response) {
+          $scope.tags = response;  
+        });
+    };
+    
+    $scope.applyReportFilters = function() {
+      self.loadReports();
+    };
+    
+    $scope.shouldDisplaySharingForReport = function(report) {
+      return report.shares_visible;
+    };
+    
+    $scope.sharingOpenCssClass = function(report) {
+      if(report.shares_visible) {
         return "sharing-open";
       };
       return '';
     };
     
-    $scope.hideSharing = function(index) {
-      var state = $scope.openShares[index];
-      state.open = false;
+    $scope.hideReportSharingForReport = function(report) {
+      report.shares_visible = false;
     };
     
-    $scope.share = function(index) {
-      var report = $scope.reports[index];
-      if (report.shared === false) {
-        if (index in $scope.openShares === false) {
+    $scope.openReportSharingArea = function(report) {
+      if (report && report.shared_with_current_user === false) {
+        if (self.reportSharesDoNotExist(report)) {
           DashboardService.getSharingForReport(report).
             success(function(response) {
-              $scope.openShares[index] = { open: true, shares: response.users, report_id: report.id };   
+              report.shares = response.users;
+              report.shares_visible = true;
             });
         }
         else {
-          var state = $scope.openShares[index];
-          state.open = true;
+          report.shares_visible = true;
         }
       }
     };
     
-    $scope.onClickShare = function(report, share) {
+    $scope.shareReport = function(report, share) {
       var shareStatus = !share.has_share;
       DashboardService.updateReportShare(report, share, shareStatus).
         success(function(response) {
@@ -76,79 +96,70 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
       return title;
     };
     
-    $scope.hasShares = function(index) {
-      if(index in $scope.openShares) {
-        var state = $scope.openShares[index];
-        return state && state.shares && state.shares.length > 0;
+    $scope.reportHasShares = function(report) {
+      if (report.shares_visible && self.reportSharesExist(report)) {
+        return true;
       }
       return false;
     };
     
-    $scope.getShares = function(index) {
-      if ($scope.hasShares(index)) {
-        return $scope.openShares[index].shares;
+    $scope.getReportShares = function(report) {
+      if (report.shares_visible && self.reportSharesExist(report)) {
+        return report.shares;
       }
       return [];
     };
     
-    $scope.isShared = function(index) {
-      var report = $scope.reports[index];
-      return report.shared == true;
+    $scope.isSharedWithCurrentUser = function(report) {
+      return report.shared_with_current_user === true;
     };
     
-    $scope.edit = function(index) {
-      var report = $scope.reports[index];
+    $scope.editReport = function(report) {
       DashboardService.editReport(report);
     };
     
-    $scope.add = function() {
+    $scope.addReport = function() {
       DashboardService.addReport();
     };
-    
-    $scope.deleting = function(index) {
-        return _.contains($scope.reportsBeingDeleted, index);
-    };
    
-    $scope.destroy = function(index) {
-        var report = $scope.reports[index];
+    $scope.destroy = function(report) {
         if (confirm("Are you sure?")) {
-            $scope.reportsBeingDeleted.push(index);
-            self.deleteReport(index, report);
+            self.deleteReport(report);
         }
-    };
-    
-    self.stopManagingReport = function(index) {
-        $scope.reportsBeingDeleted =
-                    _.reject($scope.reportsBeingDeleted, function(num) {
-                        return num === index
-                });
     };
     
     //since there is no 'finally' construct in Angular's promise returned by $http, we have to duplicate some code.
-    self.deleteReport = function(index, report) {
-        DashboardService.destroyReport(report).
-          success(function(response) {
+    self.deleteReport = function(report) {
+      DashboardService.destroyReport(report).
+        success(function(response) {
+          var index = self.getReportIndex(report);
+          if (index >= 0) {
             $scope.reports.splice(index, 1);
-            self.stopManagingReport(index);
-            self.cleanupSharesForDeletedReport(report.id);
-            $scope.setSuccess(response.messages);
-        }).error(function(response) {
-            self.stopManagingReport(index);
-            $scope.setError(response.messages);
+          }
+          $scope.setSuccess(response.messages);
+        }).
+        error(function(response) {
+          $scope.setError(response.messages);
         });
     };
     
-    self.cleanupSharesForDeletedReport = function(reportId) {
-      var foundIndex = -1;
-      for(var index in $scope.openShares) {
-        var state = $scope.openShares[index];
-        if (state.report_id === reportId) {
-          foundIndex = index;
+    self.getReportIndex = function(report) {
+      var index = -1;
+      for (var i=0; i<$scope.reports.length; i++) {
+        if ($scope.reports[i].id === report.id) {
+          index = i;
+          break;
         }
       }
-      if (foundIndex >= 0) {
-        delete $scope.openShares[foundIndex];
-      }
+      return index;
+    };
+    
+    self.reportSharesDoNotExist = function(report) {
+      return !self.reportSharesExist(report);
+    }
+    
+    self.reportSharesExist = function(report) {
+      return report && !angular.isUndefined(report.shares) && report.shares !== null;
     };
   }
 ]);

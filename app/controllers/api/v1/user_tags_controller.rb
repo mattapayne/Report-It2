@@ -20,11 +20,14 @@ module Api
       def load_tags_by_type
         @tags = []
         tag_type = params[:type]
-        case tag_type
-          when "report"
-            @tags = current_user.report_tags
-          when "template"
-            @tags = current_user.template_tags
+        if tag_type.present?
+          case tag_type.downcase.to_sym
+            when :reports
+              @tags = current_user.report_tags
+            when :templates
+              @tags = current_user.template_tags
+            else
+          end
         end
       end
     end

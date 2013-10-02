@@ -3,7 +3,7 @@ require 'ffaker'
 module Fakeout
   class Builder
 
-    FAKEABLE = %w(User Report ReportTemplate)
+    FAKEABLE = %w(User Report)
 
     attr_accessor :report, :user_cache
 
@@ -53,25 +53,13 @@ module Fakeout
       1.upto(count) do
         attributes   = { name: Faker::BaconIpsum.word, 
                          content: random_content,
+                         report_type: :report,
                          creator: random_user }.merge(options)
         r = Report.new(attributes)
         r.tags << Faker::Lorem.words(rand(10))
         !r.save
       end
       self.report.increment(:reports, count)
-    end
-    
-    # create report templates
-    def templates(count = 1, options = {})
-      1.upto(count) do
-        attributes   = { name: Faker::BaconIpsum.word, 
-                         content: random_content,
-                         creator: random_user }.merge(options)
-        t = ReportTemplate.new(attributes)
-        t.tags << Faker::Lorem.words(rand(10))
-        t.save!
-      end
-      self.report.increment(:report_templates, count)
     end
 
     # cleans all faked data away

@@ -19,11 +19,11 @@ angular.module('ReportIt.report.services').
             };
             
             this.getReportTemplates = function() {
-                return $http.get(ReportIt.routes.api_v1_get_report_templates_path({tags: 'all'}));
+                return $http.get(ReportIt.routes.api_v1_get_reports_path({tags: '', term: '', report_type: "Report Templates", page: 1, per_page: 1000}));
             };
             
-            this.getReportTemplate = function(reportTemplateId) {
-                return $http.get(ReportIt.routes.api_v1_edit_report_template_path(reportTemplate.id));
+            this.getReportTemplate = function(reportId) {
+                return $http.get(ReportIt.routes.api_v1_edit_report_path(reportId));
             };
             
             this.lookupUserTags = function() {

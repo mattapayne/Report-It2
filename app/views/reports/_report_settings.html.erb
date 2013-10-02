@@ -21,6 +21,7 @@
           <select ui-select2='uiSelect2Options'
             data-placeholder='Use a template if you want a head start'
             ng-model='report.report_template_id'
+            ng-disabled='dataLoading'
             ng-change='updateSelectedReportTemplate()'>
             <option></option>
             <option ng-repeat='rt in reportTemplates' value='{{ rt.id }}'>{{ rt.name }}</option>
@@ -33,7 +34,7 @@
       </div>
       <div class='row'>
         <div class='col-lg-12'>
-          <input style='width:100%' type='text' ng-model='report.tags' bs-tags-input bs-tags-typeahead='queryTags'  />
+          <input class='full-width' type='text' ng-model='report.tags' bs-tags-input bs-tags-typeahead='queryTags'  />
         </div>
       </div>
       <div class='row'>

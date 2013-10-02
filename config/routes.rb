@@ -24,17 +24,9 @@ ReportIt::Application.routes.draw do
         post 'reports' => :create, as: :create_report
         delete 'reports/:id' => :destroy, as: :destroy_report
       end
-      controller :report_templates do
-        get 'report_templates' => :index, as: :get_report_templates
-        get 'report_templates/new' => :new, as: :new_report_template
-        get 'report_templates/edit/:id' => :edit, as: :edit_report_template
-        put 'report_templates/:id' => :update, as: :update_report_template
-        post 'report_templates' => :create, as: :create_report_template
-        delete 'report_templates/:id' => :destroy, as: :destroy_report_template
-      end
       controller :shares do
-        get '/shares/:type/:id' => :index, as: :get_shares
-        put '/shares/:type/:id' => :update, as: :update_share
+        get '/shares/:id' => :index, as: :get_shares
+        put '/shares/:id' => :update, as: :update_share
       end
       controller :image_upload do
         post '/upload' => :create, as: :image_upload
@@ -44,7 +36,7 @@ ReportIt::Application.routes.draw do
   
   controller :home do
     get 'about' => :about
-    get 'contact' => :contact
+    get 'contact' => :contact, as: :message
     post 'message' => :create, as: :create_message
   end
   controller :sessions do
@@ -72,10 +64,6 @@ ReportIt::Application.routes.draw do
   controller :reports do
     get 'reports/edit/:id' => :edit, as: :edit_report
     get 'reports/new' => :new, as: :new_report
-  end
-  controller :report_templates do
-    get 'report_templates/edit/:id' => :edit, as: :edit_report_template
-    get 'report_templates/new' => :new, as: :new_report_template
   end
   controller :export do
     get 'export/:type/:format/' => :export, as: :export

@@ -1,7 +1,7 @@
 <div ng-controller='ReportsController'>
 <div class='panel panel-default'>
   <div class='panel-heading'>
-    Reports
+    Reports / Report Templates
   </div>
   <div class='panel-body'>
     <div ng-class='resultClasses()' ng-if='hasResult()'>
@@ -10,13 +10,38 @@
         <li ng-repeat='message in getMessages()'>{{ message }}</li>
       </ul>
     </div>
-    <div id='report-tags'>
-     <%= render partial: "user_tags/index", locals: {tagType: 'report'} %>
-     </div>
+    <div class='row'>
+      <div class='col-md-5 form-group' id='report-tags'>
+        <label for='tags' class='label label-default'>Tags</label>
+        <div class='spacer5'>
+          <select ui-select2='uiSelect2Options' ng-model='selectedTags'
+            multiple
+            data-placeholder="Choose one or more tags"
+            ng-change='applyReportFilters()'>
+            <option value=""></option>
+            <option ng-repeat="tag in tags | orderBy:'toString()'" value='{{ tag }}'>{{ tag }}</option>
+          </select>
+        </div>
+       </div>
+        <div class="col-md-4 form-group">
+        <label class='label label-default' for='searchTerm'>Search Term</label>
+        <div class='spacer5'>
+          <input type='text' ng-model='searchTerm' id='searchTerm' class='form-control' report-it-enter='applyReportFilters()' placeholder="Hit enter to apply" />
+        </div>
+      </div>
+      <div class='col-md-3 form-group'>
+        <label class='label label-default' for='reportType'>Report Type</label>
+        <div class='spacer5'>
+          <select class='full-width' id='reportType' ui-select2='uiSelect2ReportTypeOptions' ng-model='selectedReportType' ng-change='reportTypeChanged()'>
+            <option ng-repeat="type in reportTypes | orderBy:'toString()'" value='{{ type }}'>{{ type }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
       <ul class='list-group'>
         <li ng-if='reports.length == 0' class='list-group-item'>Please select one or more tags to filter your reports.</li>
-        <li ng-repeat="report in reports | orderBy:'name'" class='list-group-item' ng-class='sharingOpenCssClass($index)'>
-          <span>{{ report.name }} ({{ report.shared ? "Shared with you by " + report.shared_by : "You created" }})</span>
+        <li ng-repeat="report in reports | orderBy:'name'" class='list-group-item' ng-class='sharingOpenCssClass(report)'>
+          <span>{{ report.name }} ({{ report.shared_with_current_user ? "Shared with you by " + report.shared_by : "You created" }})</span>
           <div class='pull-right'>
             <div class='btn-group'>
               <button type="button" data-toggle='dropdown' class='btn btn-default dropdown-toggle'>Export
@@ -31,22 +56,22 @@
                 </li>
               </ul>
             </div>
-            <button type='button' title='Share this report' ng-disabled='deleting($index) || isShared($index)' class='btn btn-default' ng-click='share($index)'>Share</button>
-            <button type='button' title='Edit this report' ng-disabled='deleting($index)' class='btn btn-default' ng-click='edit($index)'>Edit</button>
-            <button type='button' ng-click='destroy($index)' ng-disabled='deleting($index) || isShared($index)' title='Delete this report' class='btn btn-danger'>Delete</button>
+            <button type='button' title='Share this report' ng-disabled='isSharedWithCurrentUser(report)' class='btn btn-default' ng-click='openReportSharingArea(report)'>Share</button>
+            <button type='button' title='Edit this report' class='btn btn-default' ng-click='editReport(report)'>Edit</button>
+            <button type='button' ng-click='destroy($index)' ng-disabled='isSharedWithCurrentUser(report)' title='Delete this report' class='btn btn-danger'>Delete</button>
           </div>
           <div class='clearfix'></div>
-          <div ng-if='displaySharing($index)' class='spacer5'>
+          <div ng-if='shouldDisplaySharingForReport(report)' class='spacer5'>
             <div class='panel panel-default'>
               <div class='panel-heading'>
                 Sharing
-                <button type="button" class="close" aria-hidden="true" ng-click='hideSharing($index)', title='Cancel editing'>&times;</button>
+                <button type="button" class="close" aria-hidden="true" ng-click='hideReportSharingForReport(report)', title='Cancel editing'>&times;</button>
               </div>
               <div class='panel-body'>
-                <div ng-if='!hasShares($index)'>You are not associated with anyone yet, so you can't share this report.</div>
-                <div ng-if='hasShares($index)' class='row'>
-                  <div ng-repeat="share in getShares($index) | orderBy:'full_name'" class='col-md-1'>
-                    <img ng-click='onClickShare(report, share)' ng-src='{{ share.gravatar_url}}'
+                <div ng-if='!reportHasShares(report)'>You are not associated with anyone yet, so you can't share this report.</div>
+                <div ng-if='reportHasShares(report)' class='row'>
+                  <div ng-repeat="share in getReportShares(report) | orderBy:'full_name'" class='col-md-1'>
+                    <img ng-click='shareReport(report, share)' ng-src='{{ share.gravatar_url}}'
                          alt='{{share.full_name}}' title='{{ getShareTitle(share) }}'
                          ng-class="share.has_share ? 'shared' : 'not-shared'" />
                   </div>
@@ -56,7 +81,7 @@
           </div>
         </li>
       </ul>
-      <button type='button' title='Create a new report' ng-click='add()' class='btn btn-success pull-right'>Add</button>
+      <button type='button' title='Create a new report' ng-click='addReport()' class='btn btn-success pull-right'>Add</button>
   </div>
 </div>
 </div>

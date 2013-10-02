@@ -1,9 +1,0 @@
-<%= content_for :head_css do %>
-  <%= stylesheet_link_tag 'report_template' %>
-<% end %>
-<%= content_for :head_js do %>
-  <%= javascript_include_tag 'report_template' %>
-<% end %>
-<div ng-app='ReportIt.report_template' ng-controller='EditReportTemplateController', ng-init="init('<%= @report_template_id %>')">
-  <%= render partial: 'single' %>
-</div>

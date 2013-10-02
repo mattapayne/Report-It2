@@ -39,6 +39,7 @@ gem "chosen-rails", "~> 1.0.0"
 gem 'compass-rails', github: 'milgner/compass-rails', branch: 'rails4'
 gem "angular-ui-select2-rails", "~> 0.1.1"
 gem "js-routes", "~> 0.9.3"
+gem "kaminari", "~> 0.14.1"
 
 group :development, :test do
   gem 'minitest-rails', '~> 0.9.2'

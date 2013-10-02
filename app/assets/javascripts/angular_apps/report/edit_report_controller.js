@@ -7,6 +7,7 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
       $scope.snippets = [];
       $scope.report = null;
       $scope.reportTemplates = [];
+      $scope.dataLoading = false;
       
       $scope.redactorOptions = {
         imageUpload : ReportIt.routes.api_v1_image_upload_path(),
@@ -27,17 +28,13 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
         }
       };
       
-      //used for the tag selector
-      /*$scope.queryTags = {
-        prefetch: ReportService.lookupUserTags(),
-        remote: ReportService.lookupUserTagsFiltered()
-      };*/
-      
+      //TODO - this will have to get tags for either a report or a template
       $scope.queryTags = {
         remote: ReportService.lookupUserTagsFiltered()
       };
       
       $scope.init = function(report_id) {
+        $scope.dataLoading = true;
         ReportService.get(report_id).
           success(function(report) {
             $scope.report = report;
@@ -54,6 +51,7 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
         ReportService.getReportTemplates().
           success(function(reportTemplates) {
             $scope.reportTemplates = reportTemplates;
+            $scope.dataLoading = false;
           });
       };
       
@@ -83,9 +81,12 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
       };
       
       $scope.getBreadcrumb = function() {
-        var bc = "Edit Report";
-        if ($scope.report && $scope.report.name && $scope.report.name.length > 0) {
-          bc += ": " + $scope.report.name;
+        var bc = "Edit ";
+        if ($scope.report) {
+            bc += $scope.report.report_type == 'report' ? "Report" : "Template";
+            if($scope.report.name && $scope.report.name.length > 0) {
+                bc += ": " + $scope.report.name;
+            }
         }
         return bc;
       }

@@ -1,11 +1,18 @@
 angular.module('ReportIt.dashboard.services').service('DashboardService', ['$http', '$q', '$window',
 function($http, $q, $window) {
     
-    this.getReports = function(tags) {
-        if (tags === null || tags.length == 0) {
-            return $http.get(ReportIt.routes.api_v1_get_reports_path());
-        }
-        return $http.get(ReportIt.routes.api_v1_get_reports_path({tags: tags.join(',')}));
+    this.getReports = function(tags, searchTerm, reportType, page, resultsPerPage) {
+        tags = angular.isUndefined(tags) || tags === null ? [] : tags;
+        searchTerm = angular.isUndefined(searchTerm) || searchTerm === null ? "" : searchTerm;
+        reportType = angular.isUndefined(reportType) || reportType === null ? "" : reportType;
+        page = angular.isUndefined(page) || page === null ? "" : page;
+        resultsPerPage = angular.isUndefined(resultsPerPage) || resultsPerPage === null ? "" : resultsPerPage;
+        return $http.get(ReportIt.routes.api_v1_get_reports_path({
+            tags: tags.join(','),
+            term: searchTerm,
+            report_type: reportType,
+            page: page,
+            per_page: resultsPerPage}));
     };
     
     this.destroyReport = function(report) {
@@ -18,25 +25,6 @@ function($http, $q, $window) {
     
     this.addReport = function() {
         $window.location.href = ReportIt.routes.new_report_path();
-    };
-    
-    this.getReportTemplates = function(tags) {
-        if (tags === null || tags.length == 0) {
-            return $http.get(ReportIt.routes.api_v1_get_report_templates_path());
-        }
-        return $http.get(ReportIt.routes.api_v1_get_report_templates_path({tags: tags.join(',')}));
-    };
-    
-    this.editReportTemplate = function(reportTemplate) {
-         $window.location.href = ReportIt.routes.edit_report_template_path(reportTemplate);
-    };
-    
-    this.addReportTemplate = function() {
-        $window.location.href = ReportIt.routes.new_report_template_path();
-    };
-    
-    this.destroyReportTemplate = function(reportTemplate) {
-        return $http.delete(ReportIt.routes.api_v1_destroy_report_template_path(reportTemplate.id));
     };
     
     this.getSnippets = function() {
@@ -66,22 +54,13 @@ function($http, $q, $window) {
     this.getUserTags = function(tagType) {
         return $http.get(ReportIt.routes.api_v1_get_user_tags_path(tagType));  
     };
-    
-    this.getSharingForReportTemplate = function(reportTemplate) {
-        return $http.get(ReportIt.routes.api_v1_get_shares_path("report_template", reportTemplate.id));
-    };
-    
-    this.updateReportTemplateShare = function(reportTemplate, share, shareStatus) {
-        return $http.put(ReportIt.routes.api_v1_update_share_path("report_template", reportTemplate.id),
-                          angular.toJson({share: { user_id: share.id, shared: shareStatus }}));
-    };
         
     this.getSharingForReport = function(report) {
-        return $http.get(ReportIt.routes.api_v1_get_shares_path("report", report.id));
+        return $http.get(ReportIt.routes.api_v1_get_shares_path(report.id));
     };
     
     this.updateReportShare = function(report, share, shareStatus) {
-        return $http.put(ReportIt.routes.api_v1_update_share_path("report", report.id),
+        return $http.put(ReportIt.routes.api_v1_update_share_path(report.id),
                   angular.toJson({share: { user_id: share.id, shared: shareStatus }}));
     };
 }]);

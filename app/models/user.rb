@@ -9,9 +9,8 @@ class User
   field :gravatar_url
   field :password_digest
   field :signup_token
-  field :reports, type: Array # => collection of report ids - those created by the user and those shared with the user
-  field :report_templates, type: Array# => collection of report template ids - those created by the user and those shared with the user
-  field :associates, type: Array# => collection of user ids that are associated with this user
+  field :reports, type: Array
+  field :associates, type: Array
   
   has_secure_password
   
@@ -31,27 +30,20 @@ class User
   before_create :add_default_settings, :add_signup_token, :set_gravatar_url
   
   def report_tags
-    all_reports.map {|r| r.tags }.flatten.compact.uniq
+    tags = all_reports.map {|r| r.tags }.flatten.compact.uniq
+    tags
   end
   
   def template_tags
     all_templates.map {|r| r.tags }.flatten.compact.uniq
   end
   
-  def all_reports(tags=nil)
-    query = Report.any_in(id: self.reports)
-    unless tags.nil?
-      query = query.all_in(tags: tags)
-    end
-    return query
+  def all_templates(tags=nil)
+    get_reports_by_type(:template, tags)
   end
   
-  def all_templates(tags=nil)
-    query = ReportTemplate.any_in(id: self.report_templates)
-    unless tags.nil?
-      query = query.all_in(tags: tags)
-    end
-    return query
+  def all_reports(tags=nil)
+   get_reports_by_type(:report, tags)
   end
   
   def email_taken?
@@ -127,7 +119,17 @@ class User
     return setting.value
   end
   
-  protected
+  private
+
+  def get_reports_by_type(report_type, tags = nil)
+    converted_report_type = Report.report_types_enum_hash[report_type.to_sym]
+    query = Report.any_in(id: self.reports).where(report_type_cd: converted_report_type)
+    unless tags.nil?
+      query = query.all_in(tags: tags)
+    end
+    query = query.asc(:name)
+    query
+  end
   
   def set_gravatar_url
     gravatar_id = Digest::MD5.hexdigest(self.email.downcase)

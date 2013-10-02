@@ -7,6 +7,7 @@ angular.module('ReportIt.report.controllers').controller('NewReportController',
       $scope.snippets = [];
       $scope.report = null;
       $scope.reportTemplates = [];
+      $scope.dataLoading = true;
       
       $scope.redactorOptions = {
         imageUpload : ReportIt.routes.api_v1_image_upload_path(),
@@ -27,9 +28,8 @@ angular.module('ReportIt.report.controllers').controller('NewReportController',
         }
       };
       
-      //used for the tag selector
+      //TODO - this will have to get tags for either a report or a template
       $scope.queryTags = {
-        prefetch: ReportService.lookupUserTags(),
         remote: ReportService.lookupUserTagsFiltered()
       };
       
@@ -49,6 +49,7 @@ angular.module('ReportIt.report.controllers').controller('NewReportController',
       ReportService.getReportTemplates().
         success(function(reportTemplates) {
           $scope.reportTemplates = reportTemplates;
+          $scope.dataLoading = false;
         });
     
       $scope.updateSelectedReportTemplate = function() {
@@ -76,9 +77,12 @@ angular.module('ReportIt.report.controllers').controller('NewReportController',
       };
       
       $scope.getBreadcrumb = function() {
-        var bc = "New Report";
-        if ($scope.report && $scope.report.name && $scope.report.name.length > 0) {
-          bc += ": " + $scope.report.name;
+        var bc = "New ";
+        if ($scope.report) {
+            bc += $scope.report.report_type == 'report' ? "Report" : "Template";
+            if ($scope.report.name && $scope.report.name.length > 0) {
+                bc += ": " + $scope.report.name;
+            }
         }
         return bc;
       }

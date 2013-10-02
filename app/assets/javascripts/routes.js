@@ -267,10 +267,6 @@
   api_v1_create_report_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
-// api_v1_create_report_template => /api/v1/report_templates(.:format)
-  api_v1_create_report_template_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
 // api_v1_create_snippet => /api/v1/snippets(.:format)
   api_v1_create_snippet_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"snippets",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
@@ -279,10 +275,6 @@
   api_v1_destroy_report_path: function(_id, options) {
   return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
-// api_v1_destroy_report_template => /api/v1/report_templates/:id(.:format)
-  api_v1_destroy_report_template_path: function(_id, options) {
-  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
 // api_v1_destroy_snippet => /api/v1/snippets/:id(.:format)
   api_v1_destroy_snippet_path: function(_id, options) {
   return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"snippets",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
@@ -290,14 +282,6 @@
 // api_v1_edit_report => /api/v1/reports/edit/:id(.:format)
   api_v1_edit_report_path: function(_id, options) {
   return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[7,"/",false]],[6,"edit",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
-// api_v1_edit_report_template => /api/v1/report_templates/edit/:id(.:format)
-  api_v1_edit_report_template_path: function(_id, options) {
-  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[7,"/",false]],[6,"edit",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
-// api_v1_get_report_templates => /api/v1/report_templates(.:format)
-  api_v1_get_report_templates_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // api_v1_get_reports => /api/v1/reports(.:format)
   api_v1_get_reports_path: function(options) {
@@ -327,17 +311,9 @@
   api_v1_new_report_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[7,"/",false]],[6,"new",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
-// api_v1_new_report_template => /api/v1/report_templates/new(.:format)
-  api_v1_new_report_template_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[7,"/",false]],[6,"new",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
 // api_v1_update_report => /api/v1/reports/:id(.:format)
   api_v1_update_report_path: function(_id, options) {
   return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
-// api_v1_update_report_template => /api/v1/report_templates/:id(.:format)
-  api_v1_update_report_template_path: function(_id, options) {
-  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"report_templates",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // api_v1_update_settings => /api/v1/settings/:id(.:format)
   api_v1_update_settings_path: function(_id, options) {
@@ -375,10 +351,6 @@
   edit_report_path: function(_id, options) {
   return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"reports",false]],[7,"/",false]],[6,"edit",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
-// edit_report_template => /report_templates/edit/:id(.:format)
-  edit_report_template_path: function(_id, options) {
-  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"report_templates",false]],[7,"/",false]],[6,"edit",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
 // export => /export/:type/:format
   export_path: function(_type, options) {
   return Utils.build_path(["type"], ["format"], [2,[2,[2,[2,[2,[7,"/",false],[6,"export",false]],[7,"/",false]],[3,"type",false]],[7,"/",false]],[3,"format",false]], arguments);
@@ -402,10 +374,6 @@
 // new_report => /reports/new(.:format)
   new_report_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[2,[2,[7,"/",false],[6,"reports",false]],[7,"/",false]],[6,"new",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
-  },
-// new_report_template => /report_templates/new(.:format)
-  new_report_template_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[2,[2,[7,"/",false],[6,"report_templates",false]],[7,"/",false]],[6,"new",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // password_reset => /password_reset/:token(.:format)
   password_reset_path: function(_token, options) {

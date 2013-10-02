@@ -1,4 +1,5 @@
-angular.module('ReportIt-tooltip', []).directive('tooltip', ['$parse', '$compile', function($parse, $compile) {
+angular.module('ReportIt-directives', []).
+  directive('tooltip', ['$parse', '$compile', function($parse, $compile) {
   return {
     restrict: 'A',
     scope: true,
@@ -25,4 +26,16 @@ angular.module('ReportIt-tooltip', []).directive('tooltip', ['$parse', '$compile
       });
     }
   };
-}]);
+}]).directive('reportItEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.reportItEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
