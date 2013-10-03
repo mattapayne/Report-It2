@@ -106,11 +106,11 @@ class User
   end
   
   def has_invited?(user)
-    self.get_invitation_query(user).exists?
+    get_invitation_query(user).exists?
   end
   
   def get_invitation(user)
-    self.get_invitation_query(user).first
+    get_invitation_query(user).first
   end
   
   def get_value_for_setting(key)

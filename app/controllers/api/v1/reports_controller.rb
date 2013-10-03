@@ -5,8 +5,8 @@ module Api
       before_action :construct_search_params, only: [:index]
       
       def index
-        reports = Report.search(@search)
-        render json: reports, each_serializer: ReportSerializer
+        results = ReportSearchResults.new(Report.search(@search))
+        render json: results, serializer: PagedReportsSerializer
       end
   
       def create

@@ -1,5 +1,5 @@
-angular.module('ReportIt.dashboard.controllers').controller('ReportsController', ['$scope', 'DashboardService', 'SharedScopeResponseHandling',
-  function($scope, DashboardService, SharedScopeResponseHandling) {
+angular.module('ReportIt.dashboard.controllers').controller('ReportsController', ['$scope', 'DashboardService', 'SharedScopeResponseHandling', 'Pagination',
+  function($scope, DashboardService, SharedScopeResponseHandling, Pagination) {
     
     var self = this;
     SharedScopeResponseHandling.mixin($scope);
@@ -11,6 +11,7 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     $scope.selectedStatus = "Published";
     $scope.selectedTags = [];
     $scope.tags = [];
+    $scope.pagination = null;
     $scope.currentPage = 1;
     
     $scope.uiSelect2Options = {
@@ -22,9 +23,16 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     };
     
     self.loadReports = function() {
-      DashboardService.getReports($scope.selectedTags, $scope.searchTerm, $scope.selectedReportType, $scope.selectedStatus).
+      DashboardService.getReports($scope.selectedTags, $scope.searchTerm, $scope.selectedReportType, $scope.selectedStatus, $scope.currentPage).
         success(function(response) {
-          $scope.reports = response;
+          $scope.reports = response.reports;
+          $scope.pagination = new Pagination.Paginator({
+                                  current: response.current_page,
+                                  total: response.total_pages,
+                                  has_next: response.has_next,
+                                  has_previous: response.has_previous,
+                                  per_page: response.per_page
+                                 });
       });
     };
     
@@ -35,16 +43,23 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
         $scope.tags = response;  
     });
       
+    $scope.pageTo = function(page) {
+      $scope.currentPage = page;
+      self.loadReports();
+    };
+    
     $scope.exportTo = function(format, report) {
       DashboardService.exportReport(format, report);  
     };
     
     $scope.statusChanged = function() {
+      $scope.currentPage = 1;
       self.loadReports();
       self.reloadTags();
     };
     
     $scope.reportTypeChanged = function() {
+      $scope.currentPage = 1;
       self.loadReports();
       self.reloadTags();
     };

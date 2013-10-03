@@ -51,4 +51,40 @@ angular.module('ReportIt.shared', []).
           return $scope.result.messages;
         };
       };
-  });
+  }).
+  service("Pagination", function() {
+    this.Paginator = function(args) {
+      var self = this;
+      
+      args = args || {};
+      
+      var defaults = {
+        current: 1,
+        total: 1,
+        has_next: false,
+        has_previous: false,
+        per_page: 10
+      };
+      
+      var opts = $.extend(defaults, args);
+      
+      self.current = parseInt(opts.current);
+      self.total = parseInt(opts.total);
+      self.has_next = opts.has_next;
+      self.has_previous = opts.has_previous;
+      self.per_page = parseInt(opts.per_page);
+      self.visible = self.total > 1;
+      self.pageNumbers = [];
+
+      var pageNumber = function(name, isCurrent) {
+        var page = this;
+        page.name = name;
+        page.isCurrent = isCurrent;
+        page.cssClasses = isCurrent ? ['active', 'disabled'] : '';
+      };
+    
+      for (var i = 1; i<= self.total; i++) {
+        self.pageNumbers.push(new pageNumber(i.toString(), i == self.current));
+      }
+    }
+});
