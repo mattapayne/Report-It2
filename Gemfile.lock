@@ -157,6 +157,7 @@ GEM
       mini_portile (~> 0.5.0)
     optionable (0.1.1)
     origin (1.1.0)
+    pdfkit (0.5.4)
     polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -240,6 +241,7 @@ DEPENDENCIES
   minitest-rails-capybara (~> 0.10.0)
   mongoid (~> 4)!
   mongoid-tags-arent-hard (~> 1.1.4)
+  pdfkit (~> 0.5.4)
   rails (= 4.0.0)
   rmagick (~> 2.13.2)
   sass-rails (~> 4.0.0)

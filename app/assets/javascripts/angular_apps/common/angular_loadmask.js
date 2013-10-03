@@ -56,11 +56,11 @@ angular.module('ReportIt.angular_loadmask', [])
       var body = $document.find('body');
       
       function _mask() {
-        $(body).mask("Loading ...");
+        //$(body).mask("Loading ...");
       }
       
       function _unmask() {
-        $(body).unmask();
+        //$(body).unmask();
       }
 
       return {

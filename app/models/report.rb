@@ -39,6 +39,10 @@ class Report
     if searchInfo.search_term.present?
       query = query.any_in(name: Regexp.new(".*#{searchInfo.search_term}.*"))
     end
+    if searchInfo.status.present?
+      converted_status = Report.statuses_enum_hash[searchInfo.status.to_sym]
+      query = query.where(status_cd: converted_status)
+    end
     query = query.page(searchInfo.page_number).limit(searchInfo.per_page)
     query
   end

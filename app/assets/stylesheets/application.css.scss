@@ -193,7 +193,11 @@ ul.snippet-list
   margin-right:5px;
 }
 
-.full-width
+.full-width, select.full-width-select
 {
   width:100%;
+}
+
+.shift-right {
+  margin-left:10px;
 }

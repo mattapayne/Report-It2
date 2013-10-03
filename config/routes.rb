@@ -67,7 +67,7 @@ ReportIt::Application.routes.draw do
     get 'reports/new/:type' => :new, as: :new_report
   end
   controller :export do
-    get 'export/:type/:format/' => :export, as: :export
+    get 'export/:file_format/:id' => :export, as: :export_report
   end
   controller :image_upload do
     post '/upload' => :create

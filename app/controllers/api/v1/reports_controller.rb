@@ -54,11 +54,11 @@ module Api
       private
       
       def construct_search_params
-        @search = ReportSearchParams.new(current_user, params[:tags], params[:report_type], params[:term], params[:page], params[:per_page])
+        @search = ReportSearchParams.new(current_user, params[:tags], params[:report_type], params[:term], params[:page], params[:per_page], params[:status])
       end
       
       def params_for_report
-        params.require(:report).permit(:name, :description, :content, :report_type, tags: [])
+        params.require(:report).permit(:name, :description, :content, :report_type, :status, tags: [])
       end
       
       def load_report

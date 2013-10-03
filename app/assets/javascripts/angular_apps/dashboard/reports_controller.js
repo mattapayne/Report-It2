@@ -6,7 +6,9 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     $scope.reports = [];
     $scope.searchTerm = "";
     $scope.reportTypes = ["Reports", "Templates"];
+    $scope.statuses = ["Draft", "Published"];
     $scope.selectedReportType = "Reports";
+    $scope.selectedStatus = "Published";
     $scope.selectedTags = [];
     $scope.tags = [];
     $scope.currentPage = 1;
@@ -20,7 +22,7 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     };
     
     self.loadReports = function() {
-      DashboardService.getReports($scope.selectedTags, $scope.searchTerm, $scope.selectedReportType).
+      DashboardService.getReports($scope.selectedTags, $scope.searchTerm, $scope.selectedReportType, $scope.selectedStatus).
         success(function(response) {
           $scope.reports = response;
       });
@@ -33,14 +35,18 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
         $scope.tags = response;  
     });
       
+    $scope.exportTo = function(format, report) {
+      DashboardService.exportReport(format, report);  
+    };
+    
+    $scope.statusChanged = function() {
+      self.loadReports();
+      self.reloadTags();
+    };
+    
     $scope.reportTypeChanged = function() {
       self.loadReports();
-      $scope.selectedTags = [];
-      $scope.tags = [];
-      DashboardService.getUserTags($scope.selectedReportType).
-        success(function(response) {
-          $scope.tags = response;  
-        });
+      self.reloadTags();
     };
     
     $scope.applyReportFilters = function() {
@@ -151,6 +157,15 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
         }).
         error(function(response) {
           $scope.setError(response.messages);
+        });
+    };
+    
+    self.reloadTags = function() {
+      $scope.selectedTags = [];
+      $scope.tags = [];
+      DashboardService.getUserTags($scope.selectedReportType).
+        success(function(response) {
+          $scope.tags = response;  
         });
     };
     

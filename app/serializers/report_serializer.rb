@@ -1,5 +1,5 @@
 class ReportSerializer < ActiveModel::Serializer
-  attributes :id, :name, :shared_with_current_user, :shared_by
+  attributes :id, :name, :shared_with_current_user, :shared_by, :status
   
   def id
     object.id.to_s

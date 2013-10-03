@@ -1,18 +1,24 @@
 angular.module('ReportIt.dashboard.services').service('DashboardService', ['$http', '$q', '$window',
 function($http, $q, $window) {
     
-    this.getReports = function(tags, searchTerm, reportType, page, resultsPerPage) {
+    this.getReports = function(tags, searchTerm, reportType, status, page, resultsPerPage) {
         tags = angular.isUndefined(tags) || tags === null ? [] : tags;
         searchTerm = angular.isUndefined(searchTerm) || searchTerm === null ? "" : searchTerm;
         reportType = angular.isUndefined(reportType) || reportType === null ? "" : reportType;
+        status = angular.isUndefined(status) || status === null ? "" : status;
         page = angular.isUndefined(page) || page === null ? "" : page;
         resultsPerPage = angular.isUndefined(resultsPerPage) || resultsPerPage === null ? "" : resultsPerPage;
         return $http.get(ReportIt.routes.api_v1_get_reports_path({
             tags: tags.join(','),
             term: searchTerm,
             report_type: reportType,
+            status: status,
             page: page,
             per_page: resultsPerPage}));
+    };
+    
+    this.exportReport = function(format, report) {
+      $window.location.href = ReportIt.routes.export_report_path(format, report.id);  
     };
     
     this.copyReport = function(report) {

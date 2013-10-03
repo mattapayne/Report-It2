@@ -1,16 +1,20 @@
 class ReportSearchParams
   
-  attr_accessor :tags, :report_type, :search_term, :page_number, :per_page, :current_user
+  attr_accessor :tags, :report_type, :search_term, :page_number, :per_page, :current_user, :status
   
   DEFAULT_PAGE = 1
   DEFAULT_PER_PAGE = 10
   
-  def initialize(user, comma_delimited_tags, report_type, search_term, page, per_page)
+  def initialize(user, comma_delimited_tags, report_type, search_term, page, per_page, status)
     
     @current_user = user
     
     if comma_delimited_tags.present?
       @tags = comma_delimited_tags.strip.split(',')
+    end
+    
+    if status.present?
+      @status = status.downcase.strip().to_sym
     end
     
     if report_type.present?
@@ -38,7 +42,7 @@ class ReportSearchParams
   end
   
   def to_s
-    "Tags: #{@tags.inspect}, User: #{@current_user.id}, Report Type: #{@report_type}, Search Term: #{@search_term}, Page: #{@page_number}, Per Page: #{@per_page}"
+    "Tags: #{@tags.inspect}, User: #{@current_user.id}, Report Type: #{@report_type}, Search Term: #{@search_term}, Page: #{@page_number}, Per Page: #{@per_page}, Status: #{@status}"
   end
   
 end

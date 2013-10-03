@@ -351,9 +351,9 @@
   edit_report_path: function(_id, options) {
   return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"reports",false]],[7,"/",false]],[6,"edit",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
-// export => /export/:type/:format
-  export_path: function(_type, options) {
-  return Utils.build_path(["type"], ["format"], [2,[2,[2,[2,[2,[7,"/",false],[6,"export",false]],[7,"/",false]],[3,"type",false]],[7,"/",false]],[3,"format",false]], arguments);
+// export_report => /export/:file_format/:id(.:format)
+  export_report_path: function(_file_format, _id, options) {
+  return Utils.build_path(["file_format","id"], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"export",false]],[7,"/",false]],[3,"file_format",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // forgot_password => /forgot_password(.:format)
   forgot_password_path: function(options) {
