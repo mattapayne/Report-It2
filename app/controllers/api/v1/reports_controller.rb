@@ -54,7 +54,9 @@ module Api
       private
       
       def construct_search_params
-        @search = ReportSearchParams.new(current_user, params[:tags], params[:report_type], params[:term], params[:page], params[:per_page], params[:status])
+        @search = ReportSearchParams.new({
+          user: current_user
+        }.merge(params))
       end
       
       def params_for_report

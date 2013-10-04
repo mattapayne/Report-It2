@@ -12,7 +12,7 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     $scope.selectedTags = [];
     $scope.tags = [];
     $scope.pagination = null;
-    $scope.currentPage = 1;
+    $scope.currentPage = null;
     
     $scope.uiSelect2Options = {
         dropdownAutoWidth: false,

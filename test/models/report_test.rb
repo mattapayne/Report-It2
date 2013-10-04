@@ -46,6 +46,26 @@ describe Report do
     end
     
   end
+  
+  describe 'Copy a report' do
+    
+    it 'should copy fields and return a new instance' do
+      other = Report.copy(user_a, report)
+      other.name.must_equal "Copy of: #{report.name}"
+      other.content.must_equal report.content
+      other.creator.id.must_equal user_a.id
+      other.report_type.must_equal report.report_type
+      other.description.must_equal report.description
+      other.tags.must_contain_all report.tags
+      other.id.wont_equal report.id
+    end
+    
+    it 'should copy a report and set its status to draft' do
+      other = Report.copy(user_a, report)
+      other.draft?.must_equal true
+    end
+    
+  end
 
   describe 'Sharing' do
     

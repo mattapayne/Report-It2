@@ -10,10 +10,10 @@ function($http, $q, $window) {
         resultsPerPage = angular.isUndefined(resultsPerPage) || resultsPerPage === null ? "" : resultsPerPage;
         return $http.get(ReportIt.routes.api_v1_get_reports_path({
             tags: tags.join(','),
-            term: searchTerm,
+            search_term: searchTerm,
             report_type: reportType,
             status: status,
-            page: page,
+            page_number: page,
             per_page: resultsPerPage}));
     };
     
