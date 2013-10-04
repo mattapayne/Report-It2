@@ -12,4 +12,5 @@
 //= require ./angular_apps/common/angular_validation
 //= require ./angular_apps/common/report_it_directives
 //= require ./angular_apps/common/report_it_shared
+//= require ./angular_apps/common/report_it_security
 //= require site

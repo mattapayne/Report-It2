@@ -6,9 +6,13 @@ angular.module('ReportIt.dashboard.controllers').controller('SettingsController'
     $scope.settingsBeingEdited = {};
     $scope.settings = [];
     
-    DashboardService.getSettings().success(function(settings) {
-       $scope.settings = settings; 
-    });
+    DashboardService.getSettings().
+      success(function(settings) {
+        $scope.settings = settings; 
+      }).
+      error(function(response) {
+        $scope.setError(response.messages);  
+      });
     
     $scope.valueIsValid = function(index) {
         var setting = $scope.settings[index];

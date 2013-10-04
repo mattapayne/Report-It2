@@ -51,12 +51,16 @@ class User
   end
   
   def full_name
-    "#{first_name} #{last_name}"
+    "#{self.first_name} #{self.last_name}"
   end
   
   def must_validate_account?
-    !signup_token.nil?
+    !self.signup_token.nil?
   end
+  
+  def account_validated!
+    self.signup_token = nil
+  end 
   
   def associated_with?(user)
     self_associates = self.associates || []

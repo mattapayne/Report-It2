@@ -9,6 +9,7 @@ defaults: &defaults
   aws_secret_access_key: <secret key here>
   aws_bucket_name: <bucket name here>
   aws_region: us-west-2
+  application_api_key: <API KEY>
 
 development:
   <<: *defaults

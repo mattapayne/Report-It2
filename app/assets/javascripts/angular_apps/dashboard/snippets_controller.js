@@ -20,9 +20,13 @@ angular.module('ReportIt.dashboard.controllers').controller('SnippetsController'
         plugins: ['fontsize', 'fontfamily', 'fontcolor']
     };
     
-    DashboardService.getSnippets().success(function(snippets) {
-       $scope.snippets = snippets; 
-    });
+    DashboardService.getSnippets().
+      success(function(snippets) {
+        $scope.snippets = snippets; 
+      }).
+      error(function(response) {
+        $scope.setError(response.messages);
+      });
     
     $scope.newSnippetIsValid = function() {
       return $scope.snippetName && $scope.snippetContent && $scope.snippetName != '' && $scope.snippetContent != '';  

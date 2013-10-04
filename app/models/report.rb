@@ -22,7 +22,7 @@ class Report
   validates_presence_of :name, :content, :creator, :report_type
 
   #callbacks
-  before_create :set_status
+  after_initialize :set_status
   after_destroy :remove_shares
   after_create :add_to_creator
   
@@ -37,7 +37,7 @@ class Report
       query = query.any_in(tags: searchInfo.tags)
     end
     if searchInfo.search_term.present?
-      query = query.any_in(name: Regexp.new(".*#{searchInfo.search_term}.*"))
+      query = query.any_in(name: Regexp.new("^#{searchInfo.search_term}.*"))
     end
     if searchInfo.status.present?
       converted_status = Report.statuses_enum_hash[searchInfo.status.to_sym]
@@ -82,7 +82,7 @@ class Report
   end
   
   def shared_with?(user)
-    user.reports.include?(self.id)
+    user.reports.present? && user.reports.include?(self.id)
   end
   
   def owner?(user)
@@ -109,7 +109,7 @@ class Report
   end
   
   def set_status
-    self.status = :draft
+    self.status ||= :draft
   end
   
   def ensure_associated!(user)

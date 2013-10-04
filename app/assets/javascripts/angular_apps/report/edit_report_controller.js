@@ -32,7 +32,7 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
         $q.all([loadReport, loadSnippets, loadReportTemplates]).then(function(aggregatedResults) {
             $scope.report = aggregatedResults[0].data;
             $scope.snippets = aggregatedResults[1].data;
-            $scope.reportTemplates = aggregatedResults[2].data;
+            $scope.reportTemplates = aggregatedResults[2].data.reports;
         });
       };
       

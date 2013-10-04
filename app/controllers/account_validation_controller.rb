@@ -4,7 +4,7 @@ class AccountValidationController < ApplicationController
     token = params_for_validation
     user = User.find_by(signup_token: token)
     if user
-      user.signup_token = nil
+      user.account_validated!
       if user.save
         login(user.id)
         redirect_to dashboard_path, success: "Thank-you. Your account has now been validated and is ready for use."

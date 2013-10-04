@@ -33,7 +33,10 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
                                   has_previous: response.has_previous,
                                   per_page: response.per_page
                                  });
-      });
+        }).
+        error(function(response) {
+          $scope.setError(response.messages);  
+        });
     };
     
     self.loadReports();

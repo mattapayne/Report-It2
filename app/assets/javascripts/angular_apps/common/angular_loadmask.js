@@ -48,19 +48,18 @@ angular.module('ReportIt.angular_loadmask', [])
     }];
 
     $httpProvider.interceptors.push(interceptor);
-  }]).
-  provider('loadMask', function() {
+  }]).provider('loadMask', function() {
 
     this.$get = ['$document', function ($document, $animate) {
 
       var body = $document.find('body');
       
       function _mask() {
-        //$(body).mask("Loading ...");
+        $(body).mask("Loading ...");
       }
       
       function _unmask() {
-        //$(body).unmask();
+        $(body).unmask();
       }
 
       return {

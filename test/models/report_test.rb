@@ -10,12 +10,10 @@ describe Report do
   
   let(:user_a) { User.new({first_name: 'Matt', last_name: 'Payne', email: 'test@test.ca', password: '232423', password_confirmation: '232423' }) }
   let(:user_b) { User.new({first_name: 'Other', last_name: 'Other', email: 'other@test.ca', password: '232423', password_confirmation: '232423' })}
-  let(:report) { Report.new({ name: "test", content: "test", creator: user_a }) }
+  let(:report) { Report.new({ name: "test", content: "test", creator: user_a, report_type: :report }) }
 
   describe 'Initial state' do
     it 'should initially have a status of draft' do
-      report.status.must_be_nil
-      report.save!
       report.draft?.must_equal true
     end
   end
