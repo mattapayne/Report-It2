@@ -17,26 +17,18 @@ module Api
       end
       
       def update
-        if @snippet
-          if @snippet.update_attributes(params_for_snippet)
-            render json: { messages: ["Successfully updated the snippet: #{@snippet.name}"] }
-          else
-            render json: { messages: @snippet.errors.full_messages.to_a }, status: 406
-          end
+        if @snippet.update_attributes(params_for_snippet)
+          render json: { messages: ["Successfully updated the snippet: #{@snippet.name}"] }
         else
-          render json: { messages: ['Unable to find that snippet.'] }, status: 404
+          render json: { messages: @snippet.errors.full_messages.to_a }, status: 406
         end
       end
       
       def destroy
-        if @snippet
-          if @snippet.destroy
-            render json: { messages: ["Successfully deleted the snippet: #{@snippet.name}"] }
-          else
-            render json: { messages: @snippet.errors.full_messages.to_a }, status: 406
-          end
+        if @snippet.destroy
+          render json: { messages: ["Successfully deleted the snippet: #{@snippet.name}"] }
         else
-          render json: { messages: ['Unable to find that snippet.'] }, status: 404
+          render json: { messages: @snippet.errors.full_messages.to_a }, status: 406
         end
       end
     
@@ -48,6 +40,9 @@ module Api
       
       def load_snippet
         @snippet = current_user.snippets.find(params[:id])
+        unless @snippet.present?
+          render_not_found_json_response("Unable to locate that snippet.") and return
+        end
       end
     end
   end

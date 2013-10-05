@@ -107,7 +107,7 @@ describe Api::V1::SnippetsController do
       
       json = JSON.parse(response.body)
       response.success?.must_equal false
-      response.status.must_equal 404
+      response.status.must_equal 406
       json["messages"].wont_be_nil
     end
     
@@ -134,7 +134,7 @@ describe Api::V1::SnippetsController do
       
       json = JSON.parse(response.body)
       response.success?.must_equal false
-      response.status.must_equal 404
+      response.status.must_equal 406
       json["messages"].wont_be_nil
     end
     
