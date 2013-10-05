@@ -13,7 +13,7 @@ module Api
       def update
         message = ""
         
-        if @isshared
+        if @shared
           @report.share_with!(@user)
           message = "Successfully shared the report with #{@user.full_name}."
         else
