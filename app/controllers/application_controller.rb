@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
   
   def login(id)
-    session[:user_id] = id
+    session[:user_id] = id.to_s
   end
   
   def logout

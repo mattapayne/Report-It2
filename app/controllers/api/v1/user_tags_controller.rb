@@ -7,7 +7,7 @@ module Api
         filter = params_for_filter
         filtered_tags = filter.nil? ? @tags : @tags.select { |t| t.include?(filter) }
         filtered_tags = filtered_tags.uniq
-        respond_with filtered_tags
+        render json: filtered_tags
       end
 
       private
@@ -21,10 +21,10 @@ module Api
         @tags = []
         tag_type = params[:type]
         if tag_type.present?
-          case tag_type.downcase.to_sym
-            when :reports
+          case tag_type.to_s.singularize.downcase.to_sym
+            when :report
               @tags = current_user.report_tags
-            when :templates
+            when :template
               @tags = current_user.template_tags
             else
           end
