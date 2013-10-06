@@ -50,4 +50,5 @@ group :development, :test do
   gem "minitest-focus", "~> 1.0.0"
   gem "ffaker", "~> 1.19.0"
   gem "mocha", "~> 0.14.0", require: false
+  gem 'simplecov', :require => false
 end

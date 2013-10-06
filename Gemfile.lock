@@ -195,6 +195,10 @@ GEM
       thor (~> 0.14)
     simple_enum (1.6.6)
       activesupport (>= 3.0.0)
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
     sprockets (2.10.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -251,5 +255,6 @@ DEPENDENCIES
   sass-rails (~> 4.0.0)
   sdoc
   simple_enum (~> 1.6.6)
+  simplecov
   uglifier (>= 1.3.0)
   underscore-rails (~> 1.5.1)
