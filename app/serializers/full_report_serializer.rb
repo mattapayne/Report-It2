@@ -1,9 +1,13 @@
 class FullReportSerializer < ActiveModel::Serializer
-  attributes :id, :name, :content, :description, :created_at, :updated_at, :new_record, :report_template_id,
+  attributes :id, :name, :creator_id, :content, :description, :created_at, :updated_at, :new_record, :report_template_id,
     :tags, :shared_with_current_user, :shared_by, :report_type, :last_edited_by, :report_types, :status, :status_types
   
   def id
     object.id.to_s
+  end
+  
+  def creator_id
+    object.creator.id.to_s
   end
   
   def status_types

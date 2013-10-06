@@ -13,7 +13,7 @@ class ReportSearchParams
     }.freeze
   
   def initialize(opts)
-  
+    
     options = DEFAULTS.merge(opts).symbolize_keys
     
     @current_user = options[:user]

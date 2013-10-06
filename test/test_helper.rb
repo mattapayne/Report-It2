@@ -37,12 +37,12 @@ module HelperMethods
   end
   
   def login
-    @user = create_user
-    session[:user_id] = @user.id
+    user = create_user
+    session[:user_id] = user.id
   end
   
   def current_user
-    @user
+    @controller.send(:current_user)
   end
 end
 
@@ -76,3 +76,5 @@ class ActionController::TestCase
     @request.headers['X-Application-API-Key'] = ENV['application_api_key'] #Add API key to request headers
   end
 end
+
+require "mocha/setup"

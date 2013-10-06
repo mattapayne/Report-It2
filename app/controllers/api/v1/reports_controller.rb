@@ -29,6 +29,10 @@ module Api
       end
   
       def destroy
+        unless @report.owner?(current_user)
+          render_not_allowed_json_response("You are not permitted to delete that report.") and return
+        end
+        
         if @report.destroy
           render json: { messages: ["Successfully deleted report: '#{@report.name}'."]}
         else
@@ -54,9 +58,7 @@ module Api
       private
       
       def construct_search_params
-        @search = ReportSearchParams.new({
-          user: current_user
-        }.merge(params))
+        @search = ReportSearchParams.new(params.dup.merge(user: current_user))
       end
       
       def params_for_report

@@ -28,6 +28,7 @@ class User
   validates_uniqueness_of :email
   
   before_create :add_default_settings, :add_signup_token, :set_gravatar_url
+  after_initialize :initialize_reports, :initialize_associates
   
   def report_tags
     tags = all_reports.map {|r| r.tags }.flatten.compact.uniq
@@ -124,6 +125,14 @@ class User
   end
   
   private
+  
+  def initialize_reports
+    self.reports ||= []
+  end
+  
+  def initialize_associates
+    self.associates ||= []
+  end
 
   def get_reports_by_type(report_type, tags = nil)
     converted_report_type = Report.report_types_enum_hash[report_type.to_sym]
