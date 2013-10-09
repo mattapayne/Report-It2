@@ -38,4 +38,64 @@ angular.module('ReportIt-directives', []).
             }
         });
     };
-});
+}).directive('reportItTypeahead', ['$parse', '$compile', 'EMAIL_REGEX', function($parse, $compile, emailRegex) {
+    return {
+      restrict: 'E',
+      replace: true,
+      scope: {
+        onSelect: '&',
+        prefetchUrl: '=',
+        remoteUrl: '='
+      },
+      template: "<input type='text' />",
+      link: function(scope, element, attrs, ctrl) {
+        
+        var options = {
+            
+        };
+        
+        if (!angular.isUndefined(attrs.typeaheadName) && attrs.typeaheadName !== null) {
+          options.name = attrs.typeaheadName;
+        }
+        
+        if (!angular.isUndefined(attrs.prefetchUrl) && attrs.prefetchUrl !== null) {
+          options.prefetch = scope.prefetchUrl;
+        }
+        
+        if (!angular.isUndefined(attrs.remoteUrl) && attrs.remoteUrl !== null) {
+          options.remote = scope.remoteUrl;
+        }
+        
+        if (!angular.isUndefined(attrs.limit) && attrs.limit !== null) {
+          options.limit = attrs.limit;
+        }
+        
+        element.typeahead(options);
+        
+        element.on("keypress", function(e) {
+          if(e.which === 13) {
+            var value = element.val();
+            if (emailRegex.test(value)) {
+                scope.$apply(function() {
+                var value = element.val();
+                scope.onSelect({email: value});
+                element.val("");
+              });
+            }
+          }
+        });
+        
+        element.on("typeahead:selected", function(evt, data) {
+            scope.$apply(function() {
+              var value = data.value;
+              scope.onSelect({email: value});
+              element.typeahead('setQuery', '');
+            });
+        });
+        
+        element.on("destroy", function() {
+          element.typeahead('destroy');
+        });
+      }
+    };
+}]);

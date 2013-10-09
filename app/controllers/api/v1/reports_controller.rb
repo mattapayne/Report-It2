@@ -5,7 +5,7 @@ module Api
       before_action :construct_search_params, only: [:index]
       
       def index
-        results = ReportSearchResults.new(Report.search(@search))
+        results = SearchResults::ReportSearchResults.new(Report.search(@search))
         render json: results, serializer: PagedReportsSerializer
       end
   
@@ -58,7 +58,7 @@ module Api
       private
       
       def construct_search_params
-        @search = ReportSearchParams.new(params.dup.merge(user: current_user))
+        @search = SearchParams::ReportSearchParams.new(params.dup.merge(user: current_user))
       end
       
       def params_for_report

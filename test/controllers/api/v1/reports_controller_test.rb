@@ -29,7 +29,7 @@ describe Api::V1::ReportsController do
     end
     
     it 'should ask the Report class to perform the search' do
-      search_args = ReportSearchParams.new({user: current_user, report_type: :report, status: :draft})
+      search_args = SearchParams::ReportSearchParams.new({user: current_user, report_type: :report, status: :draft})
       results = Report.search(search_args)
       Report.expects(:search).returns(results)
       get :index, format: :json, tags:['a', 'b'], search_term: 'test', report_type: :report, status: :draft, page_number: 2, per_page: 5

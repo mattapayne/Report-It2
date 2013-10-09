@@ -2,6 +2,7 @@ module Api
   module V1
     class ImageUploadController < ApiController
       skip_before_action :verify_authenticity_token, only: [:create]
+      skip_before_action :require_api_key, only: [:create]
       before_action :ensure_file_present, only: [:create]
     
       def create

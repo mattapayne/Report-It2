@@ -19,7 +19,7 @@ angular.module('ReportIt.report.services').
             };
             
             this.getReportTemplates = function() {
-                return $http.get(ReportIt.routes.api_v1_get_reports_path({tags: '', term: '', report_type: "Report Templates", page: 1, per_page: 1000}));
+                return $http.get(ReportIt.routes.api_v1_get_reports_path({tags: '', term: '', report_type: "template", page: 1, per_page: 1000}));
             };
             
             this.getReportTemplate = function(reportId) {

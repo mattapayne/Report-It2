@@ -3,7 +3,7 @@ require "test_helper"
 describe AssociateInvitation do
   
   def associate_invitation_properties
-    { inviter: User.new, invitee: User.new, message: 'Please be my friend' }
+    { inviter: User.new, invitee: User.new(email: 'test@example.com'), invitee_email: 'test@example.com', message: 'Please be my friend' }
   end
   
   let(:invite) { AssociateInvitation.new(associate_invitation_properties) }

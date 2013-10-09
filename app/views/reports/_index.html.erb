@@ -79,7 +79,7 @@
             <div class='panel panel-default'>
               <div class='panel-heading'>
                 Sharing
-                <button type="button" class="close" aria-hidden="true" ng-click='hideReportSharingForReport(report)', title='Cancel editing'>&times;</button>
+                <button type="button" class="close" aria-hidden="true" ng-click='hideReportSharingForReport(report)', title='Cancel sharing'>&times;</button>
               </div>
               <div class='panel-body'>
                 <div ng-if='!reportHasShares(report)'>You are not associated with anyone yet, so you can't share this report.</div>
@@ -87,7 +87,7 @@
                   <div ng-repeat="share in getReportShares(report) | orderBy:'full_name'" class='col-md-1'>
                     <img ng-click='shareReport(report, share)' ng-src='{{ share.gravatar_url}}'
                          alt='{{share.full_name}}' title='{{ getShareTitle(share) }}'
-                         ng-class="share.has_share ? 'shared' : 'not-shared'" />
+                         ng-class="share.has_share ? 'shared' : 'not-shared'" />{{ share.full_name }}
                   </div>
                 </div>
               </div>

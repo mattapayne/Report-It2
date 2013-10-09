@@ -1,8 +1,9 @@
 module Api
   module V1
     class SharesController < ApiController
-      before_action :load_report
+      before_action :load_report, only: [:index, :update]
       before_action :load_share, only: [:update]
+      before_action :load_user, only: [:by_associate]
       
       def index
         current_sharees = @report.get_shares(current_user)
@@ -24,10 +25,19 @@ module Api
         render json: { messages: [message] }, status: 200
       end
       
+      def by_associate
+        shared_reports = current_user.get_reports_shared_with(@user)
+        render json: shared_reports, each_serializer: SimpleReportSerializer
+      end
+      
       private
       
       def params_for_share
         params.require(:share).permit(:user_id, :shared)
+      end
+      
+      def load_user
+        @user = User.find(params[:id]);
       end
       
       def load_share

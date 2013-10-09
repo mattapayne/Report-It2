@@ -1,3 +1,36 @@
-<div class='container'>
-  My Account stuff here ...
+<%= content_for :head_css do %>
+  <%= stylesheet_link_tag 'my_account' %>
+<% end %>
+<% content_for :head_js do %>
+  <%= javascript_include_tag "my_account" %>
+<% end %>
+
+<div ng-app='ReportIt.my_account'>
+  <ul class='nav nav-tabs'>
+    <li><a href='#primary' data-toggle='tab'>Primary Settings</a></li>
+    <li><a href='#other' data-toggle='tab'>Other Settings</a></li>
+  </ul>
+  <div class='tab-content spacer5'>
+    <div class='tab-pane active' id='primary'>
+      <div class='row'>
+        <div class='col-md-6'>
+          <%= render partial: "associates/index" %>
+        </div>
+        <div class='col-md-6'>
+          <%= render partial: "snippets/index" %>
+          <%= render partial: "settings/index" %>
+        </div>
+      </div>
+    </div>
+    <div class='tab-pane' id='other'>
+      <div class='row'>
+        <div class='col-md-6'>
+          <%= render partial: "invitations/sent" %>
+        </div>
+        <div class='col-md-6'>
+          User settings (password, profile pic, etc.) here ...
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

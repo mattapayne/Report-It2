@@ -28,7 +28,7 @@ class Report
   
   def self.search(searchInfo)
     user = searchInfo.current_user
-    if searchInfo.report_type == :reports
+    if searchInfo.report_type == :report
       query = user.all_reports
     else
       query = user.all_templates

@@ -1,12 +1,12 @@
-angular.module('ReportIt.dashboard.controllers').controller('SettingsController', ['$scope', 'DashboardService', 'INTEGER_REGEX', 'SharedScopeResponseHandling',
-  function($scope, DashboardService, integerRegex, SharedScopeResponseHandling) {
+angular.module('ReportIt.my_account.controllers').controller('SettingsController', ['$scope', 'MyAccountService', 'INTEGER_REGEX', 'SharedScopeResponseHandling',
+  function($scope, MyAccountService, integerRegex, SharedScopeResponseHandling) {
     
     var self = this;
     SharedScopeResponseHandling.mixin($scope);
     $scope.settingsBeingEdited = {};
     $scope.settings = [];
     
-    DashboardService.getSettings().
+    MyAccountService.getSettings().
       success(function(settings) {
         $scope.settings = settings; 
       }).
@@ -51,7 +51,7 @@ angular.module('ReportIt.dashboard.controllers').controller('SettingsController'
     
     $scope.update = function(index) {
         var setting = $scope.settings[index];
-        DashboardService.updateSetting(setting).
+        MyAccountService.updateSetting(setting).
           success(function(response) {
             $scope.stopEditing(index);
             $scope.setSuccess(response.messages);

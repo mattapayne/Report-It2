@@ -1,0 +1,10 @@
+//= require_tree ../../../vendor/assets/javascripts/redactor/.
+//= require ./angular_apps/common/angular_redactor
+//= require ../../../vendor/assets/javascripts/typeahead/typeahead
+//= require ./angular_apps/my_account/app
+//= require ./angular_apps/my_account/service
+//= require ./angular_apps/my_account/snippets_controller
+//= require ./angular_apps/my_account/settings_controller
+//= require ./angular_apps/my_account/associates_controller
+//= require ./angular_apps/my_account/sent_invitations_controller
+//= require ./angular_apps/my_account/received_invitations_controller

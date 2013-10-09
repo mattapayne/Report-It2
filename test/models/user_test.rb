@@ -212,8 +212,8 @@ describe User do
     end
     
     it 'should have associates if some have been added' do
-      user_a.associates.must_be_nil
-      user_b.associates.must_be_nil
+      user_a.associates.must_be_empty
+      user_b.associates.must_be_empty
       
       user_a.associate_with!(user_b)
       

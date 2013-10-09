@@ -38,30 +38,6 @@ function($http, $q, $window) {
         $window.location.href = ReportIt.routes.new_report_path(type);
     };
     
-    this.getSnippets = function() {
-        return $http.get(ReportIt.routes.api_v1_get_snippets_path()); 
-    };
-    
-    this.updateSnippet = function(snippet) {
-        return $http.put(ReportIt.routes.api_v1_update_snippet_path(snippet.id), angular.toJson({ snippet: snippet }));
-    };
-    
-    this.createSnippet = function(snippet) {
-        return $http.post(ReportIt.routes.api_v1_create_snippet_path(), angular.toJson({ snippet: snippet })); 
-    };
-    
-    this.destroySnippet = function(snippet) {
-        return $http.delete(ReportIt.routes.api_v1_destroy_snippet_path(snippet.id));
-    };
-    
-    this.getSettings = function() {
-        return $http.get(ReportIt.routes.api_v1_get_settings_path()); 
-    };
-    
-    this.updateSetting = function(setting) {
-        return $http.put(ReportIt.routes.api_v1_update_settings_path(setting.id), angular.toJson({ setting: setting }));
-    };
-    
     this.getUserTags = function(tagType) {
         return $http.get(ReportIt.routes.api_v1_get_user_tags_path(tagType));  
     };

@@ -47,8 +47,11 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     });
       
     $scope.pageTo = function(page) {
-      $scope.currentPage = page;
-      self.loadReports();
+      if(!angular.isUndefined(page) && page !== null && page !== $scope.currentPage)
+      {
+        $scope.currentPage = page;
+        self.loadReports(); 
+      }
     };
     
     $scope.exportTo = function(format, report) {

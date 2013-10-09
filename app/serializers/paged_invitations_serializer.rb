@@ -1,6 +1,6 @@
-class PagedReportsSerializer < ActiveModel::Serializer
+class PagedInvitationsSerializer < ActiveModel::Serializer
   attributes :total_pages, :current_page, :has_next, :has_previous, :per_page
-  has_many :items, key: :reports, each_serializer: ReportSerializer
+  has_many :items, key: :invitations, serializer: SimpleInvitationSerializer
   
   def has_next
     object.has_next?

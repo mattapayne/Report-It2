@@ -1,0 +1,98 @@
+<div ng-controller='AssociatesController'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      Associates
+    </div>
+    <div class='panel-body'>
+      <div ng-class='resultClasses()' ng-if='hasResult()'>
+        <button class="close" ng-click='resetResult()'>×</button>
+        <ul>
+          <li ng-repeat='message in getMessages()'>{{ message }}</li>
+        </ul>
+      </div>
+      <ul class='list-group'>
+        <li ng-if='associates.length == 0' class='list-group-item'>You don't have any associates yet.</li>
+        <li ng-repeat="associate in associates | orderBy:'full_name'" class='list-group-item'>
+          <span><img ng-src='{{ associate.gravatar_url}}' title='{{ associate.full_name }}' class='associate'
+                         alt='{{associate.full_name}}'/> {{ associate.full_name }}</span>
+          <div class='pull-right'>
+            <div class='btn-group'>
+              <button type="button" data-toggle='dropdown' class='btn btn-default dropdown-toggle'>Actions
+                <span class='caret'></span>
+              </button>
+              <ul class='dropdown-menu'>
+                <li><a href='' title='Disassociate' ng-click='disassociate(associate)'>Disassociate</a></li>
+                <li><a href='' title='View shares' ng-click='viewShares(associate)'>Shares</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class='clearfix'></div>
+          <div ng-if='shouldDisplaySharingForAssociate(associate)' class='spacer5'>
+            <div class='panel panel-default'>
+              <div class='panel-heading'>
+                Sharing
+                <button type="button" class="close" aria-hidden="true" ng-click='hideReportSharingForAssociate(associate)', title='Cancel sharing'>&times;</button>
+              </div>
+              <div class='panel-body'>
+                <div ng-if='!associateHasShares(associate)'>You are not sharing anything with {{ associate.full_name }}.</div>
+                <div ng-if='associateHasShares(associate)' class='row'>
+                  <ul class='list-group report-shares'>
+                    <li class='list-group-item' ng-repeat="report in getReportShares(associate) | orderBy:'name'">
+                      {{ report.name }} ( {{ report.friendly_report_type }})
+                      <div class='pull-right'>
+                        <button class='btn btn-success btn-xs' title='Stop sharing this {{ report.friendly_report_type }}' ng-click='stopSharing(associate, report)' type='button'>Stop Sharing</button>
+                      </div> 
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class='list-group-item centered-pager' ng-if='pagination.visible'>
+          <ul class='pagination pagination-sm'>
+            <li ng-if='pagination.has_previous'>
+              <a href='' ng-click='pageTo(pagination.current - 1)'>&laquo;</a>
+            </li>
+            <li ng-repeat='pageNumber in pagination.pageNumbers' ng-class="pageNumber.cssClasses">
+              <a href='' ng-click='pageTo(pageNumber.name)' ng-disabled='pageNumber.isCurrent'>{{ pageNumber.name }}</a>
+            </li>
+            <li ng-if='pagination.has_next'>
+              <a href='' ng-click='pageTo(pagination.current + 1)'>&raquo;</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div ng-show='inviting' class='panel panel-default'>
+        <div class='panel-heading'>
+           <button class="close" ng-click='stopInviting()'>×</button>
+          Invite Someone To Be Your Associate
+        </div>
+        <div class='panel-body'>
+            <div class='alert alert-info'>
+              <small>
+                Invite other users to associate with you! This is the easiest way to begin sharing your reports.
+                You can lookup email addresses of other users in the system or type in the email of a user not in the system.
+              </small>
+            </div>
+            <report-it-typeahead id='invitee' placeholder='Begin typing email address here ...' typeahead-name='invitee-typeahead' remote-url='remoteUrl' on-select='addInvitee(email)' class='form-control typeahead-input'></report-it-typeahead>
+            <textarea id='message' ng-model='invitationMessage' class='form-control spacer5' rows='5' cols='15' placeholder='Type a message here, if you want to send one to the users selected.'></textarea>
+            <div class='spacer5'>
+              <ul class='list-group' ng-if='selectedEmails.length > 0'>
+                <h4>To Be Invited</h4>
+                <li class='list-group-item' ng-repeat='email in selectedEmails'>
+                  {{ email }}
+                  <button class='btn btn-success btn-xs pull-right' ng-click='removeInvitee(email)' title='Remove {{ email }}'>Remove</button>
+                </li>
+              </ul>
+              <button class='pull-right btn btn-success btn-xs' ng-disabled='selectedEmails.length == 0' ng-click='invite()'>Send Invitation(s)</button>
+            </div>
+        </div>
+      </div>
+      <div class='pull-right'>
+        <button type='button' title='Invite someone to be your associate' ng-click='beginInviting()' ng-disabled='inviting' class='btn btn-success'>Invite</button>
+      </div>
+      <div class='clearfix'></div>
+    </div>
+  </div>
+</div>

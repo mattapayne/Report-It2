@@ -4,7 +4,17 @@ ReportIt::Application.routes.draw do
   namespace :api, defaults: { format: 'json'} do
     namespace :v1 do
       controller :user_tags do
-        get '/user_tags/:type' => :index, as: :get_user_tags
+        get 'user_tags/:type' => :index, as: :get_user_tags
+      end
+      controller :invitations do
+        post 'invitations' => :create, as: :create_invitation
+        get 'invitations/:type' => :index, as: :get_invitations_by_type
+        delete 'invitations/:id' => :destroy, as: :destroy_invitation
+      end
+      controller :associates do
+        get 'associates' => :index, as: :get_associates
+        get 'potential_associates' => :potentials, as: :get_potential_associates
+        delete 'associates/:id' => :destroy, as: :destroy_association
       end
       controller :snippets do
         get 'snippets' => :index, as: :get_snippets
@@ -26,11 +36,12 @@ ReportIt::Application.routes.draw do
         delete 'reports/:id' => :destroy, as: :destroy_report
       end
       controller :shares do
-        get '/shares/:id' => :index, as: :get_shares
-        put '/shares/:id' => :update, as: :update_share
+        get 'shares/:id' => :index, as: :get_shares
+        put 'shares/:id' => :update, as: :update_share
+        get 'associate/:id/shares' => :by_associate, as: :get_shared_reports_by_associate
       end
       controller :image_upload do
-        post '/upload' => :create, as: :image_upload
+        post 'upload' => :create, as: :image_upload
       end
     end
   end

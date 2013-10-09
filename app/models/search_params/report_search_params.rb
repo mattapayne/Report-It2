@@ -1,9 +1,8 @@
-class ReportSearchParams
+class SearchParams::ReportSearchParams
+  include SearchParams::BaseSearchParams
   
-  attr_accessor :tags, :report_type, :search_term, :page_number, :per_page, :current_user, :status
+  attr_accessor :tags, :report_type, :search_term, :current_user, :status
   
-  DEFAULT_PAGE = 1
-  DEFAULT_PER_PAGE = 10
   REPORT_TYPES = [:report, :template].freeze
   STATUSES = [:draft, :published].freeze
   DEFAULTS = {
@@ -15,6 +14,8 @@ class ReportSearchParams
   def initialize(opts)
     
     options = DEFAULTS.merge(opts).symbolize_keys
+    
+    setup(options)
     
     @current_user = options[:user]
     
@@ -35,9 +36,7 @@ class ReportSearchParams
     
     @status = options[:status]
     
-    unless @status.present?
-      raise "A status must be supplied."
-    else
+    if @status.present?    
       @status = @status.to_s.downcase.strip.singularize.to_sym
       unless STATUSES.include?(@status)
         raise "#{status} is not a valid report status."
@@ -55,27 +54,5 @@ class ReportSearchParams
     if search_term.present?
       @search_term = search_term.strip
     end
-    
-    @page_number = options[:page_number]
-    
-    if @page_number.present?
-      @page_number = @page_number.to_s.strip.to_i
-    else
-      @page_number = DEFAULT_PAGE
-    end
-    
-    @per_page = options[:per_page]
-    
-    if per_page.present?
-      @per_page = per_page.to_s.strip.to_i
-    else
-      @per_page = DEFAULT_PER_PAGE
-    end
-  
   end
-  
-  def to_s
-    "Tags: #{@tags.inspect}, User: #{@current_user.id}, Report Type: #{@report_type}, Search Term: #{@search_term}, Page: #{@page_number}, Per Page: #{@per_page}, Status: #{@status}"
-  end
-  
 end

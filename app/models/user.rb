@@ -30,6 +30,16 @@ class User
   before_create :add_default_settings, :add_signup_token, :set_gravatar_url
   after_initialize :initialize_reports, :initialize_associates
   
+  def get_invitations(searchInfo)
+    query = searchInfo.type == :sent ? self.associate_invitations_sent : self.associate_invitations_received
+    query = query.page(searchInfo.page_number).limit(searchInfo.per_page)
+    query
+  end
+  
+  def get_reports_shared_with(user)
+    Report.where(creator_id: self.id).any_in(id: user.reports)
+  end
+  
   def report_tags
     tags = all_reports.map {|r| r.tags }.flatten.compact.uniq
     tags
@@ -91,10 +101,28 @@ class User
     end
   end
   
-  def get_associates
-    ids = self.associates || []
-    associated_users = User.find(ids)
-    return associated_users || []
+  def get_associates(searchInfo=nil)
+    query = User.any_in(id: self.associates.select {|id| id != self.id})
+    if searchInfo.present?
+      query = query.page(searchInfo.page_number).limit(searchInfo.per_page)
+    end
+    query
+  end
+  
+  def get_potential_associates(filter = nil)
+    not_associates = User.not_in(id: self.associates)
+    if filter.present?
+      not_associates = not_associates.any_in(email: Regexp.new("^#{filter}.*"))
+    end
+    #we need to exclude those that have already been invited, but who have not accepted or declined
+    invited_but_pending = get_pending_invited_associates().map(&:invitee_id).compact.map { |id| id.to_s }
+    not_associates = not_associates.delete_if {|u| invited_but_pending.include?(u.id.to_s)}
+    not_associates
+  end
+  
+  def get_pending_invited_associates
+    converted_status = AssociateInvitation.statuses_enum_hash[:pending]
+    self.associate_invitations_sent.any_in(status_cd: [converted_status]).where(new_invitee: false)
   end
   
   def invite_to_associate!(user, message = nil)
@@ -107,11 +135,22 @@ class User
     if has_invited?(user)
       raise 'You have already invited this user to associate.'
     end
-    self.associate_invitations_sent.create!(invitee: user, message: message)
+    self.associate_invitations_sent.create!(invitee: user, message: message, new_invitee: false, invitee_email: user.email)
+  end
+  
+  def invite_to_associate_with_new_user!(email, message)
+    if has_invited_new?(email)
+      raise 'You have already invited this user to associate.'
+    end
+    self.associate_invitations_sent.create!(invitee_email: email, message: message, new_invitee: true)
   end
   
   def has_invited?(user)
     get_invitation_query(user).exists?
+  end
+  
+  def has_invited_new?(email)
+    get_invitation_by_email_query(email).exists?
   end
   
   def get_invitation(user)
@@ -160,7 +199,11 @@ class User
   end
 
   def get_invitation_query(user)
-    self.associate_invitations_sent.where(invitee: user)
+    self.associate_invitations_sent.where(invitee: user).where(new_invitee: false)
+  end
+  
+  def get_invitation_by_email_query(email)
+    self.associate_invitations_sent.where(invitee_email: email).where(new_invitee: true)
   end
   
 end

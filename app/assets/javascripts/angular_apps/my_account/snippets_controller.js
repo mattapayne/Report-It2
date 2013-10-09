@@ -1,6 +1,6 @@
-angular.module('ReportIt.dashboard.controllers').controller('SnippetsController',
-  ['$scope', 'DashboardService', 'SharedScopeResponseHandling',
-  function($scope, DashboardService, SharedScopeResponseHandling) {
+angular.module('ReportIt.my_account.controllers').controller('SnippetsController',
+  ['$scope', 'MyAccountService', 'SharedScopeResponseHandling',
+  function($scope, MyAccountService, SharedScopeResponseHandling) {
     
     var self = this;
     SharedScopeResponseHandling.mixin($scope);
@@ -20,7 +20,7 @@ angular.module('ReportIt.dashboard.controllers').controller('SnippetsController'
         plugins: ['fontsize', 'fontfamily', 'fontcolor']
     };
     
-    DashboardService.getSnippets().
+    MyAccountService.getSnippets().
       success(function(snippets) {
         $scope.snippets = snippets; 
       }).
@@ -65,7 +65,7 @@ angular.module('ReportIt.dashboard.controllers').controller('SnippetsController'
     
     $scope.update = function(index) {
         var snippet = $scope.snippets[index];
-        DashboardService.updateSnippet(snippet).
+        MyAccountService.updateSnippet(snippet).
           success(function(response) {
             $scope.stopEditing(index);
             $scope.setSuccess(response.messages);
@@ -96,7 +96,7 @@ angular.module('ReportIt.dashboard.controllers').controller('SnippetsController'
     
     $scope.create = function() {
         var snippet = { name: $scope.snippetName, content: $scope.snippetContent };
-        DashboardService.createSnippet(snippet).
+        MyAccountService.createSnippet(snippet).
           success(function(response) {
             $scope.snippets.push(response.snippet);
             $scope.stopAdd();
@@ -120,7 +120,7 @@ angular.module('ReportIt.dashboard.controllers').controller('SnippetsController'
     
     //since there is no 'finally' construct in Angular's promise returned by $http, we have to duplicate some code.
     self.deleteSnippet = function(index, snippet) {
-        DashboardService.destroySnippet(snippet).
+        MyAccountService.destroySnippet(snippet).
             success(function(response) {
                 $scope.snippets.splice(index, 1);
                 self.stopManagingSnippet(index);
