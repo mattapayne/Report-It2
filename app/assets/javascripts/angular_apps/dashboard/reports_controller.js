@@ -1,8 +1,7 @@
-angular.module('ReportIt.dashboard.controllers').controller('ReportsController', ['$scope', 'DashboardService', 'SharedScopeResponseHandling', 'Pagination',
-  function($scope, DashboardService, SharedScopeResponseHandling, Pagination) {
+angular.module('ReportIt.dashboard.controllers').controller('ReportsController', ['$scope', 'DashboardService', 'Pagination',
+  function($scope, DashboardService, Pagination) {
     
     var self = this;
-    SharedScopeResponseHandling.mixin($scope);
     $scope.reports = [];
     $scope.searchTerm = "";
     $scope.reportTypes = ["Reports", "Templates"];
@@ -26,13 +25,7 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
       DashboardService.getReports($scope.selectedTags, $scope.searchTerm, $scope.selectedReportType, $scope.selectedStatus, $scope.currentPage).
         success(function(response) {
           $scope.reports = response.reports;
-          $scope.pagination = new Pagination.Paginator({
-                                  current: response.current_page,
-                                  total: response.total_pages,
-                                  has_next: response.has_next,
-                                  has_previous: response.has_previous,
-                                  per_page: response.per_page
-                                 });
+          $scope.pagination = $scope.createPaginator(response);
         }).
         error(function(response) {
           $scope.setError(response.messages);  

@@ -1,8 +1,7 @@
-angular.module('ReportIt.contact.controllers').controller('ContactController', ['$scope', 'MessageService', 'SharedScopeResponseHandling',
-  function($scope, MessageService, SharedScopeResponseHandling) {    
+angular.module('ReportIt.contact.controllers').controller('ContactController', ['$scope', 'MessageService',
+  function($scope, MessageService) {    
       
     var self = this;
-    SharedScopeResponseHandling.mixin($scope);
     var emptyMessage = {email: '', subject: '', message_text: '', from: ''};
     $scope.message = angular.copy(emptyMessage);
     

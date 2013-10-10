@@ -1,9 +1,8 @@
-angular.module('ReportIt.my_account.controllers').controller('SentInvitationsController', ['$scope', 'MyAccountService', 'SharedScopeResponseHandling', 'Pagination',
-  function($scope, MyAccountService, SharedScopeResponseHandling, Pagination) {
+angular.module('ReportIt.my_account.controllers').controller('SentInvitationsController', ['$scope', 'MyAccountService',
+  function($scope, MyAccountService) {
   
     var self = this;
-    SharedScopeResponseHandling.mixin($scope);
-    
+
     $scope.invitations = [];
     $scope.pagination = null;
     $scope.currentPage = null;
@@ -12,13 +11,7 @@ angular.module('ReportIt.my_account.controllers').controller('SentInvitationsCon
       MyAccountService.getSentInvitations($scope.currentPage).
         success(function(response) {
           $scope.invitations = response.invitations;
-          $scope.pagination = new Pagination.Paginator({
-                          current: response.current_page,
-                          total: response.total_pages,
-                          has_next: response.has_next,
-                          has_previous: response.has_previous,
-                          per_page: response.per_page
-                         });
+          $scope.pagination = $scope.createPaginator(response);
         }).
         error(function(response) {
           $scope.setError(response.messages);  

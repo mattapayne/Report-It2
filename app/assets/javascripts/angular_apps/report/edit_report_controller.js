@@ -1,9 +1,8 @@
 angular.module('ReportIt.report.controllers').controller('EditReportController',
-  ['$scope', '$q', 'ReportService', 'SharedScopeResponseHandling',
-  function($scope, $q, ReportService, SharedScopeResponseHandling) {    
+  ['$scope', '$q', 'ReportService', function($scope, $q, ReportService) {    
     
       var self = this;
-      SharedScopeResponseHandling.mixin($scope);
+
       $scope.snippets = [];
       $scope.report = null;
       $scope.reportTemplates = [];

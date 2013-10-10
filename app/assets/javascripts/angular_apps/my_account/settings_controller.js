@@ -1,8 +1,8 @@
-angular.module('ReportIt.my_account.controllers').controller('SettingsController', ['$scope', 'MyAccountService', 'INTEGER_REGEX', 'SharedScopeResponseHandling',
-  function($scope, MyAccountService, integerRegex, SharedScopeResponseHandling) {
+angular.module('ReportIt.my_account.controllers').controller('SettingsController', ['$scope', 'MyAccountService', 'INTEGER_REGEX',
+  function($scope, MyAccountService, integerRegex) {
     
     var self = this;
-    SharedScopeResponseHandling.mixin($scope);
+
     $scope.settingsBeingEdited = {};
     $scope.settings = [];
     

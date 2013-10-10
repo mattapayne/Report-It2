@@ -1,9 +1,9 @@
 angular.module('ReportIt.my_account.controllers').controller('SnippetsController',
-  ['$scope', 'MyAccountService', 'SharedScopeResponseHandling',
-  function($scope, MyAccountService, SharedScopeResponseHandling) {
+  ['$scope', 'MyAccountService',
+  function($scope, MyAccountService) {
     
     var self = this;
-    SharedScopeResponseHandling.mixin($scope);
+
     $scope.adding = false;
     $scope.snippetsBeingEdited = {};
     $scope.snippetsBeingDeleted = [];

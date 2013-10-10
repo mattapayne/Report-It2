@@ -1,9 +1,8 @@
-angular.module('ReportIt.my_account.controllers').controller('ReceivedInvitationsController', ['$scope', 'MyAccountService', 'SharedScopeResponseHandling', 'Pagination',
-  function($scope, MyAccountService, SharedScopeResponseHandling, Pagination) {
+angular.module('ReportIt.my_account.controllers').controller('ReceivedInvitationsController', ['$scope', 'MyAccountService',
+  function($scope, MyAccountService) {
   
     var self = this;
-    SharedScopeResponseHandling.mixin($scope);
-    
+
     $scope.invitations = [];
     $scope.pagination = null;
     
