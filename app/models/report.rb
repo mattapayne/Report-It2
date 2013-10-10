@@ -34,7 +34,13 @@ class Report
       query = user.all_templates
     end
     if searchInfo.tags.present?
-      query = query.any_in(tags: searchInfo.tags)
+      #this limits to reports that have all the selected tags. The alternative is 'any_in' which
+      #would get all reports that had any of the selected tags
+      if searchInfo.all_in_tags == true
+        query = query.all_in(tags: searchInfo.tags)
+      else
+        query = query.any_in(tags: searchInfo.tags) 
+      end
     end
     if searchInfo.search_term.present?
       query = query.any_in(name: Regexp.new("^#{searchInfo.search_term}.*"))

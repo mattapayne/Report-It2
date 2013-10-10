@@ -1,13 +1,14 @@
 class SearchParams::ReportSearchParams
   include SearchParams::BaseSearchParams
   
-  attr_accessor :tags, :report_type, :search_term, :current_user, :status
+  attr_accessor :tags, :report_type, :search_term, :current_user, :status, :all_in_tags
   
   REPORT_TYPES = [:report, :template].freeze
   STATUSES = [:draft, :published].freeze
   DEFAULTS = {
       user: nil,
       tags: [],
+      all_in_tags: true,
       search_term: '',
     }.freeze
   
@@ -43,6 +44,8 @@ class SearchParams::ReportSearchParams
       end
     end
     
+    @all_in_tags = (options[:all_in_tags] || 'true').to_s.downcase == 'true' ? true : false
+    
     @tags = options[:tags]
     
     unless @tags.is_a?(Array)
@@ -54,5 +57,6 @@ class SearchParams::ReportSearchParams
     if search_term.present?
       @search_term = search_term.strip
     end
+
   end
 end

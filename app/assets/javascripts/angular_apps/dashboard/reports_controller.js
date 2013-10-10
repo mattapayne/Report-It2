@@ -12,17 +12,31 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     $scope.tags = [];
     $scope.pagination = null;
     $scope.currentPage = null;
+    $scope.allInTags = true;
+    $scope.tagSelectionModeLabel = "Reports will have all of the selected tags.";
+    
+    $scope.$watch('allInTags', function(oldVal, newVal) {
+      if (oldVal === false) {
+        $scope.tagSelectionModeLabel = "Reports will have any of the selected tags.";
+      }
+      else {
+        $scope.tagSelectionModeLabel = "Reports will have all of the selected tags.";
+      }
+      if (oldVal !== newVal) {
+        self.loadReports();
+      }
+    });
     
     $scope.uiSelect2Options = {
         dropdownAutoWidth: false,
-        width: '350px',
+        width: '475px',
         formatNoMatches: function(term) {
           return "No tags are available";
         }
     };
     
     self.loadReports = function() {
-      DashboardService.getReports($scope.selectedTags, $scope.searchTerm, $scope.selectedReportType, $scope.selectedStatus, $scope.currentPage).
+      DashboardService.getReports($scope.selectedTags, $scope.allInTags, $scope.searchTerm, $scope.selectedReportType, $scope.selectedStatus, $scope.currentPage).
         success(function(response) {
           $scope.reports = response.reports;
           $scope.pagination = $scope.createPaginator(response);

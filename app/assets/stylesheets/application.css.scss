@@ -214,3 +214,16 @@ ul.report-shares {
 span.twitter-typeahead, input.typeahead-input {
   width:100% !important;
 }
+
+.as-tall-as-tag-select a.select2-choice {
+  height:32px !important;
+  
+    .select2-chosen {
+       vertical-align: middle !important;
+       display: table-cell !important;
+     } 
+}
+
+.small-label {
+  font-size: 75%;
+}

@@ -13,6 +13,7 @@
     <div class='row'>
       <div class='col-md-5 form-group' id='report-tags'>
         <label for='tags' class='label label-default'>Tags</label>
+        <label class='small-label'><input type='checkbox' ng-model='allInTags' />{{ tagSelectionModeLabel }}</label>
         <div class='spacer5'>
           <select ui-select2='uiSelect2Options' ng-model='selectedTags'
             multiple
@@ -23,7 +24,7 @@
           </select>
         </div>
        </div>
-        <div class="col-md-2 form-group">
+        <div class="col-md-3 form-group">
         <label class='label label-default' for='searchTerm'>Search Term</label>
         <div class='spacer5'>
           <input type='text' ng-model='searchTerm' id='searchTerm' class='form-control' report-it-enter='applyReportFilters()' placeholder="Hit enter to apply" />
@@ -32,15 +33,15 @@
       <div class='col-md-2 form-group'>
         <label for='statuses' class='label label-default'>Status</label>
         <div class='spacer5'>
-          <select class='full-width' id='statuses' ui-select2 ng-model='selectedStatus' ng-change='statusChanged()'>
+          <select class='full-width as-tall-as-tag-select' id='statuses' ui-select2 ng-model='selectedStatus' ng-change='statusChanged()'>
             <option ng-repeat="status in statuses | orderBy:'toString()'" value='{{ status }}'>{{ status }}</option>
           </select>
         </div>
       </div>
-      <div class='col-md-3 form-group'>
+      <div class='col-md-2 form-group'>
         <label class='label label-default' for='reportType'>Report Type</label>
         <div class='spacer5'>
-          <select class='full-width' id='reportType' ui-select2 ng-model='selectedReportType' ng-change='reportTypeChanged()'>
+          <select class='full-width as-tall-as-tag-select' id='reportType' ui-select2 ng-model='selectedReportType' ng-change='reportTypeChanged()'>
             <option ng-repeat="type in reportTypes | orderBy:'toString()'" value='{{ type }}'>{{ type }}</option>
           </select>
         </div>

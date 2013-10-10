@@ -1,8 +1,9 @@
 angular.module('ReportIt.dashboard.services').service('DashboardService', ['$http', '$q', '$window',
 function($http, $q, $window) {
     
-    this.getReports = function(tags, searchTerm, reportType, status, page, resultsPerPage) {
+    this.getReports = function(tags, allInTags, searchTerm, reportType, status, page, resultsPerPage) {
         tags = angular.isUndefined(tags) || tags === null ? [] : tags;
+        allInTags = angular.isUndefined(allInTags) || allInTags === null ? true : allInTags;
         searchTerm = angular.isUndefined(searchTerm) || searchTerm === null ? "" : searchTerm;
         reportType = angular.isUndefined(reportType) || reportType === null ? "" : reportType;
         status = angular.isUndefined(status) || status === null ? "" : status;
@@ -10,6 +11,7 @@ function($http, $q, $window) {
         resultsPerPage = angular.isUndefined(resultsPerPage) || resultsPerPage === null ? "" : resultsPerPage;
         return $http.get(ReportIt.routes.api_v1_get_reports_path({
             tags: tags.join(','),
+            all_in_tags: allInTags,
             search_term: searchTerm,
             report_type: reportType,
             status: status,
