@@ -1,0 +1,46 @@
+<div ng-controller='ReceivedInvitationsController'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      Invitations Received
+    </div>
+    <div class='panel-body'>
+      <div ng-class='resultClasses()' ng-if='hasResult()'>
+        <button class="close" ng-click='resetResult()'>×</button>
+        <ul>
+          <li ng-repeat='message in getMessages()'>{{ message }}</li>
+        </ul>
+      </div>
+      <ul class='list-group'>
+        <li ng-if='invitations.length == 0' class='list-group-item'>You don't have any invitations.</li>
+        <li ng-repeat="invite in invitations | orderBy:'date_created'" class='list-group-item'>
+          <span>Received from: {{ invite.from_name }} ({{ invite.from_email }}) on {{ invite.created_at }}</span>
+          <div class='pull-right'>
+            <div class='btn-group'>
+              <button type="button" data-toggle='dropdown' class='btn btn-default dropdown-toggle'>Actions
+                <span class='caret'></span>
+              </button>
+              <ul class='dropdown-menu'>
+                <li><a href='' title='Accept this invitation' ng-click='acceptInvitation(invite)'>Accept</a></li>
+                <li><a href='' title='Reject this invitation' ng-click='rejectInvitation(invite)'>Reject</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class='clearfix'></div>
+        </li>
+        <li class='list-group-item centered-pager' ng-if='pagination.visible'>
+          <ul class='pagination pagination-sm'>
+            <li ng-if='pagination.has_previous'>
+              <a href='' ng-click='pageTo(pagination.current - 1)'>&laquo;</a>
+            </li>
+            <li ng-repeat='pageNumber in pagination.pageNumbers' ng-class="pageNumber.cssClasses">
+              <a href='' ng-click='pageTo(pageNumber.name)' ng-disabled='pageNumber.isCurrent'>{{ pageNumber.name }}</a>
+            </li>
+            <li ng-if='pagination.has_next'>
+              <a href='' ng-click='pageTo(pagination.current + 1)'>&raquo;</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

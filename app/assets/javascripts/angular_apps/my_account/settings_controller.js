@@ -2,6 +2,8 @@ angular.module('ReportIt.my_account.controllers').controller('SettingsController
   function($scope, MyAccountService, integerRegex) {
     
     var self = this;
+    
+    $scope.mixinCommonFunctionality($scope);
 
     $scope.settingsBeingEdited = {};
     $scope.settings = [];

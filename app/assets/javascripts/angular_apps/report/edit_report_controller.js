@@ -2,6 +2,8 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
   ['$scope', '$q', 'ReportService', function($scope, $q, ReportService) {    
     
       var self = this;
+      
+      $scope.mixinCommonFunctionality($scope);
 
       $scope.snippets = [];
       $scope.report = null;

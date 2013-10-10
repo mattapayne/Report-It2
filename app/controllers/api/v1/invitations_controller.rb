@@ -2,7 +2,7 @@ module Api
   module V1
     class InvitationsController < ApiController
       before_action :construct_search_params, only: [:index]
-      before_action :load_invitation, only: [:destroy]
+      before_action :load_invitation, only: [:destroy, :accept, :reject]
             
       def index
         results = SearchResults::InvitationSearchResults.new(current_user.get_invitations(@search))
@@ -39,11 +39,29 @@ module Api
         end
       end
       
+      def accept
+        associate = @invitation.inviter
+        if @invitation.update_attribute(:status, :accepted)
+          current_user.associate_with!(associate)
+          render json: { messages: ["You are now associated with #{associate.full_name}."] }
+        else
+          render json: { messages: @invitation.errors.full_messages }, status: 406
+        end
+      end
+      
+      def reject
+        if @invitation.update_attribute(status: :rejected)
+          render json: { messages: ["You have rejected the invitation from #{associate.full_name}."] }
+        else
+          render json: { messages: @invitation.errors.full_messages }, status: 406
+        end
+      end
+      
       private
       
       def load_invitation
-        @invitation = current_user.associate_invitations_sent.find(params[:id])
-        unless @invitation.present?
+        @invitation = AssociateInvitation.find(params[:id])
+        unless @invitation.present? && (@invitation.sent_by?(current_user) || @invitation.sent_to?(current_user))
           render_not_allowed_json_response("You do not have access to that invitation.") and return
         end
       end

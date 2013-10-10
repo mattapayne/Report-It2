@@ -18,4 +18,12 @@ class AssociateInvitation
   def set_status
     self.status = :pending
   end
+  
+  def sent_by?(user)
+    user && inviter.id == user.id
+  end
+  
+  def sent_to?(user)
+    user && invitee.id == user.id
+  end
 end

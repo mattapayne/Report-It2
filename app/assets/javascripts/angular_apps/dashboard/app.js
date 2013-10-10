@@ -18,8 +18,9 @@ angular.module('ReportIt.dashboard', [
 }]).
   run(['$rootScope', 'SharedScopeResponseHandling', 'Pagination', function($rootScope, SharedScopeResponseHandling, Pagination) {
     
-    //inject some common functionality into the root scope.
-    SharedScopeResponseHandling.mixin($rootScope);
+    $rootScope.mixinCommonFunctionality = function(scope) {
+      SharedScopeResponseHandling.mixin(scope);
+    };
     
     $rootScope.createPaginator = function(response) {
       return new Pagination.Paginator({

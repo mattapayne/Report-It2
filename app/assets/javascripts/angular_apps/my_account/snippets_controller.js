@@ -3,6 +3,8 @@ angular.module('ReportIt.my_account.controllers').controller('SnippetsController
   function($scope, MyAccountService) {
     
     var self = this;
+    
+    $scope.mixinCommonFunctionality($scope);
 
     $scope.adding = false;
     $scope.snippetsBeingEdited = {};

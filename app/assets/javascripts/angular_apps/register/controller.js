@@ -1,8 +1,10 @@
-angular.module('ReportIt.register.controllers').controller('RegisterController', ['$scope', 'RegisterService', 'SharedScopeResponseHandling',
-  function($scope, RegisterService, SharedScopeResponseHandling) {    
+angular.module('ReportIt.register.controllers').controller('RegisterController', ['$scope', 'RegisterService',
+  function($scope, RegisterService) {    
     
     var self = this;
-    SharedScopeResponseHandling.mixin($scope);
+    
+    $scope.mixinCommonFunctionality($scope);
+    
     var emptyRegistration = {first_name: '', last_name: '', email: '', password: '', password_confirmation: ''};
     $scope.registration = angular.copy(emptyRegistration);
     

@@ -7,6 +7,7 @@ angular.module('ReportIt.contact', [ 'ReportIt.angular_loadmask', 'ReportIt.vali
   config(["$httpProvider", function(provider) {
     provider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
   }]).run(['$rootScope', 'SharedScopeResponseHandling', function($rootScope, SharedScopeResponseHandling) {
-    //inject some common functionality into the root scope.
-    SharedScopeResponseHandling.mixin($rootScope);
+    $rootScope.mixinCommonFunctionality = function(scope) {
+      SharedScopeResponseHandling.mixin(scope);
+    };
   }]);

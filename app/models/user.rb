@@ -17,7 +17,7 @@ class User
   embeds_many :settings, class_name: 'UserSetting'
   
   has_many :associate_invitations_sent, class_name: 'AssociateInvitation', inverse_of: :inviter, dependent: :delete 
-  has_many :associate_invitations_received, class_name: 'AssociateInvitation', inverse_of: :invitee, dependent: :delete #Think about this one
+  has_many :associate_invitations_received, class_name: 'AssociateInvitation', inverse_of: :invitee
   
   has_many :snippets, dependent: :delete
   has_many :password_reset_requests, dependent: :delete
@@ -32,6 +32,10 @@ class User
   
   def get_invitations(searchInfo)
     query = searchInfo.type == :sent ? self.associate_invitations_sent : self.associate_invitations_received
+    if searchInfo.type == :received
+      converted_status = AssociateInvitation.statuses_enum_hash[:pending]
+      query = query.any_in(status_cd: [converted_status])
+    end
     query = query.page(searchInfo.page_number).limit(searchInfo.per_page)
     query
   end

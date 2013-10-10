@@ -9,6 +9,18 @@ function($http, $q, $window) {
         return $http.get(ReportIt.routes.api_v1_get_invitations_by_type_path('sent', {page_number: page, per_page: per_page}));
     };
     
+    this.acceptInvitation = function(invitation) {
+        return $http.post(ReportIt.routes.api_v1_accept_invitation_path(invitation.id));
+    };
+    
+    this.rejectInvitation = function(invitation) {
+        return $http.post(ReportIt.routes.api_v1_reject_invitation_path(invitation.id));
+    };
+    
+    this.getReceivedInvitations = function(page, per_page) {
+        return $http.get(ReportIt.routes.api_v1_get_invitations_by_type_path('received', {page_number: page, per_page: per_page}));
+    };
+    
     this.stopSharing = function(associate, report) {
         return $http.put(ReportIt.routes.api_v1_update_share_path(report.id),
                   angular.toJson({share: { user_id: associate.id, shared: false }}))

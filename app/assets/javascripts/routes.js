@@ -263,6 +263,10 @@
   about_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"about",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
+// api_v1_accept_invitation => /api/v1/invitations/accept/:id(.:format)
+  api_v1_accept_invitation_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"invitations",false]],[7,"/",false]],[6,"accept",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
 // api_v1_copy_report => /api/v1/reports/copy/:id(.:format)
   api_v1_copy_report_path: function(_id, options) {
   return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[7,"/",false]],[6,"copy",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
@@ -342,6 +346,10 @@
 // api_v1_new_report => /api/v1/reports/new/:type(.:format)
   api_v1_new_report_path: function(_type, options) {
   return Utils.build_path(["type"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"reports",false]],[7,"/",false]],[6,"new",false]],[7,"/",false]],[3,"type",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_reject_invitation => /api/v1/invitations/reject/:id(.:format)
+  api_v1_reject_invitation_path: function(_id, options) {
+  return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"invitations",false]],[7,"/",false]],[6,"reject",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // api_v1_update_report => /api/v1/reports/:id(.:format)
   api_v1_update_report_path: function(_id, options) {

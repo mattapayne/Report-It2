@@ -17,4 +17,8 @@ angular.module('ReportIt.report', [
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     $httpProvider.defaults.headers.common['X-Application-API-Key'] = '91c65d6d8a3507dbba06167d4dc32c16';
     $sceProvider.enabled(false);
+  }]).run(['$rootScope', 'SharedScopeResponseHandling', function($rootScope, SharedScopeResponseHandling) {
+    $rootScope.mixinCommonFunctionality = function(scope) {
+      SharedScopeResponseHandling.mixin(scope);
+    };
   }]);

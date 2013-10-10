@@ -10,6 +10,8 @@ ReportIt::Application.routes.draw do
         post 'invitations' => :create, as: :create_invitation
         get 'invitations/:type' => :index, as: :get_invitations_by_type
         delete 'invitations/:id' => :destroy, as: :destroy_invitation
+        post 'invitations/accept/:id' => :accept, as: :accept_invitation
+        post 'invitations/reject/:id' => :reject, as: :reject_invitation
       end
       controller :associates do
         get 'associates' => :index, as: :get_associates

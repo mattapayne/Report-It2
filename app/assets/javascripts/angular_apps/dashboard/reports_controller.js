@@ -2,6 +2,9 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
   function($scope, DashboardService, Pagination) {
     
     var self = this;
+    
+    $scope.mixinCommonFunctionality($scope);
+    
     $scope.reports = [];
     $scope.searchTerm = "";
     $scope.reportTypes = ["Reports", "Templates"];

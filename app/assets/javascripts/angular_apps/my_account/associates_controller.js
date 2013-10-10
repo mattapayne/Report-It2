@@ -2,6 +2,8 @@ angular.module('ReportIt.my_account.controllers').controller('AssociatesControll
   function($scope, MyAccountService) {
     
     var self = this;
+    
+    $scope.mixinCommonFunctionality($scope);
 
     $scope.associates = [];
     $scope.pagination = null;

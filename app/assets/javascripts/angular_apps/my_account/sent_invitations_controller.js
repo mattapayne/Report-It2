@@ -2,6 +2,8 @@ angular.module('ReportIt.my_account.controllers').controller('SentInvitationsCon
   function($scope, MyAccountService) {
   
     var self = this;
+    
+    $scope.mixinCommonFunctionality($scope);
 
     $scope.invitations = [];
     $scope.pagination = null;

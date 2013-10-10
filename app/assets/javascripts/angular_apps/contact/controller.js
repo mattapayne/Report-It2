@@ -2,6 +2,9 @@ angular.module('ReportIt.contact.controllers').controller('ContactController', [
   function($scope, MessageService) {    
       
     var self = this;
+    
+    $scope.mixinCommonFunctionality($scope);
+    
     var emptyMessage = {email: '', subject: '', message_text: '', from: ''};
     $scope.message = angular.copy(emptyMessage);
     

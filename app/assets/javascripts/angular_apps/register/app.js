@@ -12,6 +12,7 @@ angular.module('ReportIt.register', [
     provider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
     provider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
   }]).run(['$rootScope', 'SharedScopeResponseHandling', function($rootScope, SharedScopeResponseHandling) {
-    //inject some common functionality into the root scope.
-    SharedScopeResponseHandling.mixin($rootScope);
+    $rootScope.mixinCommonFunctionality = function(scope) {
+      SharedScopeResponseHandling.mixin(scope);
+    };
   }]);
