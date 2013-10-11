@@ -339,9 +339,9 @@
   api_v1_get_user_tags_path: function(_type, options) {
   return Utils.build_path(["type"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"user_tags",false]],[7,"/",false]],[3,"type",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
-// api_v1_image_upload => /api/v1/upload(.:format)
-  api_v1_image_upload_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"upload",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+// api_v1_my_profile_image => /api/v1/my_profile_image(.:format)
+  api_v1_my_profile_image_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"my_profile_image",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // api_v1_new_report => /api/v1/reports/new/:type(.:format)
   api_v1_new_report_path: function(_type, options) {
@@ -350,6 +350,10 @@
 // api_v1_reject_invitation => /api/v1/invitations/reject/:id(.:format)
   api_v1_reject_invitation_path: function(_id, options) {
   return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"invitations",false]],[7,"/",false]],[6,"reject",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_update_password => /api/v1/update_password(.:format)
+  api_v1_update_password_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"update_password",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // api_v1_update_report => /api/v1/reports/:id(.:format)
   api_v1_update_report_path: function(_id, options) {
@@ -366,6 +370,14 @@
 // api_v1_update_snippet => /api/v1/snippets/:id(.:format)
   api_v1_update_snippet_path: function(_id, options) {
   return Utils.build_path(["id"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"snippets",false]],[7,"/",false]],[3,"id",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_upload_profile_image => /api/v1/upload_profile_image(.:format)
+  api_v1_upload_profile_image_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"upload_profile_image",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
+// api_v1_upload_redactor_image => /api/v1/upload_redactor_image(.:format)
+  api_v1_upload_redactor_image_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"upload_redactor_image",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // create_forgot_password_request => /forgot_password(.:format)
   create_forgot_password_request_path: function(options) {
@@ -426,10 +438,6 @@
 // root => /
   root_path: function(options) {
   return Utils.build_path([], [], [7,"/",false], arguments);
-  },
-// upload => /upload(.:format)
-  upload_path: function(options) {
-  return Utils.build_path([], ["format"], [2,[2,[7,"/",false],[6,"upload",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
 // validate_account => /validate_account/:token(.:format)
   validate_account_path: function(_token, options) {

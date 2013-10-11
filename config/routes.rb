@@ -6,6 +6,10 @@ ReportIt::Application.routes.draw do
       controller :user_tags do
         get 'user_tags/:type' => :index, as: :get_user_tags
       end
+      controller :my_account do
+        get 'my_profile_image' => :my_profile_image, as: :my_profile_image
+        put 'update_password' => :update_password, as: :update_password
+      end
       controller :invitations do
         post 'invitations' => :create, as: :create_invitation
         get 'invitations/:type' => :index, as: :get_invitations_by_type
@@ -43,7 +47,8 @@ ReportIt::Application.routes.draw do
         get 'associate/:id/shares' => :by_associate, as: :get_shared_reports_by_associate
       end
       controller :image_upload do
-        post 'upload' => :create, as: :image_upload
+        post 'upload_redactor_image' => :redactor_image, as: :upload_redactor_image
+        post 'upload_profile_image' => :my_profile_image, as: :upload_profile_image
       end
     end
   end
@@ -73,7 +78,7 @@ ReportIt::Application.routes.draw do
     get 'password_reset/:token' => :reset, as: 'password_reset'
   end
   controller :my_account do
-    get 'my_account' => :index  
+    get 'my_account' => :index
   end
   controller :reports do
     get 'reports/edit/:id' => :edit, as: :edit_report
@@ -81,8 +86,5 @@ ReportIt::Application.routes.draw do
   end
   controller :export do
     get 'export/:file_format/:id' => :export, as: :export_report
-  end
-  controller :image_upload do
-    post '/upload' => :create
   end
 end

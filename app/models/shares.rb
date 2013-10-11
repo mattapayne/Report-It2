@@ -18,7 +18,7 @@ class Shares
     ShareUser.new({
                     id: user.id,
                     email: user.email,
-                    gravatar_url: user.gravatar_url,
+                    default_image: user.default_image,
                     full_name: user.full_name
                   }.
                   merge(opts))

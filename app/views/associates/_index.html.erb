@@ -13,7 +13,7 @@
       <ul class='list-group'>
         <li ng-if='associates.length == 0' class='list-group-item'>You don't have any associates yet.</li>
         <li ng-repeat="associate in associates | orderBy:'full_name'" class='list-group-item'>
-          <span><img ng-src='{{ associate.gravatar_url}}' title='{{ associate.full_name }}' class='associate'
+          <span><img ng-src='{{ associate.default_image}}' title='{{ associate.full_name }}' class='associate'
                          alt='{{associate.full_name}}'/> {{ associate.full_name }}</span>
           <div class='pull-right'>
             <div class='btn-group'>

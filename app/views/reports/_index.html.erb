@@ -86,7 +86,7 @@
                 <div ng-if='!reportHasShares(report)'>You are not associated with anyone yet, so you can't share this report.</div>
                 <div ng-if='reportHasShares(report)' class='row'>
                   <div ng-repeat="share in getReportShares(report) | orderBy:'full_name'" class='col-md-1'>
-                    <img ng-click='shareReport(report, share)' ng-src='{{ share.gravatar_url}}'
+                    <img ng-click='shareReport(report, share)' ng-src='{{ share.default_image}}'
                          alt='{{share.full_name}}' title='{{ getShareTitle(share) }}'
                          ng-class="share.has_share ? 'shared' : 'not-shared'" />{{ share.full_name }}
                   </div>

@@ -1,6 +1,18 @@
-angular.module('ReportIt.my_account.services').service('MyAccountService', ['$http', '$q', '$window',
-function($http, $q, $window) {
+angular.module('ReportIt.my_account.services').service('MyAccountService', ['$http', '$q', '$window', function($http, $q, $window) {
 
+    this.updatePassword = function(password, confirmation) {
+        return $http.put(ReportIt.routes.api_v1_update_password_path(),
+                         angular.toJson({update: {password: password, password_confirmation: confirmation}}));    
+    };
+    
+    this.getProfilePic = function() {
+        return $http.get(ReportIt.routes.api_v1_my_profile_image_path());   
+    };
+    
+    this.myProfilePicUploadUrl = function() {
+        return ReportIt.routes.api_v1_upload_profile_image_path();
+    };
+    
     this.deleteSentInvitation = function(invitation) {
       return $http.delete(ReportIt.routes.api_v1_destroy_invitation_path(invitation.id));  
     };

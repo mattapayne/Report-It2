@@ -1,0 +1,27 @@
+<div class='panel panel-default' ng-controller='MyAccountPicController'>
+  <div class='panel-heading'>
+    Your Profile Picture
+  </div>
+  <div class='panel-body'>
+    <div ng-class='resultClasses()' ng-if='hasResult()'>
+      <button class="close" ng-click='resetResult()'>×</button>
+      <ul>
+        <li ng-repeat='message in getMessages()'>{{ message }}</li>
+      </ul>
+    </div>
+    <div ng-if='hasProfilePicture()'>
+      This is your current picture
+      <img ng-src='{{ profilePicUrl }}' />
+    </div>
+    <div ng-show='uploadNewPic || !hasProfilePicture()' class='spacer5'>
+      <form report-it-drop-zone
+            upload-url='profilePicUploadUrl'
+            on-complete='updateProfilePic()' id="file-dropzone" class='dropzone square'>
+        <div class='dz-message'>Either drag and drop your image here, or click here to browse for your image.</div>
+      </form>
+    </div>
+    <div class='pull-right spacer5'>
+      <button class='btn btn-success' ng-click='toggleImageUpload()'>{{ buttonText }}</button>
+    </div>
+  </div>
+</div>

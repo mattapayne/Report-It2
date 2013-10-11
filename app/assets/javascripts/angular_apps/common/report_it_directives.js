@@ -98,4 +98,32 @@ angular.module('ReportIt-directives', []).
         });
       }
     };
-}]);
+}]).directive('reportItDropZone', function() {
+  return {
+    restrict: 'A',
+    scope: {
+      uploadUrl: '=',
+      onComplete: '&'
+    },
+    link: function(scope, element, attrs) {
+      Dropzone.autoDiscover = false
+      var options = {
+        url: scope.uploadUrl,
+        maxFilesize: attrs.maxFilesize || 100,
+        paramName: attrs.paramName || "file",
+        maxThumbnailFilesize: attrs.maxThumbnailFilesize || 1,
+        init: function() {
+         if (scope.onComplete) {
+            this.on('complete', function(file) {
+              scope.$apply(function() {
+                scope.onComplete();    
+              });
+              this.removeFile(file);
+            });
+          } 
+        }
+      };
+      element.dropzone(options);
+    }
+  }
+});;

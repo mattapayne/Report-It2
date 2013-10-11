@@ -7,6 +7,7 @@ class User
   field :last_name
   field :email
   field :gravatar_url
+  field :profile_image_url
   field :password_digest
   field :signup_token
   field :reports, type: Array
@@ -29,6 +30,10 @@ class User
   
   before_create :add_default_settings, :add_signup_token, :set_gravatar_url
   after_initialize :initialize_reports, :initialize_associates
+  
+  def default_image
+    self.profile_image_url || self.gravatar_url
+  end
   
   def get_invitations(searchInfo)
     query = searchInfo.type == :sent ? self.associate_invitations_sent : self.associate_invitations_received

@@ -10,8 +10,8 @@ angular.module('ReportIt.report.controllers').controller('NewReportController',
       $scope.reportTemplates = [];
       
       $scope.redactorOptions = {
-        imageUpload : ReportIt.routes.api_v1_image_upload_path(),
-        clipboardUploadUrl: ReportIt.routes.api_v1_image_upload_path(),
+        imageUpload : ReportIt.routes.api_v1_upload_redactor_image_path(),
+        clipboardUploadUrl: ReportIt.routes.api_v1_upload_redactor_image_path(),
         focus: true,
         minHeight: 550,
         linebreaks: true,

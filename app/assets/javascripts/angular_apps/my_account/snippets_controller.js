@@ -17,8 +17,8 @@ angular.module('ReportIt.my_account.controllers').controller('SnippetsController
         linebreaks: true,
         paragraphy: false,
         minHeight: 200,
-        imageUpload : ReportIt.routes.api_v1_image_upload_path(),
-        clipboardUploadUrl: ReportIt.routes.api_v1_image_upload_path(),
+        imageUpload : ReportIt.routes.api_v1_upload_redactor_image_path(),
+        clipboardUploadUrl: ReportIt.routes.api_v1_upload_redactor_image_path(),
         plugins: ['fontsize', 'fontfamily', 'fontcolor']
     };
     

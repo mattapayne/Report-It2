@@ -36,6 +36,7 @@ module Fakeout
         user = User.new({ email: random_unique_email,
                           first_name: random_first_name,
                           last_name: random_last_name,
+                          profile_image_url: '/assets/generic_user.png',
                           password: '232423', 
                           password_confirmation: '232423' }.merge(options))
         !user.save

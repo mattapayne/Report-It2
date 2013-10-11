@@ -29,7 +29,12 @@
           <%= render partial: "invitations/received" %>
         </div>
         <div class='col-md-6'>
-          User settings (password, profile pic, etc.) here ...
+          <div class='col-md-6'>
+            <%= render partial: "profile_pic" %>
+          </div>
+          <div class='col-md-6'>
+            <%= render partial: 'change_password' %>
+            </div>
         </div>
       </div>
     </div>
