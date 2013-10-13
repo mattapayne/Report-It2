@@ -1,7 +1,7 @@
 module Api
   module V1
-    class AssociatesController < ApplicationController
-      
+    class AssociatesController < ApiController
+      skip_before_action :require_api_key, only: [:potentials]
       before_action :construct_search_params, only: [:index]
       before_action :construct_filter_query, only: [:potentials]
       

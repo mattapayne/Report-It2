@@ -98,7 +98,7 @@ angular.module('ReportIt-directives', []).
         });
       }
     };
-}]).directive('reportItDropZone', function() {
+}]).directive('reportItDropZone', [function() {
   return {
     restrict: 'A',
     scope: {
@@ -125,5 +125,69 @@ angular.module('ReportIt-directives', []).
       };
       element.dropzone(options);
     }
-  }
-});;
+  };
+}]).directive('reportItTagsInput', [function() {
+    return {
+      restrict: 'E',
+      scope: {
+        tags: '=ngModel',
+        remoteUrl: '='
+      },
+      replace: true,
+      template: "<div class='report-it-tags-input'>" +
+                  "<span class='report-it-tag label label-info' ng-repeat='tag in tags'>{{ tag }}" +
+                    "<a class='report-it-tag-close' href='' ng-click='remove($index)'>&times;</a>" +
+                  "</span>" +
+                  "<div class='report-it-add-tag'>" +
+                    "<input type='text' class='report-it-add-tag-input' ng-model='newTag' placeholder='Begin typing your tag here' />" +
+                  "</div>" +
+                "</div>",
+      controller: function($scope, $attrs) {
+        $scope.newTag = '';
+        $scope.tags = $scope.tags || [];
+      
+        $scope.add = function() {
+          var tag = $scope.newTag;
+          $scope.tags.push(tag);
+          $scope.newTag = '';
+          $scope.$root.$broadcast('report:tag:added', tag);
+        };
+        
+        $scope.remove = function(index) {
+          var tag = $scope.tags.splice(index, 1);
+          $scope.$root.$broadcast('report:tag:removed', tag);
+        };
+      },
+      link: function(scope, element, attrs, ctrl) {
+        var ENTER = 13;
+        var inputElement = element.find('input.report-it-add-tag-input');
+        
+        inputElement.typeahead({
+          remote: scope.remoteUrl
+        });
+        
+        inputElement.on("typeahead:selected", function(evt, data) {
+          scope.newTag = data.value;
+          scope.add();
+          scope.$apply(function() {
+            inputElement.typeahead('setQuery', '');  
+          });
+        });
+        
+        inputElement.on("destroy", function() {
+          inputElement.typeahead('destroy');
+        });
+        
+        //handle enter key
+        inputElement.on('keydown', function(e) {
+          if(e.keyCode === ENTER) {
+            scope.add();
+            scope.$apply(function() {
+              element.typeahead('setQuery', '');
+            });
+            e.preventDefault();
+          }
+        });
+      }
+    }
+}]);

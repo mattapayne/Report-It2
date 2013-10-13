@@ -231,3 +231,45 @@ span.twitter-typeahead, input.typeahead-input {
 .dropzone {
   min-height:140px !important;
 }
+
+.report-it-tags-input {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  display: inline-block;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  color: #555;
+  vertical-align: middle;
+  border-radius: 4px;
+  max-width: 100%;
+  width:100%;
+  line-height: 22px;
+  
+  .report-it-add-tag {
+    margin-top:3px;
+  }
+  
+  .report-it-tag {
+    margin-right:3px;
+    margin-bottom:3px;
+    width:auto;
+    float:left;
+    
+    a.report-it-tag-close {
+      margin-left:3px;
+      color:white;
+      font-weight: bold;
+    }
+  }
+  
+  input {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    margin-top:3px;
+    width: 100% !important;
+  }
+}

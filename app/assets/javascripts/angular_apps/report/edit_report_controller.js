@@ -8,6 +8,7 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
       $scope.snippets = [];
       $scope.report = null;
       $scope.reportTemplates = [];
+      $scope.tagsRemoteUrl = ReportService.lookupUserTagsFiltered()
       
       $scope.redactorOptions = {
         imageUpload : ReportIt.routes.api_v1_upload_redactor_image_path(),
@@ -20,9 +21,9 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
       };
       
       //TODO - this will have to get tags for either a report or a template
-      $scope.queryTags = {
-        remote: ReportService.lookupUserTagsFiltered()
-      };
+      //$scope.queryTags = {
+      //  remote: ReportService.lookupUserTagsFiltered()
+      //};
       
       $scope.init = function(report_id) {
 
