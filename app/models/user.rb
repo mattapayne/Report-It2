@@ -28,7 +28,7 @@ class User
   validates_length_of :password, minimum: 6, on: :create
   validates_uniqueness_of :email
   
-  before_create :add_default_settings, :add_signup_token, :set_gravatar_url
+  before_create :add_default_settings, :add_signup_token, :set_gravatar_url, :set_default_profile_picture
   after_initialize :initialize_reports, :initialize_associates
   
   def default_image
@@ -195,6 +195,10 @@ class User
   def set_gravatar_url
     gravatar_id = Digest::MD5.hexdigest(self.email.downcase)
     self.gravatar_url = "http://gravatar.com/avatar/#{gravatar_id}.png"
+  end
+  
+  def set_default_profile_picture
+    self.profile_image_url = '/assets/generic_user.png'
   end
   
   def add_signup_token
