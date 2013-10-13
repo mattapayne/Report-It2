@@ -38,7 +38,7 @@ angular.module('ReportIt-directives', []).
             }
         });
     };
-}).directive('reportItTypeahead', ['$parse', '$compile', 'EMAIL_REGEX', function($parse, $compile, emailRegex) {
+}).directive('reportItTypeahead', ['$parse', '$compile', 'EMAIL_REGEX', 'API_KEY', function($parse, $compile, emailRegex, apiKey) {
     return {
       restrict: 'E',
       replace: true,
@@ -65,7 +65,7 @@ angular.module('ReportIt-directives', []).
         if (!angular.isUndefined(attrs.remoteUrl) && attrs.remoteUrl !== null) {
           options.remote = {
             beforeSend: function(req) {
-              req.setRequestHeader('X-Application-API-Key', '91c65d6d8a3507dbba06167d4dc32c16');
+              req.setRequestHeader('X-Application-API-Key', apiKey);
             },  
             url: scope.remoteUrl
           };
@@ -131,7 +131,7 @@ angular.module('ReportIt-directives', []).
       element.dropzone(options);
     }
   };
-}]).directive('reportItTagsInput', [function() {
+}]).directive('reportItTagsInput', ['API_KEY', function(apiKey) {
     return {
       restrict: 'E',
       scope: {
@@ -170,7 +170,7 @@ angular.module('ReportIt-directives', []).
         inputElement.typeahead({
           remote: {
             beforeSend: function(req) {
-              req.setRequestHeader('X-Application-API-Key', '91c65d6d8a3507dbba06167d4dc32c16');
+              req.setRequestHeader('X-Application-API-Key', apiKey);
             },  
             url: scope.remoteUrl
           }
