@@ -2,7 +2,6 @@ module Api
   module V1
     class UserTagsController < ApiController
       before_action :load_tags_by_type
-      skip_before_action :require_api_key, only: [:index]
       
       def index
         filter = params_for_filter

@@ -63,7 +63,12 @@ angular.module('ReportIt-directives', []).
         }
         
         if (!angular.isUndefined(attrs.remoteUrl) && attrs.remoteUrl !== null) {
-          options.remote = scope.remoteUrl;
+          options.remote = {
+            beforeSend: function(req) {
+              req.setRequestHeader('X-Application-API-Key', '91c65d6d8a3507dbba06167d4dc32c16');
+            },  
+            url: scope.remoteUrl
+          };
         }
         
         if (!angular.isUndefined(attrs.limit) && attrs.limit !== null) {
@@ -163,7 +168,12 @@ angular.module('ReportIt-directives', []).
         var inputElement = element.find('input.report-it-add-tag-input');
         
         inputElement.typeahead({
-          remote: scope.remoteUrl
+          remote: {
+            beforeSend: function(req) {
+              req.setRequestHeader('X-Application-API-Key', '91c65d6d8a3507dbba06167d4dc32c16');
+            },  
+            url: scope.remoteUrl
+          }
         });
         
         inputElement.on("typeahead:selected", function(evt, data) {
