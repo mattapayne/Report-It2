@@ -3,6 +3,9 @@ ReportIt::Application.routes.draw do
   
   namespace :api, defaults: { format: 'json'} do
     namespace :v1 do
+      controller :notifications do
+        get 'notifications' => :index, as: :get_notifications  
+      end
       controller :user_tags do
         get 'user_tags/:type' => :index, as: :get_user_tags
       end

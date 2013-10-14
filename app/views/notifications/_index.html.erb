@@ -1,0 +1,35 @@
+<div ng-controller='NotificationsController'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      Notifications
+    </div>
+    <div class='panel-body'>
+      <div ng-class='resultClasses()' ng-if='hasResult()'>
+        <button class="close" ng-click='resetResult()'>×</button>
+        <ul>
+          <li ng-repeat='message in getMessages()'>{{ message }}</li>
+        </ul>
+      </div>
+      <ul class='list-group'>
+        <li ng-if='notifications.length == 0' class='list-group-item'>You have no notifications.</li>
+        <li ng-repeat="notification in notifications | orderBy:'created_at'" class='list-group-item'>
+          <span>{{ notification.from }} ({{ notification.created_at }})</span>
+          <pre>{{ notification.message }}</pre>
+        </li>
+        <li class='list-group-item centered-pager' ng-if='pagination.visible'>
+          <ul class='pagination pagination-sm'>
+            <li ng-if='pagination.has_previous'>
+              <a href='' ng-click='pageTo(pagination.current - 1)'>&laquo;</a>
+            </li>
+            <li ng-repeat='pageNumber in pagination.pageNumbers' ng-class="pageNumber.cssClasses">
+              <a href='' ng-click='pageTo(pageNumber.name)' ng-disabled='pageNumber.isCurrent'>{{ pageNumber.name }}</a>
+            </li>
+            <li ng-if='pagination.has_next'>
+              <a href='' ng-click='pageTo(pagination.current + 1)'>&raquo;</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

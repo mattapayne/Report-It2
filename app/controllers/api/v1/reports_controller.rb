@@ -21,6 +21,9 @@ module Api
   
       def update
         if @report.update_attributes(params_for_report.merge(last_edited_by: current_user))
+          unless @report.owner?(current_user)
+            current_user.notifications_initiated.create!(receiver: @report.creator, message: "#{current_user.full_name} edited your report: '#{@report.name}'.")
+          end
           result = ReportWithMessages.new(['Successfully updated the report.'], @report)
           render json: result, serializer: ReportWithMessagesSerializer
         else

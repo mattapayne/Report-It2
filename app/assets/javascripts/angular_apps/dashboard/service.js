@@ -19,6 +19,15 @@ function($http, $q, $window) {
             per_page: resultsPerPage}));
     };
     
+    this.getNotifications = function(page, resultsPerPage) {
+        page = angular.isUndefined(page) || page === null ? "" : page;
+        resultsPerPage = angular.isUndefined(resultsPerPage) || resultsPerPage === null ? "" : resultsPerPage;
+        return $http.get(ReportIt.routes.api_v1_get_notifications_path({
+            page_number: page,
+            per_page: resultsPerPage
+        }));
+    };
+    
     this.exportReport = function(format, report) {
       $window.location.href = ReportIt.routes.export_report_path(format, report.id);  
     };

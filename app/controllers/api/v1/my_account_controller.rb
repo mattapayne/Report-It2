@@ -25,6 +25,7 @@ module Api
       
       private
       
+      #TODO - Move this logic to the model
       def validate_password_change(update)
         errors = []
         unless update[:password].present?

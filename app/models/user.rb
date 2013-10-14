@@ -19,6 +19,8 @@ class User
   
   has_many :associate_invitations_sent, class_name: 'AssociateInvitation', inverse_of: :inviter, dependent: :delete 
   has_many :associate_invitations_received, class_name: 'AssociateInvitation', inverse_of: :invitee
+  has_many :notifications_initiated, class_name: 'Notification', inverse_of: :initiator
+  has_many :notifications_received, class_name: 'Notification', inverse_of: :receiver
   
   has_many :snippets, dependent: :delete
   has_many :password_reset_requests, dependent: :delete
@@ -33,6 +35,14 @@ class User
   
   def default_image
     self.profile_image_url || self.gravatar_url
+  end
+  
+  def get_unseen_notifications_received(searchInfo)
+    query = self.notifications_received
+    converted_status = AssociateInvitation.statuses_enum_hash[:un_seen]
+    query = query.any_in(status_cd: [converted_status])
+    query = query.page(searchInfo.page_number).limit(searchInfo.per_page)
+    query
   end
   
   def get_invitations(searchInfo)
@@ -91,6 +101,15 @@ class User
   def disassociate_with!(user)
     self.pull(associates: user.id)
     user.pull(associates: self.id)
+    #Delete any stored accepted invitations between the two users
+    invitation = nil
+    if has_invited?(user)
+      invitation = self.get_invitation(user)
+    else
+      invitation = user.get_invitation(self)
+    end
+    invitation.destroy if invitation.present? && invitation.accepted?
+    self.notifications_initiated.create!(receiver: user, message: "#{self.full_name} ended your association.")
   end
   
   def associate_with!(user)
@@ -106,6 +125,7 @@ class User
       unless invitation.nil?
         invitation.status = :accepted
         invitation.save!
+        self.notifications_initiated.create!(receiver: user, message: "#{self.full_name} and you are now associates.")
       end
     end
   end
@@ -145,6 +165,7 @@ class User
       raise 'You have already invited this user to associate.'
     end
     self.associate_invitations_sent.create!(invitee: user, message: message, new_invitee: false, invitee_email: user.email)
+    self.notifications_initiated.create!(receiver: user, message: "#{self.full_name} invited you to be an associate.")
   end
   
   def invite_to_associate_with_new_user!(email, message)

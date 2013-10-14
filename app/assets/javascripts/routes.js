@@ -311,6 +311,10 @@
   api_v1_get_invitations_by_type_path: function(_type, options) {
   return Utils.build_path(["type"], ["format"], [2,[2,[2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"invitations",false]],[7,"/",false]],[3,"type",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
   },
+// api_v1_get_notifications => /api/v1/notifications(.:format)
+  api_v1_get_notifications_path: function(options) {
+  return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"notifications",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);
+  },
 // api_v1_get_potential_associates => /api/v1/potential_associates(.:format)
   api_v1_get_potential_associates_path: function(options) {
   return Utils.build_path([], ["format"], [2,[2,[2,[2,[2,[2,[7,"/",false],[6,"api",false]],[7,"/",false]],[6,"v1",false]],[7,"/",false]],[6,"potential_associates",false]],[1,[2,[8,".",false],[3,"format",false]],false]], arguments);

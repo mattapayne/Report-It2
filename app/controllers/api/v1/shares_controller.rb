@@ -16,9 +16,11 @@ module Api
         
         if @shared
           @report.share_with!(@user)
+          current_user.notifications_initiated.create!(receiver: @user, message: "#{current_user.full_name} shared the report: '#{@report.name}' with you.")
           message = "Successfully shared the report with #{@user.full_name}."
         else
           @report.unshare_with!(@user)
+                    current_user.notifications_initiated.create!(receiver: @user, message: "#{current_user.full_name} stopped sharing the report: '#{@report.name}' with you.")
           message = "Successfully stopped sharing the report with #{@user.full_name}."
         end
         

@@ -1,5 +1,5 @@
-angular.module('ReportIt.dashboard.controllers').controller('ReportsController', ['$scope', 'DashboardService', 'Pagination',
-  function($scope, DashboardService, Pagination) {
+angular.module('ReportIt.dashboard.controllers').controller('ReportsController', ['$scope', 'DashboardService',
+  function($scope, DashboardService) {
     
     var self = this;
     
