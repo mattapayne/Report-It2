@@ -80,6 +80,14 @@ class ApplicationController < ActionController::Base
     render json: { messages: messages}, status: 406
   end
   
+  def render_error_json_response(messages)
+    messages = [] unless messages
+    if messages.is_a?(String)
+      messages = [messages]
+    end
+    render json: { messages: messages}, status: 406
+  end
+  
   private
   
   def set_common_variables

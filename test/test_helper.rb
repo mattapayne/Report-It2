@@ -24,6 +24,12 @@ module HelperMethods
     true
   end
   
+  def mock_current_user
+    mock_user = mock('User')
+    @controller.stubs(:current_user).returns(mock_user)
+    mock_user
+  end
+  
   def create_report(tags=[], opts={})
     options = { name: "test", content: "test", creator: current_user, status: :draft, report_type: :report }.merge(opts)
     report = Report.create!(options)
