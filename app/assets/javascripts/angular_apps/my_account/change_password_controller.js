@@ -12,6 +12,8 @@ angular.module('ReportIt.my_account.controllers').controller('ChangePasswordCont
     MyAccountService.updatePassword($scope.password, $scope.password_confirmation).
       success(function(response) {
         $scope.setSuccess(response.messages);
+	    $scope.password = '';
+	    $scope.password_confirmation = '';
       }).error(function(response) {
         $scope.setError(response.messages);
       });

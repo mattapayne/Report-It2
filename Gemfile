@@ -29,14 +29,14 @@ gem 'mongoid', '~> 4', github: 'mongoid/mongoid'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem "mongoid-tags-arent-hard", "~> 1.1.4"
 gem 'angularjs-rails', '= 1.2.0.rc2'
-gem "simple_enum", "~> 1.6.6"
+gem "simple_enum", "~> 1.6.7"
 gem "rmagick", "~> 2.13.2"
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
                               :github => 'anjlab/bootstrap-rails'
 gem "carrierwave", "~> 0.9.0"
 gem "fog", "~> 1.15.0"
 gem "chosen-rails", "~> 1.0.0"
-gem 'compass-rails', github: 'milgner/compass-rails', branch: 'rails4'
+gem 'compass-rails', github: 'Compass/compass-rails', branch: 'rails4'
 gem "angular-ui-select2-rails", "~> 0.1.1"
 gem "js-routes", "~> 0.9.3"
 gem "kaminari", "~> 0.14.1"

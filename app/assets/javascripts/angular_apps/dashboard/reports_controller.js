@@ -32,7 +32,7 @@ angular.module('ReportIt.dashboard.controllers').controller('ReportsController',
     
     $scope.uiSelect2Options = {
         dropdownAutoWidth: false,
-        width: '475px',
+		width: '99%',
         formatNoMatches: function(term) {
           return "No tags are available";
         }
