@@ -95,19 +95,7 @@
             </div>
           </div>
         </li>
-        <li class='list-group-item centered-pager' ng-if='pagination.visible'>
-          <ul class='pagination pagination-sm'>
-            <li ng-if='pagination.has_previous'>
-              <a href='' ng-click='pageTo(pagination.current - 1)'>&laquo;</a>
-            </li>
-            <li ng-repeat='pageNumber in pagination.pageNumbers' ng-class="pageNumber.cssClasses">
-              <a href='' ng-click='pageTo(pageNumber.name)' ng-disabled='pageNumber.isCurrent'>{{ pageNumber.name }}</a>
-            </li>
-            <li ng-if='pagination.has_next'>
-              <a href='' ng-click='pageTo(pagination.current + 1)'>&raquo;</a>
-            </li>
-          </ul>
-        </li>
+       	<%= render partial: "shared/pagination" %>
       </ul>
       <div class='pull-right'>
         <button type='button' title='Create a new report' ng-click='addReport()' class='btn btn-success'>Add Report</button>

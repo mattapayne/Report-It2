@@ -164,8 +164,9 @@ class User
     if has_invited?(user)
       raise 'You have already invited this user to associate.'
     end
-    self.associate_invitations_sent.create!(invitee: user, message: message, new_invitee: false, invitee_email: user.email)
+    invitation = self.associate_invitations_sent.create!(invitee: user, message: message, new_invitee: false, invitee_email: user.email)
     self.notifications_initiated.create!(receiver: user, message: "#{self.full_name} invited you to be an associate.")
+    invitation
   end
   
   def invite_to_associate_with_new_user!(email, message)

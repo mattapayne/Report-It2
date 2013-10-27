@@ -13,8 +13,13 @@
       <ul class='list-group'>
         <li ng-if='associates.length == 0' class='list-group-item'>You don't have any associates yet.</li>
         <li ng-repeat="associate in associates | orderBy:'full_name'" class='list-group-item'>
-          <span><img ng-src='{{ associate.default_image}}' title='{{ associate.full_name }}' class='associate'
-                         alt='{{associate.full_name}}'/> {{ associate.full_name }}</span>
+         	<span>
+			  <img ng-src='{{ associate.default_image}}' 
+			  	title='{{ associate.full_name }}' 
+				class='associate'
+              	alt='{{associate.full_name}}'/>
+				<a href="mailto:{{ associate.email }}">{{ associate.full_name }}</a>
+			</span>
           <div class='pull-right'>
             <div class='btn-group'>
               <button type="button" data-toggle='dropdown' class='btn btn-default dropdown-toggle'>Actions
@@ -49,19 +54,7 @@
             </div>
           </div>
         </li>
-        <li class='list-group-item centered-pager' ng-if='pagination.visible'>
-          <ul class='pagination pagination-sm'>
-            <li ng-if='pagination.has_previous'>
-              <a href='' ng-click='pageTo(pagination.current - 1)'>&laquo;</a>
-            </li>
-            <li ng-repeat='pageNumber in pagination.pageNumbers' ng-class="pageNumber.cssClasses">
-              <a href='' ng-click='pageTo(pageNumber.name)' ng-disabled='pageNumber.isCurrent'>{{ pageNumber.name }}</a>
-            </li>
-            <li ng-if='pagination.has_next'>
-              <a href='' ng-click='pageTo(pagination.current + 1)'>&raquo;</a>
-            </li>
-          </ul>
-        </li>
+		<%= render partial: "shared/pagination" %>
       </ul>
       <div ng-show='inviting' class='panel panel-default'>
         <div class='panel-heading'>
