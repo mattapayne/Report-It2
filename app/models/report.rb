@@ -10,6 +10,8 @@ class Report
   field :content
   field :description
   field :images, type: Array
+  field :header
+  field :footer
   
   as_enum :status, draft: 0, published: 1
   as_enum :report_type, report: 0, template: 1

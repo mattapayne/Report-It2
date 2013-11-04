@@ -8,7 +8,7 @@ angular.module('ReportIt.report.controllers').controller('NewReportController',
       $scope.snippets = [];
       $scope.report = null;
       $scope.reportTemplates = [];
-	  $scope.tagsRemoteUrl = ReportService.lookupUserTagsFiltered()
+      $scope.tagsRemoteUrl = ReportService.lookupUserTagsFiltered()
       
       $scope.redactorOptions = {
         imageUpload : ReportIt.routes.api_v1_upload_redactor_image_path(),
@@ -19,6 +19,11 @@ angular.module('ReportIt.report.controllers').controller('NewReportController',
         paragraphy: false,
         plugins: ['clips', 'fontsize', 'fontfamily', 'fontcolor', 'fullscreen', 'tableborder']
       };
+      
+      $scope.redactorHeaderOptions = angular.copy($scope.redactorOptions);
+      $scope.redactorHeaderOptions.minHeight = 80;
+      $scope.redactorFooterOptions = angular.copy($scope.redactorOptions);
+      $scope.redactorFooterOptions.minHeight = 80;
       
       $scope.init = function(reportType) {
 
@@ -39,11 +44,15 @@ angular.module('ReportIt.report.controllers').controller('NewReportController',
             success(function(reportTemplate){
               $scope.report.content = reportTemplate.content;
               $scope.report.tags = reportTemplate.tags;
+              $scope.report.header = reportTemplate.header;
+              $scope.report.footer = reportTemplate.footer;
             });
         }
         else {
             $scope.report.content = '';
             $scope.report.tags = [];
+            $scope.report.header = '';
+            $scope.report.footer = '';
         }
       };
       

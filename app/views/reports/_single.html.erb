@@ -15,12 +15,21 @@
 <form novalidate name='report_form'>
   <div class='row'>
     <div class='col-md-2'>
-      <div class='row'>
         <%= render partial: 'report_settings' %>
-      </div>
     </div>
     <div class='col-md-10'>
-      <textarea ng-model='report.content' redactor options='redactorOptions' name='content' required></textarea>
+      <div class='row'>
+        <h3 class='first'>Header</h3>
+        <textarea ng-model='report.header' redactor options='redactorHeaderOptions' name='header'></textarea>
+      </div>
+      <div class='row'>
+        <h3>Content</h3>
+        <textarea ng-model='report.content' redactor options='redactorOptions' name='content' required></textarea>
+      </div>
+      <div class='row'>
+        <h3>Footer</h3>
+        <textarea ng-model='report.footer' redactor options='redactorFooterOptions' name='footer'></textarea>
+      </div>
     </div>
   </div>
 </form>

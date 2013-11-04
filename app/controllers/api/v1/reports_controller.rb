@@ -10,7 +10,7 @@ module Api
       end
   
       def create
-        report = Report.create(params_for_report.merge(creator: current_user))
+        report = Report.new(params_for_report.merge(creator: current_user))
         if report.save
           result = ReportWithMessages.new(['Successfully created the report.'], report)
           render json: result, serializer: ReportWithMessagesSerializer
@@ -21,6 +21,7 @@ module Api
   
       def update
         if @report.update_attributes(params_for_report.merge(last_edited_by: current_user))
+          @report.save
           unless @report.owner?(current_user)
             current_user.notifications_initiated.create!(receiver: @report.creator, message: "#{current_user.full_name} edited your report: '#{@report.name}'.")
           end
@@ -65,7 +66,7 @@ module Api
       end
       
       def params_for_report
-        params.require(:report).permit(:name, :description, :content, :report_type, :status, tags: [])
+        params.require(:report).permit(:name, :description, :content, :report_type, :status, :header, :footer, tags: [])
       end
       
       def load_report

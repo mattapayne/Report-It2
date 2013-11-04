@@ -55,6 +55,8 @@ module Fakeout
         attributes   = { name: Faker::BaconIpsum.word, 
                          content: random_content,
                          report_type: :report,
+                         header: random_content,
+                         footer: random_content,
                          creator: random_user }.merge(options)
         r = Report.new(attributes)
         r.tags << Faker::Lorem.words(rand(10))

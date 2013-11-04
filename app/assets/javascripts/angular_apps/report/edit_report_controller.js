@@ -20,6 +20,11 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
         plugins: ['clips', 'fontsize', 'fontfamily', 'fontcolor', 'fullscreen', 'tableborder']
       };
       
+      $scope.redactorHeaderOptions = angular.copy($scope.redactorOptions);
+      $scope.redactorHeaderOptions.minHeight = 80;
+      $scope.redactorFooterOptions = angular.copy($scope.redactorOptions);
+      $scope.redactorFooterOptions.minHeight = 80;
+      
       //TODO - this will have to get tags for either a report or a template
       //$scope.queryTags = {
       //  remote: ReportService.lookupUserTagsFiltered()
@@ -44,11 +49,15 @@ angular.module('ReportIt.report.controllers').controller('EditReportController',
             success(function(reportTemplate){
               $scope.report.content = reportTemplate.content;
               $scope.report.tags = reportTemplate.tags;
+              $scope.report.header = reportTemplate.header;
+              $scope.report.footer = reportTemplate.footer;
             });
         }
         else {
             $scope.report.content = '';
             $scope.report.tags = [];
+            $scope.report.header = '';
+            $scope.report.footer = '';
         }
       };
       
