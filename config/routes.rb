@@ -89,5 +89,7 @@ ReportIt::Application.routes.draw do
   end
   controller :export do
     get 'export/:file_format/:id' => :export, as: :export_report
+    get '/export_header/:id' => :header, as: :export_header
+    get '/export_footer/:id' => :footer, as: :export_footer
   end
 end

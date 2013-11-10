@@ -10,6 +10,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails', '~> 3.0.4'
 gem "underscore-rails", "~> 1.5.1"
 gem "active_model_serializers", '~> 0.8.1'
+gem "unicorn", "~> 4.7.0"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -19,7 +20,7 @@ end
 gem 'mongoid', '~> 4', github: 'mongoid/mongoid'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem "mongoid-tags-arent-hard", "~> 1.1.4"
-gem 'angularjs-rails', '= 1.2.0.rc2'
+gem "angularjs-rails", "~> 1.2.0"
 gem "simple_enum", "~> 1.6.7"
 gem "rmagick", "~> 2.13.2"
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails', :github => 'anjlab/bootstrap-rails'
@@ -29,9 +30,11 @@ gem "chosen-rails", "~> 1.0.0"
 gem "angular-ui-select2-rails", "~> 0.1.1"
 gem "js-routes", "~> 0.9.3"
 gem "kaminari", "~> 0.14.1"
+gem 'wkhtmltopdf-binary'
 gem "pdfkit", "~> 0.5.4"
 
 group :development, :test do
+  gem "unicorn-rails"
   gem 'minitest-rails', '~> 0.9.2'
   gem 'database_cleaner', '~> 1.1.1'
   gem "minitest-rails-capybara", "~> 0.10.0"
